@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Login Page</title>
+	<title>Inicia Sesion</title>
    <!--Made with love by Mutiullah Samim -->
    
 	<!--Bootsrap 4 CDN-->
@@ -51,9 +51,9 @@
 						</div>
 						<input type="password" class="form-control" placeholder="Contraseña" name="password">
 					</div>
-					<div class="row align-items-center remember">
+					{{-- <div class="row align-items-center remember">
 						<input type="checkbox">Remember Me
-					</div>
+					</div> --}}
 					<div class="form-group">
 						<input type="submit" value="Iniciar" class="btn float-right login_btn">
 					</div>
@@ -61,11 +61,11 @@
 			</div>
 			<div class="card-footer">
 				<div class="d-flex justify-content-center links">
-					Don't have an account?<a href="#">Sign Up</a>
+					Aun no tienes una cuenta?<a href="{{ route('register') }}">Registrate</a>
 				</div>
-				<div class="d-flex justify-content-center">
+				{{-- <div class="d-flex justify-content-center">
 					<a href="#">Forgot your password?</a>
-				</div>
+				</div> --}}
 			</div>
 		</div>
 	</div>
