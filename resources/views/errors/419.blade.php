@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html>
 <head>
     <title>419 - Sesión Expirada</title>
@@ -20,4 +20,4 @@
         });
     </script>
 </body>
-</html>
+</html> --}}
