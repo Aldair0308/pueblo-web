@@ -1,3 +1,5 @@
+@extends('adminlte::page')
+
 @section('title', 'Crear ronda')
 
 @section('content_header')
