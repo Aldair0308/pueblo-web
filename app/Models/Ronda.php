@@ -28,6 +28,8 @@ class Ronda extends Model
      *
      * @var string
      */
+    public $timestamps = false;
+
     protected $table = 'ronda'; // Nombre correcto de la tabla en singular
 
     /**

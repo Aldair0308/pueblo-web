@@ -1,6 +1,3 @@
-
-
-
 @extends('adminlte::page')
 
 
@@ -44,8 +41,8 @@
                                     
                                     <th>Foto</th>
                                     <th>Nombre</th>
-                                    <th>Precio</th>
                                     <th>Descripcion</th>
+                                    <th>Precio</th>
 
                                     <th></th>
                                 </tr>
@@ -57,8 +54,8 @@
                                         
                                         <td>{{ $producto->foto }}</td>
                                         <td>{{ $producto->nombre }}</td>
-                                        <td>{{ $producto->precio }}</td>
                                         <td>{{ $producto->descripcion }}</td>
+                                        <td>{{ $producto->precio }}</td>
 
                                         <td>
                                             <form action="{{ route('productos.destroy',$producto->id) }}" method="POST">
@@ -81,3 +78,13 @@
     </div>
 </div>
 @stop
+
+@section('css')
+    {{-- Add here extra stylesheets --}}
+    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
+@stop
+
+@section('js')
+    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
+@stop
+

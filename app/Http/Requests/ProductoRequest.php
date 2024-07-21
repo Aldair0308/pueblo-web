@@ -24,8 +24,8 @@ class ProductoRequest extends FormRequest
         return [
 			'foto' => 'required|string',
 			'nombre' => 'required|string',
-			'precio' => 'required',
 			'descripcion' => 'required|string',
+			'precio' => 'required',
         ];
     }
 }

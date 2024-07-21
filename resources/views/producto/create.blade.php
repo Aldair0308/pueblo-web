@@ -5,7 +5,7 @@
 @section('title', 'Crear Producto')
 
 @section('content_header')
-    <h1>Crear producto</h1>
+    <h1>Crear Producto</h1>
 @stop
 
 @section('content')
@@ -39,4 +39,4 @@
 @section('js')
     <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
 @stop
- 
+@stop

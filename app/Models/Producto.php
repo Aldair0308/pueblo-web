@@ -7,36 +7,31 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Producto
  *
- * @property int $id
- * @property string $foto
- * @property string $nombre
- * @property float $precio
- * @property string $descripcion
- * @property \Illuminate\Support\Carbon $created_at
- * @property \Illuminate\Support\Carbon $updated_at
+ * @property $foto
+ * @property $nombre
+ * @property $descripcion
+ * @property $id
+ * @property $precio
  *
- * @package App\Models
+ * @package App
+ * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Producto extends Model
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
+    public $timestamps = false;
+
     protected $table = 'producto'; // Nombre correcto de la tabla en singular
+    
+
+    protected $perPage = 20;
 
     /**
-     * The attributes that are mass assignable.
+     * Attributes that should be mass-assignable.
      *
      * @var array
      */
-    protected $fillable = ['foto', 'nombre', 'precio', 'descripcion'];
+    protected $fillable = ['foto', 'nombre', 'descripcion', 'precio'];
 
-    /**
-     * The number of models to return for pagination.
-     *
-     * @var int
-     */
-    protected $perPage = 20;
+
+
 }

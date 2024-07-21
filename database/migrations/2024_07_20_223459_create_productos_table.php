@@ -14,7 +14,6 @@ class CreateProductosTable extends Migration
             $table->string('nombre');
             $table->double('precio');
             $table->string('descripcion')->default('Normal');
-            $table->timestamps();
         });
     }
 
