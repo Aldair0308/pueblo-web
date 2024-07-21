@@ -8,7 +8,7 @@ class CreateProductosTable extends Migration
 {
     public function up()
     {
-        Schema::create('productos', function (Blueprint $table) {
+        Schema::create('producto', function (Blueprint $table) {
             $table->id();
             $table->string('foto')->default('photo_product.jpg');
             $table->string('nombre');

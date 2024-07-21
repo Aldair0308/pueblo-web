@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrdenarController; // Asegúrate de importar el controlador OrdenarController
+use App\Http\Controllers\MesaController;
+use App\Http\Controllers\ProductoController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +28,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('ordenar/{numerodemesa}', [OrdenarController::class, 'ordenarPorNumeroMesa'])->name('ordenar.por-numero-mesa');
 
+Route::resource('mesas', MesaController::class);
+
+Route::resource('productos', ProductoController::class);
+
+Route::resource('rondas', RondaController::class);

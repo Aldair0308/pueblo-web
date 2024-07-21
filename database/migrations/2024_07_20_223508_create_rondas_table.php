@@ -8,24 +8,23 @@ class CreateRondasTable extends Migration
 {
     public function up()
     {
-        Schema::create('rondas', function (Blueprint $table) {
+        Schema::create('ronda', function (Blueprint $table) {
             $table->id();
-            $table->string('mesa');
-            $table->integer('numeroMesa');
-            $table->string('estado');
-            $table->string('mesero');
-            $table->json('productos');
-            $table->json('cantidades');
-            $table->json('descripciones');
-            $table->double('totalRonda');
+            $table->string('mesa')->nullable(); // Campo opcional
+            $table->integer('numeroMesa')->nullable(); // Campo opcional
+            $table->string('estado')->nullable(); // Campo opcional
+            $table->string('mesero')->nullable(); // Campo opcional
+            $table->json('productos')->nullable(); // Campo opcional
+            $table->json('cantidades')->nullable(); // Campo opcional
+            $table->json('descripciones')->nullable(); // Campo opcional
+            $table->double('totalRonda')->nullable(); // Campo opcional
             $table->timestamp('timestamp')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes();
-            $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('rondas');
+        Schema::dropIfExists('ronda');
     }
 }

@@ -8,7 +8,7 @@ class CreateMesasTable extends Migration
 {
     public function up()
     {
-        Schema::create('mesas', function (Blueprint $table) {
+        Schema::create('mesa', function (Blueprint $table) {
             $table->id();
             $table->integer('noMesa');
             $table->string('cliente')->nullable();
@@ -21,6 +21,6 @@ class CreateMesasTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('mesas');
+        Schema::dropIfExists('mesa');
     }
 }
