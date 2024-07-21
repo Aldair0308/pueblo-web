@@ -99,4 +99,4 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 @section('js')
     <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
 @stop
-  
+   

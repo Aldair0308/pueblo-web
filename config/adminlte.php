@@ -14,8 +14,8 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
-    'title_prefix' => '',
+    'title' => '',
+    'title_prefix' => 'El Pueblo |',
     'title_postfix' => '',
 
     /*
@@ -154,7 +154,7 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
+    'layout_fixed_sidebar' => true,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
@@ -311,27 +311,34 @@ return [
             'text' => 'search',
         ],
         [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
+            'text' => 'Panel de Control',
+            'route' => 'dashboard',
+            // 'can' => 'manage-blog',
+            'icon' => 'fas fa-fw fa-home',
+
         ],
+        ['header' => 'Tablas'],
         [
-            'text' => 'pages',
-            'url' => 'admin/pages',
+            'text' => 'rondas',
+            'route' => 'rondas.index',
             'icon' => 'far fa-fw fa-file',
-            'label' => 4,
-            'label_color' => 'success',
-        ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
+            // 'label' => 4,
+            // 'label_color' => 'success',
         ],
         [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
+            'text' => 'mesas',
+            'route' => 'mesas.index',
+            'icon' => 'fas fa-border-all',
+        ],
+        [
+            'text' => 'productos',
+            'route' => 'productos.index',
+            'icon' => 'fas fa-cubes',
+        ],
+        [
+            'text' => 'Personal',
+            'route' => 'user.index',
+            'icon' => 'fas fa-user-check',
         ],
         [
             'text' => 'multilevel',
