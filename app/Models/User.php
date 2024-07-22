@@ -7,14 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class User
  *
- * @property $id
  * @property $name
  * @property $email
- * @property $email_verified_at
  * @property $password
- * @property $remember_token
- * @property $created_at
- * @property $updated_at
+ * @property $photo
+ * @property $rol
+ * @property $id
  *
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
@@ -25,14 +23,14 @@ class User extends Model
 
     protected $table = 'user'; // Nombre correcto de la tabla en singular
 
-    protected $perPage = 20;
+    protected $perPage = 200;
 
     /**
      * Attributes that should be mass-assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'updated_at', 'rol'];
+    protected $fillable = ['name', 'email', 'photo', 'rol'];
 
 
 

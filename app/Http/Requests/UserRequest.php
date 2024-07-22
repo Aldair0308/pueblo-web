@@ -24,6 +24,8 @@ class UserRequest extends FormRequest
         return [
 			'name' => 'required|string',
 			'email' => 'required|string',
+			'photo' => 'required|string',
+			'rol' => 'required|string',
         ];
     }
 }

@@ -337,7 +337,7 @@ return [
         ],
         [
             'text' => 'Personal',
-            'route' => 'user.index',
+            'route' => 'users.index',
             'icon' => 'fas fa-user-check',
         ],
         [
@@ -432,7 +432,7 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',

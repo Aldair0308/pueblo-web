@@ -48,7 +48,7 @@ class Ronda extends Model
      *
      * @var int
      */
-    protected $perPage = 20;
+    protected $perPage = 2000;
 
     /**
      * Attributes that should be mass-assignable.

@@ -6,9 +6,10 @@ use App\Http\Controllers\OrdenarController; // Asegúrate de importar el control
 use App\Http\Controllers\MesaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\RondaController;
-use App\Http\Controllers\UsersController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
+
+
 
 
 
@@ -45,6 +46,4 @@ Route::resource('productos', ProductoController::class);
 
 Route::resource('rondas', RondaController::class);
 
-Route::resource('users', UsersController::class);
-
-Route::resource('user', UserController::class);
+Route::resource('users', UserController::class);
