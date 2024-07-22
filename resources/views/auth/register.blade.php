@@ -59,9 +59,6 @@
                 <div class="d-flex justify-content-center links">
                     ¿Ya tienes una cuenta? <a href="{{ route('login') }}">Inicia Sesión</a>
                 </div>
-                {{-- <div class="d-flex justify-content-center">
-                    <a href="#">Forgot your password?</a>
-                </div> --}}
             </div>
         </div>
     </div>
