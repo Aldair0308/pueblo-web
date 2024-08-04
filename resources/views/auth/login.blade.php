@@ -32,13 +32,13 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Correo electrónico" id="email" name="email">
+                        <input type="text" class="form-control" placeholder="Correo electrónico" id="email" name="email" required>
                     </div>
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" class="form-control" placeholder="Contraseña" id="password" name="password">
+                        <input type="password" class="form-control" placeholder="Contraseña" id="password" name="password" required>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Iniciar" class="btn float-right login_btn">
@@ -76,14 +76,12 @@
                 contentType: 'application/json',
                 data: JSON.stringify(loginData),
                 success: function(response) {
-                    // Maneja la respuesta aquí
-                    console.log('Login exitoso:', response);
+                    console.log('Respuesta de la API:', response);
                     
-                    // Redirige al usuario a la pantalla de inicio
+                    // Si el login es exitoso, redirige al usuario a la página de inicio
                     window.location.href = '/home';
                 },
                 error: function(xhr, status, error) {
-                    // Maneja los errores aquí
                     console.error('Error en el login:', status, error);
                     alert('Error en el inicio de sesión. Verifica tus credenciales.');
                 }
