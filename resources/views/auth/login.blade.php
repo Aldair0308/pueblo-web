@@ -78,11 +78,11 @@
                 success: function(response) {
                     console.log('Respuesta de la API:', response);
                     
-                    // Verifica si la respuesta contiene un token o una clave de éxito para redirigir
-                    if (response.success) { // Ajusta esto según la respuesta de tu API
+                    // Verifica si la respuesta contiene los datos del usuario
+                    if (response.email) { // Si se recibe un email, consideramos que el login es exitoso
                         window.location.href = '/home';
                     } else {
-                        alert('Error: ' + response.message); // Ajusta según la respuesta de la API
+                        alert('Error: Las credenciales son incorrectas.'); // Ajusta según la respuesta de la API
                     }
                 },
                 error: function(xhr, status, error) {
