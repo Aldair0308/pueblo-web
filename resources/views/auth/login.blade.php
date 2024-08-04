@@ -78,8 +78,12 @@
                 success: function(response) {
                     console.log('Respuesta de la API:', response);
                     
-                    // Si el login es exitoso, redirige al usuario a la página de inicio
-                    window.location.href = '/home';
+                    // Verifica si la respuesta contiene un token o una clave de éxito para redirigir
+                    if (response.success) { // Ajusta esto según la respuesta de tu API
+                        window.location.href = '/home';
+                    } else {
+                        alert('Error: ' + response.message); // Ajusta según la respuesta de la API
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.error('Error en el login:', status, error);
