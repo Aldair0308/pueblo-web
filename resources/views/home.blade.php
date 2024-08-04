@@ -1,6 +1,4 @@
-@extends('layouts.app')
 
-@section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -13,6 +11,11 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    <div class="card">
+                        <div class="card-text">
+                            <a href="{{ route('mesas.index') }}" class="btn btn-success">Ir a mesas</a>
+                        </div>
+                    </div>
 
                     {{ __('You are logged in!') }}
                 </div>
@@ -20,4 +23,3 @@
         </div>
     </div>
 </div>
-@endsection
