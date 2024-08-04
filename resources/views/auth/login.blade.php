@@ -80,7 +80,7 @@
                     
                     // Verifica si la respuesta contiene los datos del usuario
                     if (response.email) { // Si se recibe un email, consideramos que el login es exitoso
-                        window.location.href = '/home';
+                        window.location.href = '/home' console.log('las credenciales son correctas');
                     } else {
                         alert('Error: Las credenciales son incorrectas.'); // Ajusta según la respuesta de la API
                     }
