@@ -47,3 +47,6 @@ Route::resource('productos', ProductoController::class);
 Route::resource('rondas', RondaController::class);
 
 Route::resource('users', UserController::class);
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
