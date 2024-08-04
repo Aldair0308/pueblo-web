@@ -2,13 +2,13 @@
 <html>
 <head>
     <title>Inicia Sesión</title>
-    <!--Bootstrap 4 CDN-->
+    <!-- Bootstrap 4 CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     
-    <!--Fontawesome CDN-->
+    <!-- Fontawesome CDN -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-    <!--Custom styles-->
+    <!-- Custom styles -->
     <link rel="stylesheet" type="text/css" href="{{ secure_asset('css/login-styles.css') }}">
 
     <!-- jQuery -->
@@ -69,16 +69,16 @@
                 password: password
             };
 
-            // Envía los datos a tu backend Laravel
+            // Envía los datos a la API externa
             $.ajax({
-                url: '/login', // Ruta para manejar el inicio de sesión en Laravel
+                url: 'https://pueblo-nest-production.up.railway.app/api/v1/auth/login',
                 type: 'POST',
-                data: {
-                    email: email,
-                    password: password,
-                    _token: '{{ csrf_token() }}' // Token CSRF para la protección
-                },
+                contentType: 'application/json',
+                data: JSON.stringify(loginData),
                 success: function(response) {
+                    // Maneja la respuesta aquí
+                    console.log('Login exitoso:', response);
+                    
                     // Redirige al usuario a la pantalla de inicio
                     window.location.href = '/home';
                 },
