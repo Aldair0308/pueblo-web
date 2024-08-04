@@ -59,14 +59,17 @@
         $('#login-form').on('submit', function(event) {
             event.preventDefault(); // Evita el envío normal del formulario
 
+            // Obtén los valores de los campos del formulario
             var email = $('#email').val();
             var password = $('#password').val();
 
+            // Construye el objeto JSON
             var loginData = {
                 email: email,
                 password: password
             };
 
+            // Envía los datos a la API externa
             $.ajax({
                 url: 'https://pueblo-nest-production.up.railway.app/api/v1/auth/login',
                 type: 'POST',
@@ -74,14 +77,12 @@
                 data: JSON.stringify(loginData),
                 success: function(response) {
                     console.log('Respuesta de la API:', response);
-
-                    if (response.email) {
-                        // Aquí almacenas el token de autenticación en el almacenamiento local
-                        localStorage.setItem('authToken', 'Bearer ' + response.token); // Cambia `response.token` por el campo correcto si es necesario
-                        // Redirige a /home
+                    
+                    // Verifica si la respuesta contiene los datos del usuario
+                    if (response.email) { // Si se recibe un email, consideramos que el login es exitoso
                         window.location.href = '/home';
                     } else {
-                        alert('Error: Las credenciales son incorrectas.');
+                        alert('Error: Las credenciales son incorrectas.'); // Ajusta según la respuesta de la API
                     }
                 },
                 error: function(xhr, status, error) {
