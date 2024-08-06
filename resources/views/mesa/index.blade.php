@@ -49,9 +49,9 @@
                                         <td>{{ $mesa->totalCuenta }}</td>
                                         <td>{{ $mesa->horaPago }}</td>
                                         <td>
-                                            <form action="{{ route('mesas.destroy',$mesa->id) }}" method="POST">
-                                                <a class="btn btn-sm btn-primary " href="{{ route('mesas.show',$mesa->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
-                                                <a class="btn btn-sm btn-success" href="{{ route('mesas.edit',$mesa->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
+                                            <form action="{{ route('mesas.destroy', $mesa->id) }}" method="POST" class="delete-form">
+                                                <a class="btn btn-sm btn-primary" href="{{ route('mesas.show', $mesa->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
+                                                <a class="btn btn-sm btn-success" href="{{ route('mesas.edit', $mesa->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
@@ -86,6 +86,7 @@
     <script src="{{ secure_asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         $(document).ready(function() {
@@ -113,6 +114,26 @@
                         "sortDescending": ": activar para ordenar la columna de manera descendente"
                     }
                 }
+            });
+
+            $('.delete-form').on('submit', function(e) {
+                e.preventDefault(); // Prevent default form submission
+                var form = this;
+
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "¡No podrás recuperar este registro!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminarlo!',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Submit the form if confirmed
+                    }
+                });
             });
         });
     </script>
