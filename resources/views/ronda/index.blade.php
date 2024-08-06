@@ -52,7 +52,7 @@
                                 @foreach ($rondas as $ronda)
                                     <tr>
                                         <td>
-                                            <form action="{{ route('rondas.destroy', $ronda->id) }}" method="POST">
+                                            <form action="{{ route('rondas.destroy', $ronda->id) }}" method="POST" class="delete-form">
                                                 <a class="btn btn-sm btn-primary" href="{{ route('rondas.show', $ronda->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
                                                 <a class="btn btn-sm btn-success" href="{{ route('rondas.edit', $ronda->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Edit') }}</a>
                                                 @csrf
@@ -83,50 +83,27 @@
 </div>
 @stop
 
-
 @section('css')
-    {{-- Estilos de DataTables desde CDN --}}
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-    
-    
-    {{-- Estilos adicionales --}}
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/overlayScrollbars/1.13.1/css/OverlayScrollbars.min.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/your-custom-styles@latest/styles-home.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/your-custom-styles@latest/styles-crud.css">
+    <link rel="stylesheet" href="{{ secure_asset('vendor/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/styles-home.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/styles-crud.css') }}">
 @stop
 
 @section('js')
-    <!-- jQuery -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-
-    <!-- Bootstrap -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- OverlayScrollbars -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/overlayScrollbars/1.13.1/js/jquery.overlayScrollbars.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/overlayScrollbars@1.13.1/js/jquery.overlayScrollbars.min.js"></script>
-    
-    <!-- AdminLTE -->
-    <script src="//cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/js/adminlte.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/js/adminlte.min.js"></script>
-
-    <!-- DataTables -->
+    <script src="{{ secure_asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ secure_asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ secure_asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+    <script src="{{ secure_asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- SweetAlert2 -->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-    
-    
-    <!-- Inicialización de DataTables -->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script>
         $(document).ready(function() {
-            $('#services-table').DataTable({
+            $('#rondas-table').DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json",
                     "info": "_START_ / _END_ de un total de _TOTAL_",
@@ -151,43 +128,26 @@
                     }
                 }
             });
-            
-            @if ($message = Session::get('success'))
+
+            $('.delete-form').on('submit', function(e) {
+                e.preventDefault(); // Prevent default form submission
+                var form = this;
+
                 Swal.fire({
-                    title: '¡Éxito!',
-                    text: '{{ $message }}',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
+                    title: '¿Estás seguro?',
+                    text: "¡No podrás recuperar este registro!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminarlo!',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Submit the form if confirmed
+                    }
                 });
-            @endif
-        });
-    </script>
-
-    <!-- Inicialización de SweetAlert2 -->
-    <script>
-        @if ($message = Session::get('success'))
-            Swal.fire({
-                title: '¡Éxito!',
-                text: '{{ $message }}',
-                icon: 'success',
-                confirmButtonText: 'OK'
             });
-        @endif
-    </script>
-
-    <!-- Inicialización de AdminLTE -->
-    <script>
-        $(document).ready(function () {
-            if ($.AdminLTE) {
-                $.AdminLTE.options.sidebarSlimScroll = true;
-                $.AdminLTE.options.sidebarPushMenu = true;
-                $.AdminLTE.options.expandOnHover = false;
-                $.AdminLTE.options.sidebarExpandOnHover = false;
-                $.AdminLTE.init();
-            } else {
-                console.error('AdminLTE no está disponible.');
-            }
         });
     </script>
 @stop
-
