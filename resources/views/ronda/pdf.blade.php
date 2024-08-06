@@ -32,9 +32,9 @@
                     ESto es el texto de la card
                 </div>
                 <div class="card text">
-                    @foreach ( $rondas as $ronda )
+                    @foreach ( $ronda as $ronda )
                     <div>
-                        {{ $rondas->estado }}
+                        {{ $ronda->estado }}
                     </div>
 
                     @endforeach
