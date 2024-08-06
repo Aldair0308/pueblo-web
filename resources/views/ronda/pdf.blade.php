@@ -31,23 +31,18 @@
                                 Estado: {{ $ronda->estado }} - {{ \Carbon\Carbon::parse($ronda->timestamp)->format('H:i:s') }}<br>
                                 Productos:
                                 @php
-                                    // Decodificar el JSON de productos
-                                    $productosJson = $ronda->productos;
-                                    $productos = json_decode($productosJson, true);
+                                    // Transformar la cadena de productos en un array
+                                    $productosString = $ronda->productos;
+                                    $productosArray = array_filter(array_map('trim', explode(',', $productosString)));
                                 @endphp
-                                @if (is_array($productos))
+                                @if (count($productosArray) > 0)
                                     <ul>
-                                        @foreach ($productos as $producto)
-                                            @if (is_array($producto))
-                                                <li>{{ $producto['nombre'] ?? 'Nombre no disponible' }} - {{ $producto['cantidad'] ?? 'Cantidad no disponible' }}</li>
-                                            @else
-                                                <li>Formato de producto inválido: {{ $producto }}</li>
-                                            @endif
+                                        @foreach ($productosArray as $producto)
+                                            <li>{{ $producto }}</li>
                                         @endforeach
                                     </ul>
                                 @else
-                                    <p>No se pudo decodificar el JSON de productos. Verifique el formato.</p>
-                                    <pre>{{ $productosJson }}</pre>
+                                    <p>No hay productos disponibles.</p>
                                 @endif
                             </div>
                         @endforeach
