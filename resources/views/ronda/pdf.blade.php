@@ -111,7 +111,7 @@
         </div>
     </main>
     <footer class="footer">
-        <p>© {{ date('Y') }} Tu Empresa. Todos los derechos reservados.</p>
+        <p>© {{ date('Y') }} El Pueblo. Todos los derechos reservados.</p>
     </footer>
 </body>
 </html>
