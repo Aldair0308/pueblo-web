@@ -13,8 +13,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $estado
  * @property float $totalCuenta
  * @property \Illuminate\Support\Carbon|null $horaPago
- * @property \Illuminate\Support\Carbon $created_at
- * @property \Illuminate\Support\Carbon $updated_at
  *
  * @package App\Models
  */
@@ -25,6 +23,9 @@ class Mesa extends Model
      *
      * @var string
      */
+
+    public $timestamps = false; 
+
     protected $table = 'mesa'; // Nombre correcto de la tabla en singular
 
     /**
@@ -39,5 +40,5 @@ class Mesa extends Model
      *
      * @var int
      */
-    protected $perPage = 20;
+    protected $perPage = 2000;
 }

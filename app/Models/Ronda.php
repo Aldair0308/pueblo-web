@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $estado
  * @property string $mesero
  * @property float $totalRonda
- * @property \Illuminate\Support\Carbon $timestamp
  * @property \Illuminate\Support\Carbon|null $deletedAt
  * @property array $productos
  * @property array $cantidades
@@ -55,5 +54,5 @@ class Ronda extends Model
      *
      * @var array
      */
-    protected $fillable = ['mesa', 'numeroMesa', 'estado', 'mesero', 'totalRonda', 'timestamp', 'deletedAt', 'productos', 'cantidades', 'descripciones'];
+    protected $fillable = ['mesa', 'numeroMesa', 'estado', 'mesero', 'totalRonda', 'deletedAt', 'productos', 'cantidades', 'descripciones'];
 }
