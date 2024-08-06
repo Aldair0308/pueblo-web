@@ -64,7 +64,6 @@
                     </div>
                 </div>
             </div>
-            {!! $mesas->links() !!}
         </div>
     </div>
 </div>
