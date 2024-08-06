@@ -17,13 +17,8 @@
     </header>
     <main>
         <div class="container mt-4">
-            <div id="report" class="card">
-                <div class="card-header">
-                    Reporte de Rondas
-                </div>
-                <div class="card-body">
-                    <p>Cargando datos...</p>
-                </div>
+            <div id="report" class="row">
+                <!-- Las tarjetas se insertarán aquí -->
             </div>
         </div>
     </main>
@@ -60,38 +55,69 @@
                     const date = new Date(ronda.timestamp).toISOString().split('T')[0]; // Format date as YYYY-MM-DD
 
                     if (!groupedData[date]) {
-                        groupedData[date] = {};
+                        groupedData[date] = [];
                     }
 
+                    // Process each ronda to group products and sum quantities
+                    const productsMap = {};
                     ronda.productos.forEach((producto, index) => {
                         const cantidad = parseInt(ronda.cantidades[index], 10);
-                        if (!groupedData[date][producto]) {
-                            groupedData[date][producto] = 0;
+                        if (!productsMap[producto]) {
+                            productsMap[producto] = 0;
                         }
-                        groupedData[date][producto] += cantidad;
+                        productsMap[producto] += cantidad;
+                    });
+
+                    // Add processed ronda to the grouped data
+                    groupedData[date].push({
+                        mesa: ronda.mesa,
+                        numeroMesa: ronda.numeroMesa,
+                        estado: ronda.estado,
+                        totalRonda: ronda.totalRonda,
+                        productos: productsMap
                     });
                 });
 
-                // Generate HTML for the report
-                let htmlContent = '';
-                for (const [date, productos] of Object.entries(groupedData)) {
-                    htmlContent += `<h5>${new Date(date).toLocaleDateString()}</h5><ul>`;
-                    for (const [producto, cantidad] of Object.entries(productos)) {
-                        htmlContent += `<li>${producto}: ${cantidad}</li>`;
-                    }
-                    htmlContent += '</ul>';
-                }
+                // Generate HTML for cards
+                const reportContainer = document.getElementById('report');
+                Object.keys(groupedData).forEach(date => {
+                    const dateGroup = groupedData[date];
+                    const dateFormatted = new Date(date).toLocaleDateString();
 
-                // Display the report
-                document.querySelector('#report .card-body').innerHTML = htmlContent;
+                    // Create a card for each date
+                    let cardHtml = `<div class="col-md-12 mb-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5>${dateFormatted}</h5>
+                                            </div>
+                                            <div class="card-body">`;
+
+                    dateGroup.forEach(ronda => {
+                        cardHtml += `<div class="mb-3">
+                                        <h6>Mesa: ${ronda.mesa} - Número de Mesa: ${ronda.numeroMesa}</h6>
+                                        <p>Estado: ${ronda.estado}</p>
+                                        <p>Total: $${ronda.totalRonda}</p>
+                                        <ul>`;
+
+                        for (const [producto, cantidad] of Object.entries(ronda.productos)) {
+                            cardHtml += `<li>${producto}: ${cantidad}</li>`;
+                        }
+
+                        cardHtml += `</ul></div>`;
+                    });
+
+                    cardHtml += `</div></div></div>`;
+
+                    reportContainer.innerHTML += cardHtml;
+                });
 
             } catch (error) {
-                console.error('Error fetching data:', error);
-                document.querySelector('#report .card-body').innerHTML = 'Error al cargar los datos.';
+                console.error('Error al procesar los datos:', error);
             }
         }
 
-        fetchAndProcessData();
+        // Fetch data when the page loads
+        document.addEventListener('DOMContentLoaded', fetchAndProcessData);
     </script>
 </body>
 </html>
