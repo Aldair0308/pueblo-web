@@ -32,16 +32,22 @@
                                 Productos:
                                 @php
                                     // Decodificar el JSON de productos
-                                    $productos = json_decode($ronda->productos, true);
+                                    $productosJson = $ronda->productos;
+                                    $productos = json_decode($productosJson, true);
                                 @endphp
-                                @if(is_array($productos))
+                                @if (is_array($productos))
                                     <ul>
                                         @foreach ($productos as $producto)
-                                            <li>{{ $producto['nombre'] ?? 'Nombre no disponible' }} - {{ $producto['cantidad'] ?? 'Cantidad no disponible' }}</li>
+                                            @if (is_array($producto))
+                                                <li>{{ $producto['nombre'] ?? 'Nombre no disponible' }} - {{ $producto['cantidad'] ?? 'Cantidad no disponible' }}</li>
+                                            @else
+                                                <li>Formato de producto inválido: {{ $producto }}</li>
+                                            @endif
                                         @endforeach
                                     </ul>
                                 @else
-                                    No hay productos disponibles.
+                                    <p>No se pudo decodificar el JSON de productos. Verifique el formato.</p>
+                                    <pre>{{ $productosJson }}</pre>
                                 @endif
                             </div>
                         @endforeach
