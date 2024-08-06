@@ -34,7 +34,7 @@
                 <div class="card text">
                     @foreach ( $rondas as $ronda )
                     <div>
-                        {{ $ronda->estado }}
+                        {{ $rondas->estado }}
                     </div>
 
                     @endforeach
