@@ -55,10 +55,20 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('ronda/pdf', function () {
-    $ronda = Ronda::all();
-    $data = ['title' => 'Welcome to Laravel PDF'];
-    $pdf = PDF::loadView('ronda.pdf', $data, compact('ronda'));
+    // Obtén los registros de Ronda y agrúpalos por fecha
+    $rondas = Ronda::all()->groupBy(function ($item) {
+        return Carbon::parse($item->timestamp)->format('Y-m-d'); // Agrupa por fecha (solo día)
+    });
 
-    // return $pdf->download('reporte.pdf');
-    return $pdf->stream();
+    // Datos para la vista
+    $data = [
+        'title' => 'Reporte de Rondas',
+        'rondas' => $rondas
+    ];
+
+    // Carga la vista para el PDF con los datos
+    $pdf = PDF::loadView('ronda.pdf', $data);
+
+    // Devuelve el PDF en lugar de descargarlo, usa stream() para visualizar en el navegador
+    return $pdf->stream('reporte.pdf');
 })->name('rondas.pdf');
