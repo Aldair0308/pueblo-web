@@ -13,24 +13,25 @@
     </header>
     <main>
         <div class="container mt-4">
-            @foreach ($groupedData as $date => $data)
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="card-title">{{ \Carbon\Carbon::parse($date)->format('d M Y') }}</h5>
+            @if(count($groupedData) > 0)
+                @foreach ($groupedData as $date => $data)
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title">{{ \Carbon\Carbon::parse($date)->format('d M Y') }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Productos:</p>
+                            <ul>
+                                @foreach ($data['productos'] as $producto => $cantidad)
+                                    <li>{{ $producto }}: {{ $cantidad }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <p>Mesa: {{ $data['mesa'] }} (Mesa {{ $data['numeroMesa'] }})</p>
-                        <p>Estado: {{ $data['estado'] }}</p>
-                        <p>Total Ronda: ${{ $data['totalRonda'] }}</p>
-                        <p>Productos:</p>
-                        <ul>
-                            @foreach ($data['productos'] as $producto => $cantidad)
-                                <li>{{ $producto }}: {{ $cantidad }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            @endforeach
+                @endforeach
+            @else
+                <p>No hay datos disponibles para los últimos 7 días.</p>
+            @endif
         </div>
     </main>
     <footer>

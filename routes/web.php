@@ -91,11 +91,6 @@ Route::get('ronda/pdf', function () {
             }
             $groupedData[$date]['productos'][$producto] += $cantidad;
         }
-
-        $groupedData[$date]['mesa'] = $ronda['mesa'];
-        $groupedData[$date]['numeroMesa'] = $ronda['numeroMesa'];
-        $groupedData[$date]['estado'] = $ronda['estado'];
-        $groupedData[$date]['totalRonda'] = $ronda['totalRonda'];
     }
 
     // Datos para la vista
