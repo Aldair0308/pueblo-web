@@ -23,7 +23,7 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text">Esto es el texto de la card</p>
-                        @foreach ($rondas as $ronda)
+                        @foreach ($ronda as $ronda)
                             <div class="mb-2">
                                 {{ $ronda->estado }}
                             </div>
