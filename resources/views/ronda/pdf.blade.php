@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
     <title>{{ $title }}</title>
     <meta charset="utf-8" />
@@ -20,7 +20,6 @@
             background-color: #f8f9fa;
             border-radius: 8px;
             border: 1px solid green; /* Borde verde */
-            border-radius: 8px; /* Radio de borde */
             margin-bottom: 30px; /* Espaciado entre secciones */
         }
         .table {
@@ -77,14 +76,14 @@
 <body>
     <header>
         <!-- Logo -->
-        <img src="{{ secure_asset('images/logo.jpg') }}" alt="Company Logo" width="100px" height="100px" style="display: block; margin: 20px auto;">
+        <img src="{{ secure_asset('images/logo.jpg') }}" alt="Logo de la empresa" width="100px" height="100px" style="display: block; margin: 20px auto;">
     </header>
     <main>
         <div class="container">
             <h2 class="text-center mb-4">{{ $title }}</h2>
             @foreach ($groupedData as $date => $data)
                 <div class="table-container">
-                    <h4 class="text-center mb-4">{{ \Carbon\Carbon::parse($date)->format('d M Y') }}</h4>
+                    <h4 class="text-center mb-4">{{ \Carbon\Carbon::parse($date)->locale('es')->isoFormat('D MMMM YYYY') }}</h4>
                     @if(count($data['productos']) > 0)
                         <table class="table table-bordered">
                             <thead>
@@ -99,7 +98,7 @@
                                     <tr>
                                         <td>{{ $producto }}</td>
                                         <td>{{ $cantidad }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($date)->format('d M Y') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($date)->locale('es')->isoFormat('D MMMM YYYY') }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
