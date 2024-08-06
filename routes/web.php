@@ -8,6 +8,9 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\RondaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Models\Ronda;
+
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 
@@ -50,3 +53,12 @@ Route::resource('users', UserController::class);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('rondas/pdf', function () {
+    $rondas = Ronda::all();
+    $data = ['title' => 'Welcome to Laravel PDF'];
+    $pdf = PDF::loadView('ronda.pdf', $data, compact('rondas'));
+    
+    // return $pdf->download('reporte.pdf');
+    return $pdf->stream();
+})->name('rondas.pdf');

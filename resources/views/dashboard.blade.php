@@ -9,6 +9,7 @@
 
 @section('content')
     <p>Welcome to this beautiful admin panel.</p>
+    <a href="{{ route('rondas.pdf') }}" target="_blank">PDF de rondas</a>
 @stop
 
 @section('css')

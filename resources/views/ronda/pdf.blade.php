@@ -21,6 +21,7 @@
     <body>
         <header>
             <!-- place navbar here -->
+            <img src="{{ secure_asset('images/logo.jpg') }}" alt="Company Logo" width="100px" height="100px">
         </header>
         <main>
             <div class="card">
