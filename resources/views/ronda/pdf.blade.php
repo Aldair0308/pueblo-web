@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>{{ $title }}</title>
+    <title>Reporte de Rondas</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -17,37 +17,12 @@
     </header>
     <main>
         <div class="container mt-4">
-            <div class="card">
+            <div id="report" class="card">
                 <div class="card-header">
-                    {{ $title }}
+                    Reporte de Rondas
                 </div>
                 <div class="card-body">
-                    @foreach ($rondas as $date => $rondasByDate)
-                        <h5 class="card-title">{{ \Carbon\Carbon::parse($date)->format('d M Y') }}</h5>
-                        @foreach ($rondasByDate as $ronda)
-                            <div class="mb-2">
-                                Mesa: {{ $ronda->mesa }}<br>
-                                Número de Mesa: {{ $ronda->numeroMesa }}<br>
-                                Estado: {{ $ronda->estado }} - {{ \Carbon\Carbon::parse($ronda->timestamp)->format('H:i:s') }}<br>
-                                Productos:
-                                @php
-                                    // Transformar la cadena de productos en un array
-                                    $productosString = $ronda->productos;
-                                    $productosArray = array_filter(array_map('trim', explode(',', $productosString)));
-                                @endphp
-                                @if (count($productosArray) > 0)
-                                    <ul>
-                                        @foreach ($productosArray as $producto)
-                                            <li>{{ $producto }}</li>
-                                        @endforeach
-                                    </ul>
-                                @else
-                                    <p>No hay productos disponibles.</p>
-                                @endif
-                            </div>
-                        @endforeach
-                        <hr>
-                    @endforeach
+                    <p>Cargando datos...</p>
                 </div>
             </div>
         </div>
@@ -62,5 +37,61 @@
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+    <script>
+        async function fetchAndProcessData() {
+            try {
+                // Fetch data from the API
+                const response = await fetch('https://pueblo-nest-production.up.railway.app/api/v1/rondas');
+                const rondas = await response.json();
+
+                // Filter to get only the data from the last 7 days
+                const sevenDaysAgo = new Date();
+                sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+                const filteredRondas = rondas.filter(ronda => {
+                    const timestamp = new Date(ronda.timestamp);
+                    return timestamp >= sevenDaysAgo;
+                });
+
+                // Group by date and then by product
+                const groupedData = {};
+                filteredRondas.forEach(ronda => {
+                    const date = new Date(ronda.timestamp).toISOString().split('T')[0]; // Format date as YYYY-MM-DD
+
+                    if (!groupedData[date]) {
+                        groupedData[date] = {};
+                    }
+
+                    ronda.productos.forEach((producto, index) => {
+                        const cantidad = parseInt(ronda.cantidades[index], 10);
+                        if (!groupedData[date][producto]) {
+                            groupedData[date][producto] = 0;
+                        }
+                        groupedData[date][producto] += cantidad;
+                    });
+                });
+
+                // Generate HTML for the report
+                let htmlContent = '';
+                for (const [date, productos] of Object.entries(groupedData)) {
+                    htmlContent += `<h5>${new Date(date).toLocaleDateString()}</h5><ul>`;
+                    for (const [producto, cantidad] of Object.entries(productos)) {
+                        htmlContent += `<li>${producto}: ${cantidad}</li>`;
+                    }
+                    htmlContent += '</ul>';
+                }
+
+                // Display the report
+                document.querySelector('#report .card-body').innerHTML = htmlContent;
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.querySelector('#report .card-body').innerHTML = 'Error al cargar los datos.';
+            }
+        }
+
+        fetchAndProcessData();
+    </script>
 </body>
 </html>
