@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+{{-- @extends('adminlte::page')
 
 @section('title', 'Mostrar ronda')
 
@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="card-body bg-white">
-                    
+
                     <div class="form-group mb-2 mb20">
                         <strong>Mesa:</strong>
                         {{ $ronda->mesa }}
@@ -68,10 +68,9 @@
         </div>
     </div>
 </section>
-@stop
+@stop --}}
 
 @section('css')
-    {{-- Add here extra stylesheets --}}
     {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
 @stop
 
