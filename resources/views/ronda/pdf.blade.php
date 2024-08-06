@@ -9,6 +9,9 @@
         body {
             font-family: Arial, sans-serif;
         }
+        .container {
+            margin-top: 30px;
+        }
         .table-container {
             margin: 0 auto;
             width: 95%;
@@ -20,6 +23,7 @@
         .table {
             border-collapse: separate;
             border-spacing: 0;
+            margin-bottom: 30px;
         }
         .table thead th {
             background-color: #28a745; /* Verde */
@@ -57,8 +61,13 @@
         .card-body {
             padding: 20px;
         }
-        .container {
+        .no-records {
+            text-align: center;
+            font-style: italic;
+        }
+        .footer {
             margin-top: 30px;
+            text-align: center;
         }
     </style>
 </head>
@@ -68,38 +77,39 @@
         <img src="{{ secure_asset('images/logo.jpg') }}" alt="Company Logo" width="100px" height="100px" style="display: block; margin: 20px auto;">
     </header>
     <main>
-        <div class="container table-container">
+        <div class="container">
             <h2 class="text-center mb-4">{{ $title }}</h2>
-            @if(count($groupedData) > 0)
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Día</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($groupedData as $date => $data)
-                            @foreach ($data['productos'] as $producto => $cantidad)
+            @foreach ($groupedData as $date => $data)
+                <div class="table-container">
+                    <h4 class="text-center mb-4">{{ \Carbon\Carbon::parse($date)->format('d M Y') }}</h4>
+                    @if(count($data['productos']) > 0)
+                        <table class="table table-bordered">
+                            <thead>
                                 <tr>
-                                    <td>{{ $producto }}</td>
-                                    <td>{{ $cantidad }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($date)->format('d M Y') }}</td>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Día</th>
                                 </tr>
-                            @endforeach
-                        @endforeach
-                    </tbody>
-                </table>
-            @else
-                <p class="text-center">No hay datos disponibles para los últimos 7 días.</p>
-            @endif
+                            </thead>
+                            <tbody>
+                                @foreach ($data['productos'] as $producto => $cantidad)
+                                    <tr>
+                                        <td>{{ $producto }}</td>
+                                        <td>{{ $cantidad }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($date)->format('d M Y') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <p class="no-records">No hay registros para este día.</p>
+                    @endif
+                </div>
+            @endforeach
         </div>
     </main>
-    <footer>
-        <div class="container mt-4 text-center">
-            <p>© {{ date('Y') }} Tu Empresa. Todos los derechos reservados.</p>
-        </div>
+    <footer class="footer">
+        <p>© {{ date('Y') }} Tu Empresa. Todos los derechos reservados.</p>
     </footer>
 </body>
 </html>
