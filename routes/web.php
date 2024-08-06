@@ -9,7 +9,7 @@ use App\Http\Controllers\RondaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Models\Ronda;
-use Carbon\Carbon;
+        use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 
@@ -54,21 +54,24 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('ronda/pdf', function () {
-    // Obtén los registros de Ronda y agrúpalos por fecha
-    $rondas = Ronda::all()->groupBy(function ($item) {
-        return Carbon::parse($item->timestamp)->format('Y-m-d'); // Agrupa por fecha (solo día)
-    });
+// Route::get('ronda/pdf', function () {
+//     // Obtén los registros de Ronda y agrúpalos por fecha
+//     $rondas = Ronda::all()->groupBy(function ($item) {
+//         return Carbon::parse($item->timestamp)->format('Y-m-d'); // Agrupa por fecha (solo día)
+//     });
 
-    // Datos para la vista
-    $data = [
-        'title' => 'Reporte de Rondas',
-        'rondas' => $rondas
-    ];
+//     // Datos para la vista
+//     $data = [
+//         'title' => 'Reporte de Rondas',
+//         'rondas' => $rondas
+//     ];
 
-    // Carga la vista para el PDF con los datos
-    $pdf = PDF::loadView('ronda.pdf', $data);
+//     // Carga la vista para el PDF con los datos
+//     $pdf = PDF::loadView('ronda.pdf', $data);
 
-    // Devuelve el PDF en lugar de descargarlo, usa stream() para visualizar en el navegador
-    return $pdf->stream('reporte.pdf');
-})->name('rondas.pdf');
+//     // Devuelve el PDF en lugar de descargarlo, usa stream() para visualizar en el navegador
+//     return $pdf->stream('reporte.pdf');
+// })->name('rondas.pdf');
+
+
+Route::get('rondas/pdf', [RondaController::class, 'generatePdf'])->name('rondas.pdf');

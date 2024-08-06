@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ronda;
 use App\Http\Requests\RondaRequest;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 /**
  * Class RondaController
@@ -79,5 +80,56 @@ class RondaController extends Controller
 
         return redirect()->route('rondas.index')
             ->with('success', 'Ronda deleted successfully');
+    }
+
+    public function generatePdf()
+    {
+        // Hacer la solicitud GET a la API
+        $response = Http::get('https://pueblo-nest-production.up.railway.app/api/v1/rondas');
+
+        if ($response->successful()) {
+            $rondas = $response->json();
+        } else {
+            // Manejar el error de la solicitud
+            return response()->json(['error' => 'No se pudo obtener datos'], 500);
+        }
+
+        // Filtrar rondas de los últimos 7 días
+        $sevenDaysAgo = now()->subDays(7)->startOfDay();
+        $filteredRondas = array_filter($rondas, function($ronda) use ($sevenDaysAgo) {
+            return \Carbon\Carbon::parse($ronda['timestamp'])->gte($sevenDaysAgo);
+        });
+
+        // Agrupar por fecha y por producto
+        $groupedData = [];
+        foreach ($filteredRondas as $ronda) {
+            $date = \Carbon\Carbon::parse($ronda['timestamp'])->toDateString();
+
+            if (!isset($groupedData[$date])) {
+                $groupedData[$date] = [];
+            }
+
+            $productsMap = [];
+            foreach ($ronda['productos'] as $index => $producto) {
+                $cantidad = (int) $ronda['cantidades'][$index];
+                if (!isset($productsMap[$producto])) {
+                    $productsMap[$producto] = 0;
+                }
+                $productsMap[$producto] += $cantidad;
+            }
+
+            $groupedData[$date][] = [
+                'mesa' => $ronda['mesa'],
+                'numeroMesa' => $ronda['numeroMesa'],
+                'estado' => $ronda['estado'],
+                'totalRonda' => $ronda['totalRonda'],
+                'productos' => $productsMap
+            ];
+        }
+
+        // Cargar la vista con los datos
+        $pdf = Pdf::loadView('ronda.pdf', ['title' => 'Reporte de Rondas', 'groupedData' => $groupedData]);
+
+        return $pdf->stream('reporte.pdf');
     }
 }
