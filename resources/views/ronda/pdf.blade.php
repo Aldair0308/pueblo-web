@@ -26,7 +26,23 @@
                         <h5 class="card-title">{{ \Carbon\Carbon::parse($date)->format('d M Y') }}</h5>
                         @foreach ($rondasByDate as $ronda)
                             <div class="mb-2">
-                                {{ $ronda->estado }} - {{ \Carbon\Carbon::parse($ronda->timestamp)->format('H:i:s') }}
+                                Mesa: {{ $ronda->mesa }}<br>
+                                Número de Mesa: {{ $ronda->numeroMesa }}<br>
+                                Estado: {{ $ronda->estado }} - {{ \Carbon\Carbon::parse($ronda->timestamp)->format('H:i:s') }}<br>
+                                Productos:
+                                @php
+                                    // Decodificar el JSON de productos
+                                    $productos = json_decode($ronda->productos, true);
+                                @endphp
+                                @if(is_array($productos))
+                                    <ul>
+                                        @foreach ($productos as $producto)
+                                            <li>{{ $producto['nombre'] ?? 'Nombre no disponible' }} - {{ $producto['cantidad'] ?? 'Cantidad no disponible' }}</li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    No hay productos disponibles.
+                                @endif
                             </div>
                         @endforeach
                         <hr>
