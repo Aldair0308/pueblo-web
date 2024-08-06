@@ -13,26 +13,21 @@
     </header>
     <main>
         <div class="container mt-4">
-            @foreach ($groupedData as $date => $rondasByDate)
+            @foreach ($groupedData as $date => $data)
                 <div class="card mb-4">
                     <div class="card-header">
                         <h5 class="card-title">{{ \Carbon\Carbon::parse($date)->format('d M Y') }}</h5>
                     </div>
                     <div class="card-body">
-                        @foreach ($rondasByDate as $ronda)
-                            <div class="mb-2">
-                                <h6>Mesa: {{ $ronda['mesa'] }} (Mesa {{ $ronda['numeroMesa'] }})</h6>
-                                <p>Estado: {{ $ronda['estado'] }}</p>
-                                <p>Total Ronda: ${{ $ronda['totalRonda'] }}</p>
-                                <p>Productos:</p>
-                                <ul>
-                                    @foreach ($ronda['productos'] as $producto => $cantidad)
-                                        <li>{{ $producto }}: {{ $cantidad }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            <hr>
-                        @endforeach
+                        <p>Mesa: {{ $data['mesa'] }} (Mesa {{ $data['numeroMesa'] }})</p>
+                        <p>Estado: {{ $data['estado'] }}</p>
+                        <p>Total Ronda: ${{ $data['totalRonda'] }}</p>
+                        <p>Productos:</p>
+                        <ul>
+                            @foreach ($data['productos'] as $producto => $cantidad)
+                                <li>{{ $producto }}: {{ $cantidad }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             @endforeach

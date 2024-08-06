@@ -72,32 +72,30 @@ Route::get('ronda/pdf', function () {
         return Carbon::parse($ronda['timestamp'])->gte($sevenDaysAgo);
     });
 
-    // Agrupa las rondas por fecha y productos
+    // Agrupa las rondas por fecha
     $groupedData = [];
     foreach ($filteredRondas as $ronda) {
         $date = Carbon::parse($ronda['timestamp'])->toDateString();
 
         if (!isset($groupedData[$date])) {
-            $groupedData[$date] = [];
+            $groupedData[$date] = [
+                'productos' => []
+            ];
         }
 
         // Agrupa productos
-        $productsMap = [];
         foreach ($ronda['productos'] as $index => $producto) {
             $cantidad = (int) $ronda['cantidades'][$index];
-            if (!isset($productsMap[$producto])) {
-                $productsMap[$producto] = 0;
+            if (!isset($groupedData[$date]['productos'][$producto])) {
+                $groupedData[$date]['productos'][$producto] = 0;
             }
-            $productsMap[$producto] += $cantidad;
+            $groupedData[$date]['productos'][$producto] += $cantidad;
         }
 
-        $groupedData[$date][] = [
-            'mesa' => $ronda['mesa'],
-            'numeroMesa' => $ronda['numeroMesa'],
-            'estado' => $ronda['estado'],
-            'totalRonda' => $ronda['totalRonda'],
-            'productos' => $productsMap
-        ];
+        $groupedData[$date]['mesa'] = $ronda['mesa'];
+        $groupedData[$date]['numeroMesa'] = $ronda['numeroMesa'];
+        $groupedData[$date]['estado'] = $ronda['estado'];
+        $groupedData[$date]['totalRonda'] = $ronda['totalRonda'];
     }
 
     // Datos para la vista
