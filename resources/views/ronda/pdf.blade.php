@@ -19,6 +19,9 @@
             padding: 20px;
             background-color: #f8f9fa;
             border-radius: 8px;
+            border: 1px solid green; /* Borde verde */
+            border-radius: 8px; /* Radio de borde */
+            margin-bottom: 30px; /* Espaciado entre secciones */
         }
         .table {
             border-collapse: separate;
