@@ -31,6 +31,14 @@
                 <div class="card-text">
                     ESto es el texto de la card
                 </div>
+                <div class="card text">
+                    @foreach ( $rondas as $ronda )
+                    <div>
+                        {{ $ronda->estado }}
+                    </div>
+
+                    @endforeach
+                </div>
 
             </div>
         </main>
