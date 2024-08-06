@@ -54,24 +54,63 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Route::get('ronda/pdf', function () {
-//     // Obtén los registros de Ronda y agrúpalos por fecha
-//     $rondas = Ronda::all()->groupBy(function ($item) {
-//         return Carbon::parse($item->timestamp)->format('Y-m-d'); // Agrupa por fecha (solo día)
-//     });
+Route::get('ronda/pdf', function () {
+    // Realiza la solicitud GET a la API para obtener los datos de las rondas
+    $response = Http::get('https://pueblo-nest-production.up.railway.app/api/v1/rondas');
 
-//     // Datos para la vista
-//     $data = [
-//         'title' => 'Reporte de Rondas',
-//         'rondas' => $rondas
-//     ];
+    // Verifica si la solicitud fue exitosa
+    if (!$response->successful()) {
+        return response()->json(['error' => 'No se pudo obtener datos'], 500);
+    }
 
-//     // Carga la vista para el PDF con los datos
-//     $pdf = PDF::loadView('ronda.pdf', $data);
+    // Decodifica la respuesta JSON
+    $rondas = $response->json();
 
-//     // Devuelve el PDF en lugar de descargarlo, usa stream() para visualizar en el navegador
-//     return $pdf->stream('reporte.pdf');
-// })->name('rondas.pdf');
+    // Filtra rondas de los últimos 7 días
+    $sevenDaysAgo = Carbon::now()->subDays(7)->startOfDay();
+    $filteredRondas = array_filter($rondas, function ($ronda) use ($sevenDaysAgo) {
+        return Carbon::parse($ronda['timestamp'])->gte($sevenDaysAgo);
+    });
+
+    // Agrupa las rondas por fecha y productos
+    $groupedData = [];
+    foreach ($filteredRondas as $ronda) {
+        $date = Carbon::parse($ronda['timestamp'])->toDateString();
+
+        if (!isset($groupedData[$date])) {
+            $groupedData[$date] = [];
+        }
+
+        // Agrupa productos
+        $productsMap = [];
+        foreach ($ronda['productos'] as $index => $producto) {
+            $cantidad = (int) $ronda['cantidades'][$index];
+            if (!isset($productsMap[$producto])) {
+                $productsMap[$producto] = 0;
+            }
+            $productsMap[$producto] += $cantidad;
+        }
+
+        $groupedData[$date][] = [
+            'mesa' => $ronda['mesa'],
+            'numeroMesa' => $ronda['numeroMesa'],
+            'estado' => $ronda['estado'],
+            'totalRonda' => $ronda['totalRonda'],
+            'productos' => $productsMap
+        ];
+    }
+
+    // Datos para la vista
+    $data = [
+        'title' => 'Reporte de Rondas',
+        'groupedData' => $groupedData
+    ];
+
+    // Carga la vista para el PDF con los datos
+    $pdf = Pdf::loadView('ronda.pdf', $data);
+
+    // Devuelve el PDF en lugar de descargarlo, usa stream() para visualizar en el navegador
+    return $pdf->stream('reporte.pdf');
+})->name('rondas.pdf');
 
 
-Route::get('rondas/pdf', [RondaController::class, 'generatePdf'])->name('rondas.pdf');
