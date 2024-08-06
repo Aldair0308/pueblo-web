@@ -55,9 +55,9 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('ronda/pdf', function () {
-    $ronda = Ronda::all();
+    $rondas = Ronda::all();
     $data = ['title' => 'Welcome to Laravel PDF'];
-    $pdf = PDF::loadView('ronda.pdf', $data, compact('ronda'));
+    $pdf = PDF::loadView('ronda.pdf', $data, compact('rondas'));
 
     // return $pdf->download('reporte.pdf');
     return $pdf->stream();

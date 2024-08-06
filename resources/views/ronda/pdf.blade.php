@@ -31,6 +31,9 @@
                 <div class="card-text">
                     ESto es el texto de la card
                 </div>
+                @foreach ($rondas as $ronda )
+                    <th>{{ $ronda->productos }}</th>
+                @endforeach
             </div>
         </main>
         <footer>
