@@ -19,6 +19,7 @@
         <div class="container mt-4">
             <div id="report" class="row">
                 <!-- Las tarjetas se insertarán aquí -->
+                <p>Cargando datos...</p>
             </div>
         </div>
     </main>
@@ -42,6 +43,12 @@
                     throw new Error('Network response was not ok');
                 }
                 const rondas = await response.json();
+
+                // Check if data is loaded
+                if (!Array.isArray(rondas) || rondas.length === 0) {
+                    document.getElementById('report').innerHTML = '<p>No se encontraron datos.</p>';
+                    return;
+                }
 
                 // Filter to get only the data from the last 7 days
                 const sevenDaysAgo = new Date();
@@ -83,6 +90,8 @@
 
                 // Generate HTML for cards
                 const reportContainer = document.getElementById('report');
+                let reportHtml = '';
+
                 Object.keys(groupedData).forEach(date => {
                     const dateGroup = groupedData[date];
                     const dateFormatted = new Date(date).toLocaleDateString();
@@ -111,8 +120,10 @@
 
                     cardHtml += `</div></div></div>`;
 
-                    reportContainer.innerHTML += cardHtml;
+                    reportHtml += cardHtml;
                 });
+
+                reportContainer.innerHTML = reportHtml;
 
             } catch (error) {
                 console.error('Error al procesar los datos:', error);
