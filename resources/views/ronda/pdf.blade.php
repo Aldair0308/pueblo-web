@@ -38,6 +38,9 @@
             try {
                 // Fetch data from the API
                 const response = await fetch('https://pueblo-nest-production.up.railway.app/api/v1/rondas');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
                 const rondas = await response.json();
 
                 // Filter to get only the data from the last 7 days
@@ -113,6 +116,7 @@
 
             } catch (error) {
                 console.error('Error al procesar los datos:', error);
+                document.getElementById('report').innerHTML = '<p>Hubo un problema al cargar los datos.</p>';
             }
         }
 
