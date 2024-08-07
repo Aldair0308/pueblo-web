@@ -62,6 +62,7 @@
                 var token = localStorage.getItem('authToken');
                 if (!token) {
                     // No hay token, redirige al login
+                    alert('Necesitas Iniciar Sesiòn.');
                     window.location.href = '/login';
                 } else {
                     // Verifica el token con una solicitud a la API
