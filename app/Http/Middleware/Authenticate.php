@@ -2,36 +2,16 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
-class Authenticate
+class Authenticate extends Middleware
 {
     /**
-     * Handle an incoming request.
+     * Get the path the user should be redirected to when they are not authenticated.
      */
-    public function handle(Request $request, Closure $next)
+    protected function redirectTo(Request $request): ?string
     {
-        // Obtén el token del encabezado de la solicitud
-        $token = $request->bearerToken();
-
-        if (!$token) {
-            // No hay token, redirige al login
-            return redirect()->route('login');
-        }
-
-        // Verifica el token con una solicitud a la API
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $token
-        ])->get('https://pueblo-nest-production.up.railway.app/api/v1/auth/profile');
-
-        if ($response->status() === 200) {
-            // Token válido, continúa con la solicitud
-            return $next($request);
-        } else {
-            // Token no válido, redirige al login
-            return redirect()->route('login');
-        }
+        return $request->expectsJson() ? null : route('login');
     }
 }
