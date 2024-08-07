@@ -93,6 +93,7 @@
 @stop
 
 @section('js')
+    <x-Token />
     <script src="{{ secure_asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ secure_asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ secure_asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
