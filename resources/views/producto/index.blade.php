@@ -38,7 +38,7 @@
                             <thead class="thead">
                                 <tr>
                                     <th>No</th>
-                                    
+
                                     <th>Foto</th>
                                     <th>Nombre</th>
                                     <th>Descripcion</th>
@@ -51,7 +51,7 @@
                                 @foreach ($productos as $producto)
                                     <tr>
                                         <td>{{ ++$i }}</td>
-                                        
+
                                         <td>{{ $producto->foto }}</td>
                                         <td>{{ $producto->nombre }}</td>
                                         <td>{{ $producto->descripcion }}</td>
@@ -85,6 +85,13 @@
 @stop
 
 @section('js')
-    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
+<x-Token />
+<script src="{{ secure_asset('vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ secure_asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ secure_asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+<script src="{{ secure_asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @stop
 

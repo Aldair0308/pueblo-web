@@ -1,8 +1,7 @@
-@extends('layouts.app')
+@extends('adminlte::page')
 
-@section('template_title')
-    {{ $producto->name ?? __('Show') . " " . __('Producto') }}
-@endsection
+
+@section('title', 'Productos')
 
 @section('content')
     <section class="content container-fluid">
@@ -19,7 +18,7 @@
                     </div>
 
                     <div class="card-body bg-white">
-                        
+
                         <div class="form-group mb-2 mb20">
                             <strong>Foto:</strong>
                             {{ $producto->foto }}
@@ -43,3 +42,14 @@
         </div>
     </section>
 @endsection
+
+@section('js')
+<x-Token />
+<script src="{{ secure_asset('vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ secure_asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ secure_asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+<script src="{{ secure_asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@stop

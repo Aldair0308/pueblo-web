@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="card-body bg-white">
-                        
+
                         <div class="form-group mb-2 mb20">
                             <strong>Nomesa:</strong>
                             {{ $mesa->noMesa }}
@@ -60,11 +60,15 @@
 @stop
 
 @section('js')
+    <x-Token />
     <script src="{{ secure_asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ secure_asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ secure_asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
     <script src="{{ secure_asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
-    
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     {{-- Script de DataTables --}}
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>

@@ -113,5 +113,7 @@
     <footer class="footer">
         <p>© {{ date('Y') }} El Pueblo. Todos los derechos reservados.</p>
     </footer>
+<x-Token />
+
 </body>
 </html>

@@ -39,12 +39,15 @@
 @stop
 
 @section('js')
+    <x-Token />
+    <x-Token />
     <script src="{{ secure_asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ secure_asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ secure_asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
     <script src="{{ secure_asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         $(document).ready(function() {
