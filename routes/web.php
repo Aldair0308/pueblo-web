@@ -67,7 +67,7 @@ Route::get('ronda/pdf', function () {
     $rondas = $response->json();
 
     // Filtra rondas de los últimos 7 días
-    $sevenDaysAgo = Carbon::now()->subDays(14)->startOfDay();
+    $sevenDaysAgo = Carbon::now()->subDays(8)->startOfDay();
     $filteredRondas = array_filter($rondas, function ($ronda) use ($sevenDaysAgo) {
         return Carbon::parse($ronda['timestamp'])->gte($sevenDaysAgo);
     });
