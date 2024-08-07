@@ -71,7 +71,7 @@
 
         // Envía los datos a la API externa
         $.ajax({
-            url: 'https://pueblo-nest-production.up.railway.app/api/v1/auth/login',
+            url: 'https://pueblo-nest-production.up.railway.app/api/v1/auth/login/web',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(loginData),
