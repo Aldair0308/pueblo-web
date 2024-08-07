@@ -28,7 +28,7 @@
                         <div class="card-body">
                             <div class="card-text">
                                 <a href="{{ route('mesas.index') }}" class="btn btn-success">Ir a Mesas</a>
-                                <a href="{{ route('login') }}" class="btn btn-danger">Cerrar Sesión</a>
+                                <button id="logout-button" class="btn btn-danger">Cerrar Sesión</button>
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,6 @@
                 var token = localStorage.getItem('authToken');
                 if (!token) {
                     // No hay token, redirige al login
-                    alert('Necesitas Iniciar Sesiòn.');
                     window.location.href = '/login';
                 } else {
                     // Verifica el token con una solicitud a la API
@@ -73,6 +72,7 @@
                             'Authorization': 'Bearer ' + token
                         },
                         success: function(response) {
+                            alert('Necesitas Iniciar Sesiòn');
                             console.log('Token válido:', response);
                             // Aquí podrías manejar la respuesta si es necesario
                         },
@@ -91,6 +91,14 @@
 
             // Llama a la función para verificar el token
             checkToken();
+
+            // Manejo del clic en el botón de cerrar sesión
+            $('#logout-button').on('click', function() {
+                // Elimina el token del almacenamiento local
+                localStorage.removeItem('authToken');
+                // Redirige al usuario a la página de inicio de sesión
+                window.location.href = '/login';
+            });
         });
     </script>
 </body>
