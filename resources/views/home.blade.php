@@ -72,13 +72,14 @@
                             'Authorization': 'Bearer ' + token
                         },
                         success: function(response) {
-                            alert('Necesitas Iniciar Sesiòn');
                             console.log('Token válido:', response);
                             // Aquí podrías manejar la respuesta si es necesario
                         },
                         error: function(xhr) {
                             if (xhr.status === 401) {
                                 // Token no válido, redirige al login
+                                alert('Necesitas Iniciar Sesiòn');
+
                                 window.location.href = '/login';
                             } else {
                                 console.error('Error en la validación del token:', xhr);
