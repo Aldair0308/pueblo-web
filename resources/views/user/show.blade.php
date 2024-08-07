@@ -1,8 +1,7 @@
-@extends('layouts.app')
+@extends('adminlte::page')
 
-@section('template_title')
-    {{ $user->name ?? __('Show') . " " . __('User') }}
-@endsection
+
+@section('title', 'Usuarios')
 
 @section('content')
     <section class="content container-fluid">

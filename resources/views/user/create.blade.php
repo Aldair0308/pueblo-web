@@ -1,8 +1,8 @@
-@extends('layouts.app')
 
-@section('template_title')
-    {{ __('Create') }} User
-@endsection
+@extends('adminlte::page')
+
+
+@section('title', 'Usuarios')
 
 @section('content')
     <section class="content container-fluid">
