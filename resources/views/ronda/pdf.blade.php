@@ -83,7 +83,7 @@
             <h2 class="text-center mb-4">{{ $title }}</h2>
             @foreach ($groupedData as $date => $data)
                 <div class="table-container">
-                    <h4 class="text-center mb-4" id="date-{{ $loop->index }}">{{ \Carbon\Carbon::parse($date)->locale('es')->isoFormat('D MMMM YYYY') }}</h4>
+                    <h4 class="text-center mb-4" id="header-date-{{ $loop->index }}">{{ \Carbon\Carbon::parse($date)->locale('es')->isoFormat('D MMMM YYYY') }}</h4>
                     @if(count($data['productos']) > 0)
                         <table class="table table-bordered">
                             <thead>
@@ -130,30 +130,26 @@
                 // Convertir el tiempo ajustado a una nueva fecha
                 const adjustedDate = new Date(adjustedTime);
 
-                // Ajustar si la fecha resultante es anterior al inicio del día
-                if (adjustedDate.getHours() < 0) {
-                    adjustedDate.setDate(adjustedDate.getDate() - 1);
-                }
-
-                return adjustedDate;
+                // Formatear la fecha ajustada
+                return adjustedDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
             }
 
-            // Ajustar todas las fechas de los registros
+            // Ajustar todas las fechas de los registros en las tablas
             document.querySelectorAll('tbody').forEach(function(tbody) {
                 tbody.querySelectorAll('tr').forEach(function(row) {
                     const originalDateCell = row.cells[2];
                     if (originalDateCell) {
                         const adjustedDate = adjustDate(originalDateCell.innerText);
-                        originalDateCell.innerText = adjustedDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+                        originalDateCell.innerText = adjustedDate;
                     }
                 });
             });
 
             // Ajustar los encabezados de fecha
-            document.querySelectorAll('h4[id^="date-"]').forEach(function(header) {
+            document.querySelectorAll('h4[id^="header-date-"]').forEach(function(header) {
                 const originalDate = header.innerText;
                 const adjustedDate = adjustDate(originalDate);
-                header.innerText = adjustedDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+                header.innerText = adjustedDate;
             });
         });
     </script>
