@@ -83,7 +83,7 @@
             <h2 class="text-center mb-4">{{ $title }}</h2>
             @foreach ($groupedData as $date => $data)
                 <div class="table-container">
-                    <h4 class="text-center mb-4">{{ \Carbon\Carbon::parse($date)->locale('es')->isoFormat('D MMMM YYYY') }}</h4>
+                    <h4 class="text-center mb-4" id="date-{{ $loop->index }}">{{ \Carbon\Carbon::parse($date)->locale('es')->isoFormat('D MMMM YYYY') }}</h4>
                     @if(count($data['productos']) > 0)
                         <table class="table table-bordered">
                             <thead>
@@ -93,7 +93,7 @@
                                     <th>Día</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tbody-{{ $loop->index }}">
                                 @foreach ($data['productos'] as $producto => $cantidad)
                                     <tr>
                                         <td>{{ $producto }}</td>
@@ -114,5 +114,36 @@
         <p>© {{ date('Y') }} El Pueblo. Todos los derechos reservados.</p>
     </footer>
     <x-Token />
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Diferencia de tiempo a ajustar: 1 hora, 0 minutos y 18 segundos en milisegundos
+            const timeDifference = 3600000 + 18000; // 1h + 18s
+
+            // Función para ajustar la fecha
+            function adjustDate(dateString) {
+                const date = new Date(dateString);
+                return new Date(date.getTime() - timeDifference);
+            }
+
+            // Ajustar todas las fechas de los registros
+            document.querySelectorAll('tbody').forEach(function(tbody) {
+                tbody.querySelectorAll('tr').forEach(function(row) {
+                    const originalDateCell = row.cells[2];
+                    if (originalDateCell) {
+                        const adjustedDate = adjustDate(originalDateCell.innerText);
+                        originalDateCell.innerText = adjustedDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+                    }
+                });
+            });
+
+            // Ajustar los encabezados de fecha
+            document.querySelectorAll('h4[id^="date-"]').forEach(function(header) {
+                const originalDate = header.innerText;
+                const adjustedDate = adjustDate(originalDate);
+                header.innerText = adjustedDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+            });
+        });
+    </script>
 </body>
 </html>
