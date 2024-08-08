@@ -1,6 +1,5 @@
 @extends('adminlte::page')
 
-
 @section('title', 'Casa')
 
 @section('content_header')
@@ -32,6 +31,18 @@
                             <a href="{{ route('mesas.index') }}" class="btn btn-success">Ir a Mesas</a>
                             <button id="logout-button" class="btn btn-danger">Cerrar Sesión</button>
                         </div>
+
+                        <!-- Contenido dinámico basado en el rol del usuario -->
+                        @if($userRole === 'admin')
+                            <h3>Contenido exclusivo para Administradores</h3>
+                            <!-- Agrega más contenido para administradores aquí -->
+                        @elseif($userRole === 'user')
+                            <h3>Contenido para Usuarios</h3>
+                            <!-- Agrega contenido para usuarios aquí -->
+                        @else
+                            <h3>Contenido para Visitantes</h3>
+                            <!-- Agrega contenido para visitantes aquí -->
+                        @endif
                     </div>
                 </div>
             </div>
@@ -39,7 +50,6 @@
     </div>
 </main>
 @stop
-
 
 @section('css')
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
@@ -59,8 +69,9 @@
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
         src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"
@@ -70,7 +81,4 @@
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"
     ></script>
-
-    <!-- jQuery (required for AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 @stop
