@@ -33,7 +33,7 @@
                         </div>
 
                         <!-- Contenido dinámico basado en el rol del usuario -->
-                        @if($userRole === 'admin')
+                        @if($userRole === 'barra')
                             <h3>Contenido exclusivo para Administradores</h3>
                             <!-- Agrega más contenido para administradores aquí -->
                         @elseif($userRole === 'user')
