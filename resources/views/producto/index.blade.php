@@ -56,6 +56,8 @@
                                         <td>{{ $producto->nombre }}</td>
                                         <td>{{ $producto->descripcion }}</td>
                                         <td>{{ $producto->precio }}</td>
+                                        <td>{{ $producto->stock }}</td>
+
 
                                         <td>
                                             <form action="{{ route('productos.destroy',$producto->id) }}" method="POST">

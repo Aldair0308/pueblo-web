@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property $descripcion
  * @property $id
  * @property $precio
+ * @property $stock
+ *
  *
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
@@ -21,7 +23,7 @@ class Producto extends Model
     public $timestamps = false;
 
     protected $table = 'producto'; // Nombre correcto de la tabla en singular
-    
+
 
     protected $perPage = 20;
 
@@ -30,7 +32,7 @@ class Producto extends Model
      *
      * @var array
      */
-    protected $fillable = ['foto', 'nombre', 'descripcion', 'precio'];
+    protected $fillable = ['foto', 'nombre', 'descripcion', 'precio', 'stock'];
 
 
 
