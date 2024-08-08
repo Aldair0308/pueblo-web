@@ -117,13 +117,25 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Diferencia de tiempo a ajustar: 6 horas, 0 minutos y 18 segundos en milisegundos
-            const timeDifference = 21600000 + 18000; // 6h + 18s
+            // Diferencia de tiempo a ajustar: 6 horas y 18 segundos en milisegundos
+            const hoursDiff = 6; // Diferencia en horas
+            const secondsDiff = 18; // Diferencia en segundos
+            const timeDifference = (hoursDiff * 60 * 60 * 1000) + (secondsDiff * 1000); // Diferencia total en milisegundos
 
             // Función para ajustar la fecha
             function adjustDate(dateString) {
                 const date = new Date(dateString);
-                return new Date(date.getTime() - timeDifference);
+                const adjustedTime = date.getTime() - timeDifference;
+
+                // Convertir el tiempo ajustado a una nueva fecha
+                const adjustedDate = new Date(adjustedTime);
+
+                // Ajustar si la fecha resultante es anterior al inicio del día
+                if (adjustedDate.getHours() < 0) {
+                    adjustedDate.setDate(adjustedDate.getDate() - 1);
+                }
+
+                return adjustedDate;
             }
 
             // Ajustar todas las fechas de los registros
