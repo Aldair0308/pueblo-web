@@ -34,15 +34,10 @@
                         <div id="admin-content" class="d-none">
                             <p>Bienvenido, Aldair.</p>
                             <a href="{{ route('dashboard') }}" class="btn btn-primary">Ir al panel de administrador</a>
+
+                            <a href="{{ route('mesas.index') }}" class="btn btn-success">Ir a Mesas</a>
+                            <button id="logout-button" class="btn btn-danger">Cerrar Sesión</button>
                         </div>
-                        <div id="user-content" class="d-none">
-                            <p>Bienvenido, usuario.</p>
-                        </div>
-                        <div id="guest-content">
-                            <p>Bienvenido, invitado.</p>
-                        </div>
-                        <a href="{{ route('mesas.index') }}" class="btn btn-success">Ir a Mesas</a>
-                        <button id="logout-button" class="btn btn-danger">Cerrar Sesión</button>
                     </div>
                 </div>
             </div>
@@ -91,9 +86,7 @@
             if (userRole === 'barra') {
                 $('#admin-content').removeClass('d-none');
             } else if (userRole === 'user') {
-                $('#user-content').removeClass('d-none');
             } else {
-                $('#guest-content').removeClass('d-none');
             }
         });
     </script>
