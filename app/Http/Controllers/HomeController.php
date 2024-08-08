@@ -23,10 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // Obtén el rol del usuario desde el almacenamiento local o sesión
-        $userRole = session('userRole'); // o 'auth()->user()->role' si estás usando autenticación
-
-        return view('home', compact('userRole'));
+        return view('home');
     }
-
 }
