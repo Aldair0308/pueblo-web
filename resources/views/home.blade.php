@@ -25,18 +25,20 @@
 
 @section('content')
 <main>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">Dashboard</div>
-                    <div class="card-body">
-                        <div id="admin-content" class="d-none">
-                            <p>Bienvenido, Aldair.</p>
-                            <a href="{{ route('dashboard') }}" class="btn btn-primary">Ir al panel de administrador</a>
+    <div id="admin-content" class="d-none">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">Dashboard</div>
+                        <div class="card-body">
+                            <div>
+                                <p>Bienvenido, Aldair.</p>
+                                <a href="{{ route('dashboard') }}" class="btn btn-primary">Ir al panel de administrador</a>
 
-                            <a href="{{ route('mesas.index') }}" class="btn btn-success">Ir a Mesas</a>
-                            <button id="logout-button" class="btn btn-danger">Cerrar Sesión</button>
+                                <a href="{{ route('mesas.index') }}" class="btn btn-success">Ir a Mesas</a>
+                                <button id="logout-button" class="btn btn-danger">Cerrar Sesión</button>
+                            </div>
                         </div>
                     </div>
                 </div>
