@@ -117,8 +117,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Diferencia de tiempo a ajustar: 1 hora, 0 minutos y 18 segundos en milisegundos
-            const timeDifference = 3600000 + 18000; // 1h + 18s
+            // Diferencia de tiempo a ajustar: 6 horas, 0 minutos y 18 segundos en milisegundos
+            const timeDifference = 21600000 + 18000; // 6h + 18s
 
             // Función para ajustar la fecha
             function adjustDate(dateString) {
