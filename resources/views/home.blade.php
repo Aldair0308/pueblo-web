@@ -33,15 +33,13 @@
                     <div class="card-body">
                         <div id="admin-content" class="d-none">
                             <p>Bienvenido, Aldair.</p>
-                            <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Ir al panel de administrador</a>
+                            <a href="{{ route('dashboard') }}" class="btn btn-primary">Ir al panel de administrador</a>
                         </div>
                         <div id="user-content" class="d-none">
                             <p>Bienvenido, usuario.</p>
-                            <a href="{{ route('user.dashboard') }}" class="btn btn-secondary">Ir al panel de usuario</a>
                         </div>
                         <div id="guest-content">
                             <p>Bienvenido, invitado.</p>
-                            <a href="{{ route('guest.dashboard') }}" class="btn btn-light">Ir al panel de invitado</a>
                         </div>
                         <a href="{{ route('mesas.index') }}" class="btn btn-success">Ir a Mesas</a>
                         <button id="logout-button" class="btn btn-danger">Cerrar Sesión</button>
