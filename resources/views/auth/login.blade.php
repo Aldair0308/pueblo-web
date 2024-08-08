@@ -56,47 +56,50 @@
 
 <script>
     $(document).ready(function() {
-    $('#login-form').on('submit', function(event) {
-        event.preventDefault(); // Evita el envío normal del formulario
+        $('#login-form').on('submit', function(event) {
+            event.preventDefault(); // Evita el envío normal del formulario
 
-        // Obtén los valores de los campos del formulario
-        var email = $('#email').val();
-        var password = $('#password').val();
+            // Obtén los valores de los campos del formulario
+            var email = $('#email').val();
+            var password = $('#password').val();
 
-        // Construye el objeto JSON
-        var loginData = {
-            email: email,
-            password: password
-        };
+            // Construye el objeto JSON
+            var loginData = {
+                email: email,
+                password: password
+            };
 
-        // Envía los datos a la API externa
-        $.ajax({
-            url: 'https://pueblo-nest-production.up.railway.app/api/v1/auth/login/web',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(loginData),
-            success: function(response) {
-                console.log('Respuesta de la API:', response);
+            // Envía los datos a la API externa
+            $.ajax({
+                url: 'https://pueblo-nest-production.up.railway.app/api/v1/auth/login/web',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(loginData),
+                success: function(response) {
+                    console.log('Respuesta de la API:', response);
 
-                // Verifica si la respuesta contiene el token
-                if (response.token) {
-                    // Guarda el token en el almacenamiento local
-                    localStorage.setItem('authToken', response.token);
+                    // Verifica si la respuesta contiene el token
+                    if (response.token) {
+                        // Guarda el token y la información del usuario en el almacenamiento local
+                        localStorage.setItem('authToken', response.token);
+                        localStorage.setItem('userName', response.user.name);
+                        localStorage.setItem('userEmail', response.user.email);
+                        localStorage.setItem('userPhoto', response.user.photo);
+                        localStorage.setItem('userRole', response.user.rol);
 
-                    // Redirige al usuario a la página de inicio
-                    window.location.href = '/home';
-                } else {
-                    alert('Error: Las credenciales son incorrectas.'); // Ajusta según la respuesta de la API
+                        // Redirige al usuario a la página de inicio
+                        window.location.href = '/home';
+                    } else {
+                        alert('Error: Las credenciales son incorrectas.'); // Ajusta según la respuesta de la API
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error en el login:', status, error);
+                    alert('Error en el inicio de sesión. Verifica tus credenciales.');
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error en el login:', status, error);
-                alert('Error en el inicio de sesión. Verifica tus credenciales.');
-            }
+            });
         });
     });
-});
-
 </script>
 </body>
 </html>
