@@ -76,7 +76,7 @@
 <body>
     <header>
         <!-- Logo -->
-        <img src="{{ secure_asset('images/logo.jpg') }}" alt="Logo de la empresa" width="100px" height="100px" style="display: block; margin: 20px auto;">
+        {{-- <img src="{{ secure_asset('images/logo.jpg') }}" alt="Logo de la empresa" width="100px" height="100px" style="display: block; margin: 20px auto;"> --}}
     </header>
     <main>
         <div class="container">

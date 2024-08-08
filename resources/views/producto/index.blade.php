@@ -37,6 +37,7 @@
                         <table class="table table-striped table-hover">
                             <thead class="thead">
                                 <tr>
+                                    <th></th>
                                     <th>No</th>
 
                                     <th>Foto</th>
@@ -44,21 +45,11 @@
                                     <th>Descripcion</th>
                                     <th>Precio</th>
 
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($productos as $producto)
                                     <tr>
-                                        <td>{{ ++$i }}</td>
-
-                                        <td>{{ $producto->foto }}</td>
-                                        <td>{{ $producto->nombre }}</td>
-                                        <td>{{ $producto->descripcion }}</td>
-                                        <td>{{ $producto->precio }}</td>
-                                        <td>{{ $producto->stock }}</td>
-
-
                                         <td>
                                             <form action="{{ route('productos.destroy',$producto->id) }}" method="POST">
                                                 <a class="btn btn-sm btn-primary " href="{{ route('productos.show',$producto->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>
@@ -68,6 +59,15 @@
                                                 <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> {{ __('Delete') }}</button>
                                             </form>
                                         </td>
+                                        <td>{{ ++$i }}</td>
+
+                                        <td>{{ $producto->foto }}</td>
+                                        <td>{{ $producto->nombre }}</td>
+                                        <td>{{ $producto->descripcion }}</td>
+                                        <td>{{ $producto->precio }}</td>
+                                        <td>{{ $producto->stock }}</td>
+
+
                                     </tr>
                                 @endforeach
                             </tbody>
