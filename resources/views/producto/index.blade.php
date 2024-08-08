@@ -40,10 +40,11 @@
                                     <th></th>
                                     <th>No</th>
 
-                                    <th>Foto</th>
                                     <th>Nombre</th>
                                     <th>Descripcion</th>
                                     <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Foto</th>
 
                                 </tr>
                             </thead>
@@ -61,11 +62,11 @@
                                         </td>
                                         <td>{{ ++$i }}</td>
 
-                                        <td>{{ $producto->foto }}</td>
                                         <td>{{ $producto->nombre }}</td>
                                         <td>{{ $producto->descripcion }}</td>
                                         <td>{{ $producto->precio }}</td>
                                         <td>{{ $producto->stock }}</td>
+                                        <td>{{ $producto->foto }}</td>
 
 
                                     </tr>
