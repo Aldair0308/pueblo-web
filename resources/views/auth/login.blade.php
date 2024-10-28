@@ -97,7 +97,8 @@
                             window.location.href = '/home';
                         } else {
                             alert(
-                            'Error: Las credenciales son incorrectas.'); // Ajusta según la respuesta de la API
+                                'Error: Las credenciales son incorrectas.'
+                                ); // Ajusta según la respuesta de la API
                         }
                     },
                     error: function(xhr, status, error) {
