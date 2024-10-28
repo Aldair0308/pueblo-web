@@ -85,7 +85,7 @@ class RondaController extends Controller
     public function generatePdf()
     {
         // Hacer la solicitud GET a la API
-        $response = Http::get('https://pueblo-nest-production.up.railway.app/api/v1/rondas');
+        $response = Http::get('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas');
 
         if ($response->successful()) {
             $rondas = $response->json();

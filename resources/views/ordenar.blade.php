@@ -1,12 +1,14 @@
 <!-- ordenarProductos.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ordena tus productos</title>
-    <link rel="stylesheet" href="{{ asset('css/home-styles.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/home-styles.css') }}">
 </head>
+
 <body>
     <div class="containerSet">
         <div class="card-ordenar">
@@ -15,16 +17,16 @@
                 <!-- Campos ocultos para el nombre del usuario y mesero -->
                 <input type="hidden" id="mesa" name="mesa" value="{{ Auth::user()->name }}">
                 <input type="hidden" id="mesero" name="mesero" value="{{ Auth::user()->name }}">
-                
-               <!-- Número de Mesa obtenido de la ruta (readonly) -->
-               @php
-               $numeroMesa = isset($numeroMesa) ? $numeroMesa : ''; // Obtener el número de mesa de la variable pasada desde el controlador
+
+                <!-- Número de Mesa obtenido de la ruta (readonly) -->
+                @php
+                    $numeroMesa = isset($numeroMesa) ? $numeroMesa : ''; // Obtener el número de mesa de la variable pasada desde el controlador
                 @endphp
                 <label for="numeroMesa">Número de Mesa:</label>
                 <input type="number" id="numeroMesa" name="numeroMesa" value="{{ $numeroMesa }}" readonly><br><br>
 
                 <!-- Incluir el componente Carrito -->
-                <x-Carrito/>
+                <x-Carrito />
 
                 <!-- Campo oculto para el estado -->
                 <input type="hidden" id="estado" name="estado" value="por_preparar">
@@ -37,13 +39,13 @@
             <!-- Aquí se renderizarán los productos -->
         </div>
     </div>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const productosContainer = document.getElementById('productosContainer');
             let totalRonda = 0; // Variable para calcular el total de la ronda
 
-            fetch('https://pueblo-nest-production.up.railway.app/api/v1/productos')
+            fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/productos')
                 .then(response => response.json())
                 .then(data => {
                     productosContainer.innerHTML = ''; // Limpiar el contenedor antes de renderizar
@@ -120,12 +122,15 @@
                         // Event listener para agregar al carrito
                         agregarBtn.addEventListener('click', function() {
                             const cantidad = parseInt(cantidadInput.value);
-                            const descripcion = descripcionInput.value.trim(); // Obtener la descripción
+                            const descripcion = descripcionInput.value
+                                .trim(); // Obtener la descripción
 
                             if (cantidad > 0) {
                                 agregarAlCarrito(producto, cantidad, descripcion);
-                                calcularTotalRonda(producto.precio, cantidad); // Calcular totalRonda
-                                cantidadInput.value = '0'; // Reiniciar cantidad a cero después de agregar al carrito
+                                calcularTotalRonda(producto.precio,
+                                    cantidad); // Calcular totalRonda
+                                cantidadInput.value =
+                                    '0'; // Reiniciar cantidad a cero después de agregar al carrito
                                 descripcionInput.value = ''; // Limpiar campo de descripción
                             } else {
                                 alert('Selecciona al menos una unidad del producto.');
@@ -154,12 +159,14 @@
 
                 for (let item of carritoItems) {
                     const nombreProducto = item.querySelector('p:first-child').textContent.split(': ')[1];
-                    const cantidad = parseInt(item.querySelector('p:nth-child(2)').textContent.split(': ')[1]);
+                    const cantidad = parseInt(item.querySelector('p:nth-child(2)').textContent.split(': ')[
+                        1]);
                     const descripcion = item.querySelector('p:nth-child(3)');
-                    
+
                     productos.push(nombreProducto);
                     cantidades.push(cantidad);
-                    descripciones.push(descripcion ? descripcion.textContent.split(': ')[1] : ''); // Si no hay descripción, enviar cadena vacía
+                    descripciones.push(descripcion ? descripcion.textContent.split(': ')[1] :
+                        ''); // Si no hay descripción, enviar cadena vacía
                 }
 
                 // Construir el objeto JSON según la estructura requerida
@@ -178,27 +185,28 @@
                 orden.estado = 'por_preparar';
 
                 // Enviar la orden a la API
-                fetch('https://pueblo-nest-production.up.railway.app/api/v1/rondas', {
-                    method: 'POST',
-                    body: JSON.stringify(orden),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Respuesta:', data);
-                    alert('Orden enviada correctamente');
-                    // Limpiar el carrito después de enviar la orden
-                    carritoContainer.innerHTML = '';
-                    totalRonda = 0; // Reiniciar totalRonda después de enviar la orden
-                })
-                .catch(error => {
-                    console.error('Error al enviar la orden:', error);
-                    alert('Hubo un error al enviar la orden');
-                });
+                fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
+                        method: 'POST',
+                        body: JSON.stringify(orden),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Respuesta:', data);
+                        alert('Orden enviada correctamente');
+                        // Limpiar el carrito después de enviar la orden
+                        carritoContainer.innerHTML = '';
+                        totalRonda = 0; // Reiniciar totalRonda después de enviar la orden
+                    })
+                    .catch(error => {
+                        console.error('Error al enviar la orden:', error);
+                        alert('Hubo un error al enviar la orden');
+                    });
             });
         });
     </script>
 </body>
+
 </html>

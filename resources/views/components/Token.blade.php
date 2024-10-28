@@ -14,7 +14,7 @@
                 } else {
                     // Verifica el token con una solicitud a la API
                     $.ajax({
-                        url: 'https://pueblo-nest-production.up.railway.app/api/v1/auth/profile',
+                        url: 'https://pueblo-nest-production-5afd.up.railway.app/api/v1/auth/profile',
                         type: 'GET',
                         headers: {
                             'Authorization': 'Bearer ' + token

@@ -56,7 +56,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('ronda/pdf', function () {
     // Realiza la solicitud GET a la API para obtener los datos de las rondas
-    $response = Http::get('https://pueblo-nest-production.up.railway.app/api/v1/rondas');
+    $response = Http::get('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas');
 
     // Verifica si la solicitud fue exitosa
     if (!$response->successful()) {

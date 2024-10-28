@@ -20,12 +20,13 @@
     document.addEventListener('DOMContentLoaded', function() {
         const cardElement = document.currentScript.closest('.card-producto');
 
-        fetch('https://pueblo-nest-production.up.railway.app/api/v1/productos')
+        fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/productos')
             .then(response => response.json())
             .then(data => {
                 // Iterar sobre los productos y crear las cards
                 data.forEach(producto => {
-                    if (producto.id === {{ $producto['id'] }}) { // Asegurar que el producto coincida
+                    if (producto.id ===
+                        {{ $producto['id'] }}) { // Asegurar que el producto coincida
                         const imagen = document.createElement('img');
                         imagen.src = producto.foto;
                         imagen.alt = producto.nombre;
@@ -93,12 +94,15 @@
                         // Event listener para agregar al carrito
                         agregarBtn.addEventListener('click', function() {
                             const cantidad = parseInt(cantidadInput.value);
-                            const descripcion = descripcionInput.value.trim(); // Obtener la descripción
+                            const descripcion = descripcionInput.value
+                        .trim(); // Obtener la descripción
 
                             if (cantidad > 0) {
                                 agregarAlCarrito(producto, cantidad, descripcion);
-                                calcularTotalRonda(producto.precio, cantidad); // Calcular totalRonda
-                                cantidadInput.value = '0'; // Reiniciar cantidad a cero después de agregar al carrito
+                                calcularTotalRonda(producto.precio,
+                                cantidad); // Calcular totalRonda
+                                cantidadInput.value =
+                                '0'; // Reiniciar cantidad a cero después de agregar al carrito
                                 descripcionInput.value = ''; // Limpiar campo de descripción
                             } else {
                                 alert('Selecciona al menos una unidad del producto.');
