@@ -171,6 +171,4 @@ class RondaController extends Controller
     return $groupedByMesero;
 }
 
-
-
 }
