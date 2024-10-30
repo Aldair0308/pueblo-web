@@ -132,4 +132,45 @@ class RondaController extends Controller
 
         return $pdf->stream('reporte.pdf');
     }
+
+    private function groupRondasByMesero(array $filteredRondas)
+{
+    $groupedByMesero = [];
+
+    foreach ($filteredRondas as $ronda) {
+        $mesero = $ronda['mesero']; // Asumiendo que el nombre del mesero está disponible
+
+        if (!isset($groupedByMesero[$mesero])) {
+            $groupedByMesero[$mesero] = [];
+        }
+
+        $date = \Carbon\Carbon::parse($ronda['timestamp'])->toDateString();
+
+        if (!isset($groupedByMesero[$mesero][$date])) {
+            $groupedByMesero[$mesero][$date] = [];
+        }
+
+        $productsMap = [];
+        foreach ($ronda['productos'] as $index => $producto) {
+            $cantidad = (int) $ronda['cantidades'][$index];
+            if (!isset($productsMap[$producto])) {
+                $productsMap[$producto] = 0;
+            }
+            $productsMap[$producto] += $cantidad;
+        }
+
+        $groupedByMesero[$mesero][$date][] = [
+            'mesa' => $ronda['mesa'],
+            'numeroMesa' => $ronda['numeroMesa'],
+            'estado' => $ronda['estado'],
+            'totalRonda' => $ronda['totalRonda'],
+            'productos' => $productsMap
+        ];
+    }
+
+    return $groupedByMesero;
+}
+
+
+
 }

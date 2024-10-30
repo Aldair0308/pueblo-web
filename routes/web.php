@@ -107,3 +107,171 @@ Route::get('ronda/pdf', function () {
 })->name('rondas.pdf');
 
 
+Route::get('ronda/pdf/descarga', function () {
+    // Realiza la solicitud GET a la API para obtener los datos de las rondas
+    $response = Http::get('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas');
+
+    // Verifica si la solicitud fue exitosa
+    if (!$response->successful()) {
+        return response()->json(['error' => 'No se pudo obtener datos'], 500);
+    }
+
+    // Decodifica la respuesta JSON
+    $rondas = $response->json();
+
+    // Filtra rondas de los últimos 7 días
+    $sevenDaysAgo = Carbon::now()->subDays(8)->startOfDay();
+    $filteredRondas = array_filter($rondas, function ($ronda) use ($sevenDaysAgo) {
+        return Carbon::parse($ronda['timestamp'])->gte($sevenDaysAgo);
+    });
+
+    // Agrupa las rondas por fecha
+    $groupedData = [];
+    foreach ($filteredRondas as $ronda) {
+        $date = Carbon::parse($ronda['timestamp'])->toDateString();
+
+        if (!isset($groupedData[$date])) {
+            $groupedData[$date] = [
+                'productos' => []
+            ];
+        }
+
+        // Agrupa productos
+        foreach ($ronda['productos'] as $index => $producto) {
+            $cantidad = (int) $ronda['cantidades'][$index];
+            if (!isset($groupedData[$date]['productos'][$producto])) {
+                $groupedData[$date]['productos'][$producto] = 0;
+            }
+            $groupedData[$date]['productos'][$producto] += $cantidad;
+        }
+    }
+
+    // Datos para la vista
+    $data = [
+        'title' => 'Reporte de Rondas',
+        'groupedData' => $groupedData
+    ];
+
+    // Carga la vista para el PDF con los datos
+    $pdf = Pdf::loadView('ronda.pdf', $data);
+
+    // Devuelve el PDF en lugar de descargarlo, usa stream() para visualizar en el navegador
+    return $pdf->download('reporte.pdf');
+})->name('rondas.pdf.descargas');
+
+Route::get('mesero/pdf', function () {
+    // Realiza la solicitud GET a la API para obtener los datos de las rondas
+    $response = Http::get('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas');
+
+    // Verifica si la solicitud fue exitosa
+    if (!$response->successful()) {
+        return response()->json(['error' => 'No se pudo obtener datos'], 500);
+    }
+
+    // Decodifica la respuesta JSON
+    $rondas = $response->json();
+
+    // Filtra rondas de los últimos 7 días
+    $sevenDaysAgo = Carbon::now()->subDays(7)->startOfDay();
+    $filteredRondas = array_filter($rondas, function ($ronda) use ($sevenDaysAgo) {
+        return Carbon::parse($ronda['timestamp'])->gte($sevenDaysAgo);
+    });
+
+    // Agrupa las rondas por mesero
+    $groupedData = [];
+    foreach ($filteredRondas as $ronda) {
+        $mesero = $ronda['mesero']; // Asumiendo que el nombre del mesero está disponible
+
+        if (!isset($groupedData[$mesero])) {
+            $groupedData[$mesero] = [];
+        }
+
+        $date = Carbon::parse($ronda['timestamp'])->toDateString();
+
+        if (!isset($groupedData[$mesero][$date])) {
+            $groupedData[$mesero][$date] = [
+                'productos' => []
+            ];
+        }
+
+        // Agrupa productos
+        foreach ($ronda['productos'] as $index => $producto) {
+            $cantidad = (int) $ronda['cantidades'][$index];
+            if (!isset($groupedData[$mesero][$date]['productos'][$producto])) {
+                $groupedData[$mesero][$date]['productos'][$producto] = 0;
+            }
+            $groupedData[$mesero][$date]['productos'][$producto] += $cantidad;
+        }
+    }
+
+    // Datos para la vista
+    $data = [
+        'title' => 'Reporte de Ventas por Mesero',
+        'groupedData' => $groupedData
+    ];
+
+    // Carga la vista para el PDF con los datos
+    $pdf = Pdf::loadView('mesero', $data);
+
+    // Devuelve el PDF en lugar de descargarlo, usa stream() para visualizar en el navegador
+    return $pdf->stream('reporte_mesero.pdf');
+})->name('meseros.pdf');
+
+Route::get('mesero/pdf/descarga', function () {
+    // Realiza la solicitud GET a la API para obtener los datos de las rondas
+    $response = Http::get('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas');
+
+    // Verifica si la solicitud fue exitosa
+    if (!$response->successful()) {
+        return response()->json(['error' => 'No se pudo obtener datos'], 500);
+    }
+
+    // Decodifica la respuesta JSON
+    $rondas = $response->json();
+
+    // Filtra rondas de los últimos 7 días
+    $sevenDaysAgo = Carbon::now()->subDays(7)->startOfDay();
+    $filteredRondas = array_filter($rondas, function ($ronda) use ($sevenDaysAgo) {
+        return Carbon::parse($ronda['timestamp'])->gte($sevenDaysAgo);
+    });
+
+    // Agrupa las rondas por mesero
+    $groupedData = [];
+    foreach ($filteredRondas as $ronda) {
+        $mesero = $ronda['mesero']; // Asumiendo que el nombre del mesero está disponible
+
+        if (!isset($groupedData[$mesero])) {
+            $groupedData[$mesero] = [];
+        }
+
+        $date = Carbon::parse($ronda['timestamp'])->toDateString();
+
+        if (!isset($groupedData[$mesero][$date])) {
+            $groupedData[$mesero][$date] = [
+                'productos' => []
+            ];
+        }
+
+        // Agrupa productos
+        foreach ($ronda['productos'] as $index => $producto) {
+            $cantidad = (int) $ronda['cantidades'][$index];
+            if (!isset($groupedData[$mesero][$date]['productos'][$producto])) {
+                $groupedData[$mesero][$date]['productos'][$producto] = 0;
+            }
+            $groupedData[$mesero][$date]['productos'][$producto] += $cantidad;
+        }
+    }
+
+    // Datos para la vista
+    $data = [
+        'title' => 'Reporte de Ventas por Mesero',
+        'groupedData' => $groupedData
+    ];
+
+    // Carga la vista para el PDF con los datos
+    $pdf = Pdf::loadView('mesero', $data);
+
+    // Devuelve el PDF en lugar de descargarlo, usa stream() para visualizar en el navegador
+    return $pdf->download('reporte_mesero.pdf');
+})->name('meseros.pdf.descargas');
+

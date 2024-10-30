@@ -9,7 +9,10 @@
 
 @section('content')
     <p>Welcome to this beautiful admin panel.</p>
-    <a href="{{ route('rondas.pdf') }}" target="_blank">PDF de rondas</a>
+    <a class="btn btn-primary" href="{{ route('meseros.pdf') }}" target="_blank">Meseros</a>
+    <a class="btn btn-success" href="{{ route('rondas.pdf.descargas') }}" target="_blank">Descargar el PDF</a>
+    <a class="btn btn-primary" href="{{ route('rondas.pdf') }}" target="_blank">PDF de rondas</a>
+    <a class="btn btn-success" href="{{ route('meseros.pdf.descargas') }}" target="_blank">Descargar el PDF Por mesero</a>
 @stop
 
 
