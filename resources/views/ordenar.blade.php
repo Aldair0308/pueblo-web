@@ -54,8 +54,8 @@
 
                     <!-- Contenedor de opciones de extras -->
                     <div class="options-container">
-                        <h3>Extras</h3>
-                        <p>Selecciona hasta 2</p>
+                        <h3>Escarchado</h3>
+                        <p>Elige uno</p>
                         <div id="extrasContainer"></div>
                     </div>
 
@@ -66,17 +66,18 @@
                         <div id="customizationContainer"></div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <div class="quantity-controls">
-                    <button onclick="updateQuantity(-1)">−</button>
-                    <span id="quantity">1</span>
-                    <button onclick="updateQuantity(1)">+</button>
+                <div class="modal-footer">
+                    <div class="quantity-controls">
+                        <button onclick="updateQuantity(-1)">−</button>
+                        <span id="quantity">1</span>
+                        <button onclick="updateQuantity(1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart()">Agregar al Carrito</button>
                 </div>
-                <button class="add-to-cart" onclick="addToCart()">Agregar al Carrito</button>
             </div>
-
         </div>
+
+
     </div>
 
 

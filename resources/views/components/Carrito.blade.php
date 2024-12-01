@@ -10,6 +10,8 @@
         <button type="submit" form="ordenForm" class="submit-button">Enviar Orden</button>
     </div>
 </div>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 <script src="{{ asset('js/Carro.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -152,5 +154,46 @@
     .product-price {
         font-weight: bold;
         font-size: 1.1em;
+    }
+
+    .cantidad-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .cantidad-btn {
+        background-color: #e60000;
+        color: white;
+        border: none;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .cantidad-btn:hover {
+        background-color: #bf0000;
+    }
+
+    .cantidad-texto {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    .eliminar-btn {
+        background: none;
+        border: none;
+        color: #e74c3c;
+        font-size: 1.2em;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .eliminar-btn:hover {
+        color: #bf0000;
     }
 </style>

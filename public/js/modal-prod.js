@@ -18,14 +18,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Renderizar extras y personalización
             renderOptions(extrasContainer, [
-                { name: 'Tamarindo', price: 10 },
-                { name: 'Limón', price: 10 },
-            ], 2);
+                { name: 'Tamarindo', price: 0 },
+                { name: 'Sal y Limón', price: 0 },
+                { name: 'Sin escarchar', price: 0 },
+            ], 3);
 
             renderOptions(customizationContainer, [
-                { name: 'Sin jitomate', price: 0 },
-                { name: 'Sin cebolla', price: 0 },
-            ], 2);
+                { name: 'Con sal y limon', price: 0 },
+                { name: 'Con clamato', price: 0 },
+                { name: 'Con poco clamato', price: 0 },
+                { name: 'Solo con limon', price: 0 },
+                { name: 'Sola', price: 0 },
+            ], 5);
 
             // Reiniciar cantidad y mostrar el precio calculado
             currentQuantity = 1;
@@ -34,11 +38,17 @@ document.addEventListener('DOMContentLoaded', function () {
             // Mostrar el modal y ocultar el carrito
             modal.style.display = 'flex';
             carritoWrapper.style.display = 'none';
+
+            // Deshabilitar scroll en el fondo
+            document.body.classList.add('body-no-scroll');
         } else {
             // Ocultar el modal y mostrar el carrito
             modal.style.display = 'none';
             carritoWrapper.style.display = 'block';
             currentProduct = null;
+
+            // Habilitar scroll en el fondo
+            document.body.classList.remove('body-no-scroll');
         }
     };
 

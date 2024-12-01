@@ -10,7 +10,7 @@
     z-index: 1000;
     justify-content: center;
     align-items: center;
-    overflow-y: auto; /* Permite scroll interno si el contenido es muy grande */
+    overflow: hidden; /* Evita desbordamientos generales */
 }
 
 .modal-content {
@@ -19,9 +19,13 @@
     padding: 20px;
     width: 90%; /* Ajustado al ancho del dispositivo */
     max-width: 400px;
+    max-height: 90%; /* Limita la altura para permitir scroll */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.3s ease;
     position: relative;
+    display: flex;
+    flex-direction: column; /* Asegura que se ordenen verticalmente */
+    overflow: hidden; /* Evita desbordamientos */
 }
 
 .modal-header {
@@ -43,6 +47,9 @@
 }
 
 .modal-body {
+    flex-grow: 1; /* Permite que el cuerpo ocupe el espacio restante */
+    overflow-y: auto; /* Habilita scroll interno si el contenido es grande */
+    padding-bottom: 70px; /* Deja espacio para el footer fijo */
     text-align: center;
 }
 
@@ -68,7 +75,7 @@
     background-color: white; /* Fondo del pie de página */
     border-top: 1px solid #ddd; /* Línea divisoria superior */
     padding: 10px 15px; /* Espaciado interno */
-    z-index: 1000; /* Asegura que quede por encima del contenido */
+    z-index: 1001; /* Asegura que quede por encima del contenido */
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Sombra superior */
 }
 
@@ -136,13 +143,22 @@
 /* Opciones y extras */
 .modal-section {
     margin: 20px 0;
-    padding-bottom: 70px; /* Asegura espacio para el botón fijo */
 }
 
 .options-container {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-bottom: 20px; /* Asegura separación entre las opciones */
+}
+
+.options-container h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.options-container p {
+    margin-bottom: 10px;
 }
 
 .options-container label {
@@ -192,4 +208,28 @@
     left: 50%;
     transform: translate(-50%, -50%);
     font-weight: bold;
+}
+
+/* Espaciado adicional para el último elemento */
+.options-container label:last-child {
+    margin-bottom: 2px;
+}
+
+/* Asegura que la descripción tenga espaciado adecuado */
+.descripcion-input {
+    display: none; /* Oculta el elemento y evita que ocupe espacio */
+}
+
+/* Evita que el contenido quede oculto detrás del footer en pantallas pequeñas */
+@media (max-height: 600px) {
+    .modal-body {
+        padding-bottom: 80px; /* Aumenta el espacio inferior en pantallas pequeñas */
+    }
+}
+
+/* Clase para deshabilitar el scroll del body */
+.body-no-scroll {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
 }

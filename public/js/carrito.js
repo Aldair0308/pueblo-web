@@ -29,13 +29,15 @@ document.addEventListener('DOMContentLoaded', function () {
         carritoItem.classList.add('carrito-item');
         carritoItem.dataset.precio = product.precio;
         carritoItem.dataset.cantidad = cantidad;
+        carritoItem.dataset.nombre = product.nombre; // Agregar nombre del producto al dataset
+        carritoItem.dataset.descripcion = descripcion; // Agregar descripción al dataset
 
         // Nombre del producto
         const nombre = document.createElement('p');
         nombre.textContent = `Producto: ${product.nombre}`;
         carritoItem.appendChild(nombre);
 
-        // Controles de cantidad
+        // Controles de cantidad en fila
         const cantidadContainer = document.createElement('div');
         cantidadContainer.classList.add('cantidad-container');
 
@@ -47,13 +49,13 @@ document.addEventListener('DOMContentLoaded', function () {
             if (cantidadActual > 1) {
                 cantidadActual--;
                 carritoItem.dataset.cantidad = cantidadActual;
-                cantidadTexto.textContent = `Cantidad: ${cantidadActual}`;
+                cantidadTexto.textContent = `${cantidadActual}`;
                 actualizarTotalRonda();
             }
         });
 
-        const cantidadTexto = document.createElement('p');
-        cantidadTexto.textContent = `Cantidad: ${cantidad}`;
+        const cantidadTexto = document.createElement('span');
+        cantidadTexto.textContent = `${cantidad}`;
         cantidadTexto.classList.add('cantidad-texto');
 
         const incrementBtn = document.createElement('button');
@@ -63,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
             let cantidadActual = parseInt(carritoItem.dataset.cantidad);
             cantidadActual++;
             carritoItem.dataset.cantidad = cantidadActual;
-            cantidadTexto.textContent = `Cantidad: ${cantidadActual}`;
+            cantidadTexto.textContent = `${cantidadActual}`;
             actualizarTotalRonda();
         });
 
@@ -79,11 +81,10 @@ document.addEventListener('DOMContentLoaded', function () {
             carritoItem.appendChild(descripcionTexto);
         }
 
-        // Botón de eliminar
+        // Ícono de eliminar
         const eliminarBtn = document.createElement('button');
-        eliminarBtn.textContent = 'Eliminar';
-        eliminarBtn.classList.add('cantidad-btn');
-        eliminarBtn.style.backgroundColor = '#e74c3c';
+        eliminarBtn.classList.add('eliminar-btn');
+        eliminarBtn.innerHTML = '<i class="fas fa-trash"></i>'; // Font Awesome trash icon
         eliminarBtn.addEventListener('click', function () {
             carritoItem.remove();
             actualizarTotalRonda();
@@ -92,5 +93,65 @@ document.addEventListener('DOMContentLoaded', function () {
 
         carritoContainer.appendChild(carritoItem);
         actualizarTotalRonda();
+    });
+
+    // Enviar el pedido
+    ordenForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const carritoItems = carritoContainer.querySelectorAll('.carrito-item');
+        const productos = [];
+        const cantidades = [];
+        const descripciones = [];
+
+        carritoItems.forEach(item => {
+            const nombreProducto = item.dataset.nombre; // Recuperar el nombre del producto del dataset
+            const cantidad = parseInt(item.dataset.cantidad);
+            const descripcion = item.dataset.descripcion || ''; // Recuperar descripción del dataset
+
+            productos.push(nombreProducto);
+            cantidades.push(cantidad);
+            descripciones.push(descripcion);
+        });
+
+        const mesa = ordenForm.querySelector('#mesa')?.value || 'Invitado';
+        const numeroMesa = parseInt(ordenForm.querySelector('#numeroMesa')?.value || '0');
+        const estado = ordenForm.querySelector('#estado')?.value || 'por_preparar';
+        const mesero = ordenForm.querySelector('#mesero')?.value || 'Invitado';
+
+        const totalRondaInt = parseInt(totalDisplay?.textContent || '0', 10);
+
+        const orden = {
+            mesa,
+            numeroMesa,
+            estado,
+            mesero,
+            productos,
+            cantidades,
+            descripciones,
+            totalRonda: totalRondaInt,
+        };
+
+        fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
+            method: 'POST',
+            body: JSON.stringify(orden),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Orden enviada:', data);
+                alert('Orden enviada correctamente.');
+                carritoContainer.innerHTML = '';
+                totalRonda = 0;
+                if (totalDisplay) {
+                    totalDisplay.textContent = '0.00';
+                }
+            })
+            .catch(error => {
+                console.error('Error al enviar la orden:', error);
+                alert('Hubo un error al enviar la orden.');
+            });
     });
 });
