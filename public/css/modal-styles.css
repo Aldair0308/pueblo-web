@@ -47,7 +47,7 @@
 }
 
 .modal-image {
-    width: 100%;
+    width: 70%;
     border-radius: 10px;
     margin-bottom: 10px;
 }
@@ -55,6 +55,88 @@
 .customizations h3 {
     font-size: 1.2em;
     margin-bottom: 10px;
+}
+
+.modal-footer {
+    position: fixed; /* Fijo en la parte inferior */
+    bottom: 0;
+    left: 0;
+    width: 100%; /* Ocupa todo el ancho del modal */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white; /* Fondo del pie de página */
+    border-top: 1px solid #ddd; /* Línea divisoria superior */
+    padding: 10px 15px; /* Espaciado interno */
+    z-index: 1000; /* Asegura que quede por encima del contenido */
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Sombra superior */
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 10px; /* Espaciado hacia el botón naranja */
+}
+
+.quantity-controls button {
+    background-color: #e60000;
+    color: white;
+    border: none;
+    width: 40px; /* Botón cuadrado */
+    height: 40px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.quantity-controls button:hover {
+    background-color: #bf0000;
+}
+
+.quantity-controls span {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    width: 50px; /* Ancho consistente */
+}
+
+.add-to-cart {
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1em;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    flex-grow: 1; /* Ocupa todo el espacio disponible */
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart:hover {
+    background-color: #e65c00;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+/* Opciones y extras */
+.modal-section {
+    margin: 20px 0;
+    padding-bottom: 70px; /* Asegura espacio para el botón fijo */
 }
 
 .options-container {
@@ -71,73 +153,43 @@
     border: 1px solid #ddd;
     border-radius: 5px;
     cursor: pointer;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
+
+.options-container label:hover {
+    background-color: #f2f2f2;
 }
 
 .options-container input {
-    margin-right: 10px;
+    margin-left: 10px; /* Asegura espacio entre el texto y el checkbox */
 }
 
-.modal-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
+.options-container input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e60000;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    position: relative;
 }
 
-.quantity-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.quantity-controls button {
+.options-container input[type="checkbox"]:checked {
     background-color: #e60000;
+    border-color: #e60000;
+}
+
+.options-container input[type="checkbox"]:checked::after {
+    content: "✔";
     color: white;
-    border: none;
-    padding: 10px;
-    font-size: 1.2em;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.quantity-controls span {
-    font-size: 1.2em;
-    font-weight: bold;
-}
-
-.add-to-cart {
-    background-color: #29a64d;
-    color: white;
-    border: none;
-    padding: 15px;
-    font-size: 1em;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 50%;
-    text-align: center;
-}
-
-.add-to-cart:hover {
-    background-color: #23923c;
-}
-
-.close-modal {
+    font-size: 16px;
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    cursor: pointer;
-}
-
-/* Animación */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
 }

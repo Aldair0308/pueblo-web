@@ -7,6 +7,8 @@
     <title>Ordena tus productos</title>
     <link rel="stylesheet" href="{{ asset('css/home-styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modal-styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/carrito.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/carrito.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
@@ -39,7 +41,6 @@
             <!-- Los productos se renderizan dinámicamente -->
         </div>
 
-        <!-- Modal para personalizar el producto -->
         <div id="productModal" class="modal">
             <div class="modal-content">
                 <button class="close-modal" onclick="toggleModal(false)">×</button>
@@ -50,22 +51,42 @@
                 <div class="modal-body">
                     <img id="modalImage" src="" alt="Producto" class="modal-image">
                     <textarea id="modalDescription" placeholder="Escribe una descripción..." class="descripcion-input"></textarea>
-                    <div class="quantity-controls">
-                        <button onclick="updateQuantity(-1)">−</button>
-                        <span id="quantity">1</span>
-                        <button onclick="updateQuantity(1)">+</button>
+
+                    <!-- Contenedor de opciones de extras -->
+                    <div class="options-container">
+                        <h3>Extras</h3>
+                        <p>Selecciona hasta 2</p>
+                        <div id="extrasContainer"></div>
+                    </div>
+
+                    <!-- Contenedor de opciones de personalización -->
+                    <div class="options-container">
+                        <h3>Personalizar</h3>
+                        <p>Selecciona hasta 2</p>
+                        <div id="customizationContainer"></div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button class="add-to-cart" onclick="addToCart()">Agregar al Carrito</button>
-                </div>
             </div>
-        </div>
+            <div class="modal-footer">
+                <div class="quantity-controls">
+                    <button onclick="updateQuantity(-1)">−</button>
+                    <span id="quantity">1</span>
+                    <button onclick="updateQuantity(1)">+</button>
+                </div>
+                <button class="add-to-cart" onclick="addToCart()">Agregar al Carrito</button>
+            </div>
 
-        <!-- Componente Carrito -->
-        <div id="carritoWrapper">
-            <x-Carrito />
         </div>
+    </div>
+
+
+
+
+
+    <!-- Componente Carrito -->
+    <div id="carritoWrapper">
+        <x-Carrito />
+    </div>
     </div>
 
     <script src="{{ asset('js/modal-prod.js') }}"></script>

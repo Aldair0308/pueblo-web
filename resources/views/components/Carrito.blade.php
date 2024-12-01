@@ -10,141 +10,147 @@
         <button type="submit" form="ordenForm" class="submit-button">Enviar Orden</button>
     </div>
 </div>
-
+<script src="{{ asset('js/Carro.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const carritoContainer = document.getElementById('carritoItems'); // Contenedor de los ítems del carrito
-        const ordenForm = document.getElementById('ordenForm'); // Formulario de la orden
-        const totalDisplay = document.getElementById('totalRonda'); // Elemento para mostrar el total
-        let totalRonda = 0; // Total acumulado
+        const carritoContainer = document.getElementById('carritoItems');
 
-        if (!carritoContainer) {
-            console.error("El contenedor con ID 'carritoItems' no existe en el DOM.");
-            return;
-        }
+        // Función para agregar controles de cantidad
+        function initializeQuantityControls(carritoItem) {
+            const decrementBtn = carritoItem.querySelector('.cantidad-btn-decrement');
+            const incrementBtn = carritoItem.querySelector('.cantidad-btn-increment');
+            const cantidadText = carritoItem.querySelector('.cantidad-text');
+            const productPriceElement = carritoItem.querySelector('.product-price');
 
-        if (!ordenForm) {
-            console.error("El formulario con ID 'ordenForm' no existe en el DOM.");
-            return;
-        }
+            const precioProducto = parseFloat(carritoItem.dataset.precio);
 
-        // Recalcular el total de la ronda
-        window.actualizarTotalRonda = function() {
-            totalRonda = 0;
-            const carritoItems = carritoContainer.querySelectorAll('.carrito-item');
-            carritoItems.forEach(item => {
-                const precioProducto = parseFloat(item.dataset.precio);
-                const cantidadProducto = parseInt(item.dataset.cantidad);
-                totalRonda += precioProducto * cantidadProducto;
+            decrementBtn.addEventListener('click', function() {
+                let cantidadActual = parseInt(carritoItem.dataset.cantidad);
+                if (cantidadActual > 1) {
+                    cantidadActual--;
+                    carritoItem.dataset.cantidad = cantidadActual;
+                    cantidadText.textContent = cantidadActual;
+                    productPriceElement.textContent =
+                        `MX$${(precioProducto * cantidadActual).toFixed(2)}`;
+                    window.actualizarTotalRonda();
+                }
             });
 
-            if (totalDisplay) {
-                totalDisplay.textContent = totalRonda.toFixed(2); // Actualizar visualmente
-            }
-        };
+            incrementBtn.addEventListener('click', function() {
+                let cantidadActual = parseInt(carritoItem.dataset.cantidad);
+                cantidadActual++;
+                carritoItem.dataset.cantidad = cantidadActual;
+                cantidadText.textContent = cantidadActual;
+                productPriceElement.textContent = `MX$${(precioProducto * cantidadActual).toFixed(2)}`;
+                window.actualizarTotalRonda();
+            });
+        }
 
-        // Agregar producto al carrito
+        // Observador para detectar elementos nuevos
+        const observer = new MutationObserver(function(mutationsList) {
+            mutationsList.forEach(mutation => {
+                mutation.addedNodes.forEach(node => {
+                    if (node.classList && node.classList.contains('carrito-item')) {
+                        initializeQuantityControls(node);
+                    }
+                });
+            });
+        });
+
+        observer.observe(carritoContainer, {
+            childList: true
+        });
+
+        // Simulación de añadir un producto con los controles
         window.addToCart = function(product) {
-            const cantidad = parseInt(document.getElementById('quantity').textContent);
-            const descripcion = document.getElementById('modalDescription').value.trim();
-
             const carritoItem = document.createElement('div');
             carritoItem.classList.add('carrito-item');
             carritoItem.dataset.precio = product.precio;
-            carritoItem.dataset.cantidad = cantidad;
+            carritoItem.dataset.cantidad = 1;
 
-            const nombre = document.createElement('p');
-            nombre.textContent = `Producto: ${product.nombre}`;
-            carritoItem.appendChild(nombre);
-
-            const cantidadTexto = document.createElement('p');
-            cantidadTexto.textContent = `Cantidad: ${cantidad}`;
-            carritoItem.appendChild(cantidadTexto);
-
-            if (descripcion) {
-                const descripcionTexto = document.createElement('p');
-                descripcionTexto.textContent = `Descripción: ${descripcion}`;
-                carritoItem.appendChild(descripcionTexto);
-            }
-
-            const eliminarBtn = document.createElement('button');
-            eliminarBtn.textContent = 'Eliminar';
-            eliminarBtn.classList.add('cantidad-btn');
-            eliminarBtn.style.backgroundColor = '#e74c3c';
-            eliminarBtn.addEventListener('click', function() {
-                carritoItem.remove();
-                window.actualizarTotalRonda(); // Llama a la función global
-            });
-            carritoItem.appendChild(eliminarBtn);
+            carritoItem.innerHTML = `
+                <div class="product-info">
+                    <p class="product-name">Producto: ${product.nombre}</p>
+                    <p class="product-description">Descripción: ${product.descripcion || 'Sin descripción'}</p>
+                </div>
+                <div class="product-controls">
+                    <div class="quantity-controls">
+                        <button class="cantidad-btn cantidad-btn-decrement">−</button>
+                        <span class="cantidad-text">1</span>
+                        <button class="cantidad-btn cantidad-btn-increment">+</button>
+                    </div>
+                    <span class="product-price">MX$${product.precio.toFixed(2)}</span>
+                </div>
+            `;
 
             carritoContainer.appendChild(carritoItem);
-            window.actualizarTotalRonda(); // Actualiza el total
-            toggleModal(false); // Cierra el modal
+            initializeQuantityControls(carritoItem);
+            window.actualizarTotalRonda();
         };
-
-        // Enviar el pedido
-        ordenForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const carritoItems = carritoContainer.querySelectorAll('.carrito-item');
-            const productos = [];
-            const cantidades = [];
-            const descripciones = [];
-
-            carritoItems.forEach(item => {
-                const nombreProducto = item.querySelector('p:first-child').textContent.split(
-                    ': ')[1];
-                const cantidad = parseInt(item.dataset.cantidad);
-                const descripcion = item.querySelector('p:nth-child(3)')?.textContent.split(
-                    ': ')[1] || '';
-
-                productos.push(nombreProducto);
-                cantidades.push(cantidad);
-                descripciones.push(descripcion);
-            });
-
-            const mesa = ordenForm.querySelector('#mesa')?.value || 'Invitado';
-            const numeroMesa = parseInt(ordenForm.querySelector('#numeroMesa')?.value || '0');
-            const estado = ordenForm.querySelector('#estado')?.value || 'por_preparar';
-            const mesero = ordenForm.querySelector('#mesero')?.value || 'Invitado';
-
-            // Asegurar que totalRonda se calcula correctamente antes de enviarlo
-            const totalRondaInt = parseInt(totalDisplay?.textContent || '0', 10);
-
-            const orden = {
-                mesa,
-                numeroMesa,
-                estado,
-                mesero,
-                productos,
-                cantidades,
-                descripciones,
-                totalRonda: totalRondaInt, // Asegurarnos de que sea un entero
-            };
-
-            console.log('JSON para la API:', orden);
-
-            fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
-                    method: 'POST',
-                    body: JSON.stringify(orden),
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Orden enviada:', data);
-                    alert('Orden enviada correctamente.');
-                    carritoContainer.innerHTML = ''; // Limpia el carrito
-                    totalRonda = 0; // Reinicia el total
-                    if (totalDisplay) {
-                        totalDisplay.textContent = '0.00'; // Actualiza el total en pantalla
-                    }
-                })
-                .catch(error => {
-                    console.error('Error al enviar la orden:', error);
-                    alert('Hubo un error al enviar la orden.');
-                });
-        });
     });
 </script>
+
+<style>
+    .carrito-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .product-info {
+        flex: 1;
+        margin-right: 15px;
+    }
+
+    .product-name {
+        font-weight: bold;
+    }
+
+    .product-description {
+        font-size: 0.9em;
+        color: #666;
+    }
+
+    .product-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .cantidad-btn {
+        background-color: #e60000;
+        color: white;
+        border: none;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        font-size: 1.2em;
+        cursor: pointer;
+    }
+
+    .cantidad-btn:hover {
+        background-color: #bf0000;
+    }
+
+    .cantidad-text {
+        font-weight: bold;
+        font-size: 1em;
+        margin: 0 10px;
+    }
+
+    .product-price {
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+</style>

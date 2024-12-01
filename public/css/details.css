@@ -1,0 +1,259 @@
+/* General */
+body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: flex-end; /* Ajustar contenido al final para simular la barra */
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    border-radius: 10px 10px 0 0;
+    padding: 20px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0%);
+    }
+}
+
+/* Header del Modal */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.modal-header h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0;
+    flex: 1;
+    text-align: center;
+}
+
+.modal-header p {
+    font-size: 1.25rem;
+    color: #e60000;
+    margin: 0;
+    font-weight: bold;
+}
+
+/* Imagen del producto */
+.modal-image {
+    width: 100%;
+    border-radius: 8px;
+    margin: 10px 0;
+    object-fit: contain;
+}
+
+.option-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.option-label:hover {
+    background-color: #f0f0f0;
+    border-color: #ccc;
+}
+
+.option-label input {
+    margin-right: 10px;
+    accent-color: #e60000; /* Color del checkbox */
+    transform: scale(1.2); /* Tamaño del checkbox */
+}
+
+.option-label span {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Barra inferior (Agregar al carrito) */
+.modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-top: 1px solid #ddd;
+    background-color: #fff;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.quantity-controls button {
+    background-color: #e60000;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.quantity-controls span {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Botón de Agregar */
+.add-to-cart {
+    background-color: #e60000;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    flex-grow: 1;
+    text-align: center;
+    margin-left: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-to-cart:hover {
+    background-color: #bf0000;
+}
+
+/* Precio en el botón */
+.add-to-cart span {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+/* Texto de entrada (Descripción) */
+.descripcion-input {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 15px;
+    resize: none;
+}
+
+/* Barra inferior */
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 10px 15px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* Controles de cantidad */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f4f4f4;
+    border-radius: 20px;
+    padding: 5px 10px;
+}
+
+.quantity-controls button {
+    background-color: #f1f1f1;
+    color: #333;
+    border: none;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.quantity-controls button:hover {
+    background-color: #ddd;
+}
+
+.quantity-controls span {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Botón "Add" */
+.add-to-cart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ff6f00;
+    color: white;
+    font-size: 1.1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 25px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-to-cart:hover {
+    background-color: #e65c00;
+}
+
+.add-to-cart span {
+    margin-left: 10px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
