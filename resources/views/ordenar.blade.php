@@ -14,9 +14,25 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1>Ordena Fácilmente</h1>
-            <p>Selecciona tus productos y envía tu pedido</p>
+            <h1>Bienvenido</h1>
+            <p>Selecciona tus productos realiza tu pedido para la mesa {{ $numeroMesa }}.</p>
         </header>
+
+        <!-- Información del pedido -->
+        <div class="order-info">
+            <h3 class="order-title">Tu pedido</h3>
+            <form id="ordenForm" class="order-form">
+                <!-- Campos ocultos para el nombre del usuario y mesero -->
+                <input type="hidden" id="mesa" name="mesa"
+                    value="{{ Auth::check() ? Auth::user()->name : 'Invitado' }}">
+                <input type="hidden" id="mesero" name="mesero"
+                    value="{{ Auth::check() ? Auth::user()->name : 'Invitado' }}">
+
+                <!-- Número de Mesa obtenido de la ruta -->
+                <label for="numeroMesa">Mesa:</label>
+                <input type="number" id="numeroMesa" name="numeroMesa" value="{{ $numeroMesa ?? '' }}" readonly>
+            </form>
+        </div>
 
         <!-- Contenedor de productos -->
         <div id="productosContainer" class="productos-container">
@@ -28,7 +44,7 @@
             <div class="modal-content">
                 <button class="close-modal" onclick="toggleModal(false)">×</button>
                 <div class="modal-header">
-                    <h2 id="modalTitle">Título del Producto</h2>
+                    <h2 id="modalTitle">Producto</h2>
                     <p id="modalPrice">MX$0.00</p>
                 </div>
                 <div class="modal-body">
@@ -46,26 +62,15 @@
             </div>
         </div>
 
-        <!-- Componente Carrito (fijo al fondo) -->
+        <!-- Componente Carrito -->
         <div id="carritoWrapper">
-            <div id="carrito" class="carrito-container">
-                <div class="carrito-content">
-                    <h4>Carrito</h4>
-                    <div id="carritoItems" class="carrito-items">
-                        <!-- Aquí se agregarán los productos seleccionados dinámicamente -->
-                    </div>
-                    <div class="carrito-total">
-                        <p>Total: $<span id="totalRonda">0.00</span></p>
-                    </div>
-                    <button type="submit" form="ordenForm" class="submit-button">Enviar Orden</button>
-                </div>
-            </div>
+            <x-Carrito />
         </div>
     </div>
 
-    <script src="{{ asset('js/ordenar.js') }}"></script>
     <script src="{{ asset('js/modal-prod.js') }}"></script>
     <script src="{{ asset('js/carrito.js') }}"></script>
+    <script src="{{ asset('js/ordenar.js') }}"></script>
 </body>
 
 </html>

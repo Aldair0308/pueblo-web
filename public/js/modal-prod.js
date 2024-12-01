@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('productModal');
     const carritoWrapper = document.getElementById('carritoWrapper');
-    const carritoContainer = document.getElementById('carritoItems');
-    let currentProduct = null;
+    let currentProduct = null; // Producto actualmente seleccionado
 
     // Abrir o cerrar el modal
     window.toggleModal = function (show, product = null) {
@@ -15,10 +14,10 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('quantity').textContent = '1';
 
             modal.style.display = 'flex';
-            carritoWrapper.style.display = 'none';
+            carritoWrapper.style.display = 'none'; // Ocultar el carrito
         } else {
             modal.style.display = 'none';
-            carritoWrapper.style.display = 'block';
+            carritoWrapper.style.display = 'block'; // Mostrar el carrito
             currentProduct = null;
         }
     };
@@ -38,39 +37,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const descripcion = document.getElementById('modalDescription').value.trim();
 
         if (currentProduct) {
-            const carritoItem = document.createElement('div');
-            carritoItem.classList.add('carrito-item');
-
-            carritoItem.dataset.precio = currentProduct.precio;
-            carritoItem.dataset.cantidad = cantidad;
-
-            const nombre = document.createElement('p');
-            nombre.textContent = `Producto: ${currentProduct.nombre}`;
-            carritoItem.appendChild(nombre);
-
-            const cantidadTexto = document.createElement('p');
-            cantidadTexto.textContent = `Cantidad: ${cantidad}`;
-            carritoItem.appendChild(cantidadTexto);
-
-            if (descripcion) {
-                const descripcionTexto = document.createElement('p');
-                descripcionTexto.textContent = `Descripción: ${descripcion}`;
-                carritoItem.appendChild(descripcionTexto);
-            }
-
-            const eliminarBtn = document.createElement('button');
-            eliminarBtn.textContent = 'Eliminar';
-            eliminarBtn.classList.add('cantidad-btn');
-            eliminarBtn.style.backgroundColor = '#e74c3c';
-            eliminarBtn.addEventListener('click', function () {
-                carritoItem.remove();
-                window.actualizarTotalRonda();
+            const carritoEvent = new CustomEvent('add-to-cart', {
+                detail: { product: currentProduct, cantidad, descripcion },
             });
-            carritoItem.appendChild(eliminarBtn);
-
-            carritoContainer.appendChild(carritoItem);
-            window.actualizarTotalRonda();
-            toggleModal(false); // Cierra el modal
+            document.dispatchEvent(carritoEvent);
+            toggleModal(false);
         }
     };
 });
