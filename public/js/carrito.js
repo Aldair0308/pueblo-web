@@ -30,20 +30,56 @@ document.addEventListener('DOMContentLoaded', function () {
         carritoItem.dataset.precio = product.precio;
         carritoItem.dataset.cantidad = cantidad;
 
+        // Nombre del producto
         const nombre = document.createElement('p');
         nombre.textContent = `Producto: ${product.nombre}`;
         carritoItem.appendChild(nombre);
 
+        // Controles de cantidad
+        const cantidadContainer = document.createElement('div');
+        cantidadContainer.classList.add('cantidad-container');
+
+        const decrementBtn = document.createElement('button');
+        decrementBtn.textContent = '-';
+        decrementBtn.classList.add('cantidad-btn');
+        decrementBtn.addEventListener('click', function () {
+            let cantidadActual = parseInt(carritoItem.dataset.cantidad);
+            if (cantidadActual > 1) {
+                cantidadActual--;
+                carritoItem.dataset.cantidad = cantidadActual;
+                cantidadTexto.textContent = `Cantidad: ${cantidadActual}`;
+                actualizarTotalRonda();
+            }
+        });
+
         const cantidadTexto = document.createElement('p');
         cantidadTexto.textContent = `Cantidad: ${cantidad}`;
-        carritoItem.appendChild(cantidadTexto);
+        cantidadTexto.classList.add('cantidad-texto');
 
+        const incrementBtn = document.createElement('button');
+        incrementBtn.textContent = '+';
+        incrementBtn.classList.add('cantidad-btn');
+        incrementBtn.addEventListener('click', function () {
+            let cantidadActual = parseInt(carritoItem.dataset.cantidad);
+            cantidadActual++;
+            carritoItem.dataset.cantidad = cantidadActual;
+            cantidadTexto.textContent = `Cantidad: ${cantidadActual}`;
+            actualizarTotalRonda();
+        });
+
+        cantidadContainer.appendChild(decrementBtn);
+        cantidadContainer.appendChild(cantidadTexto);
+        cantidadContainer.appendChild(incrementBtn);
+        carritoItem.appendChild(cantidadContainer);
+
+        // Descripción del producto
         if (descripcion) {
             const descripcionTexto = document.createElement('p');
             descripcionTexto.textContent = `Descripción: ${descripcion}`;
             carritoItem.appendChild(descripcionTexto);
         }
 
+        // Botón de eliminar
         const eliminarBtn = document.createElement('button');
         eliminarBtn.textContent = 'Eliminar';
         eliminarBtn.classList.add('cantidad-btn');
@@ -57,6 +93,4 @@ document.addEventListener('DOMContentLoaded', function () {
         carritoContainer.appendChild(carritoItem);
         actualizarTotalRonda();
     });
-
-    
 });
