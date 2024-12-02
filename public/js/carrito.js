@@ -95,63 +95,77 @@ document.addEventListener('DOMContentLoaded', function () {
         actualizarTotalRonda();
     });
 
-    // Enviar el pedido
-    ordenForm.addEventListener('submit', function (event) {
-        event.preventDefault();
+// Enviar el pedido
+ordenForm.addEventListener('submit', function (event) {
+    event.preventDefault();
 
-        const carritoItems = carritoContainer.querySelectorAll('.carrito-item');
-        const productos = [];
-        const cantidades = [];
-        const descripciones = [];
+    const carritoItems = carritoContainer.querySelectorAll('.carrito-item');
+    const productos = [];
+    const cantidades = [];
+    const descripciones = [];
 
-        carritoItems.forEach(item => {
-            const nombreProducto = item.dataset.nombre; // Recuperar el nombre del producto del dataset
-            const cantidad = parseInt(item.dataset.cantidad);
-            const descripcion = item.dataset.descripcion || ''; // Recuperar descripción del dataset
+    carritoItems.forEach(item => {
+        const nombreProducto = item.dataset.nombre; // Recuperar el nombre del producto del dataset
+        const cantidad = parseInt(item.dataset.cantidad);
+        const descripcion = item.dataset.descripcion || ''; // Recuperar descripción del dataset
 
-            productos.push(nombreProducto);
-            cantidades.push(cantidad);
-            descripciones.push(descripcion);
-        });
-
-        const mesa = ordenForm.querySelector('#mesa')?.value || 'Invitado';
-        const numeroMesa = parseInt(ordenForm.querySelector('#numeroMesa')?.value || '0');
-        const estado = ordenForm.querySelector('#estado')?.value || 'por_preparar';
-        const mesero = ordenForm.querySelector('#mesero')?.value || 'Invitado';
-
-        const totalRondaInt = parseInt(totalDisplay?.textContent || '0', 10);
-
-        const orden = {
-            mesa,
-            numeroMesa,
-            estado,
-            mesero,
-            productos,
-            cantidades,
-            descripciones,
-            totalRonda: totalRondaInt,
-        };
-
-        fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
-            method: 'POST',
-            body: JSON.stringify(orden),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Orden enviada:', data);
-                alert('Orden enviada correctamente.');
-                carritoContainer.innerHTML = '';
-                totalRonda = 0;
-                if (totalDisplay) {
-                    totalDisplay.textContent = '0.00';
-                }
-            })
-            .catch(error => {
-                console.error('Error al enviar la orden:', error);
-                alert('Hubo un error al enviar la orden.');
-            });
+        productos.push(nombreProducto);
+        cantidades.push(cantidad);
+        descripciones.push(descripcion);
     });
+
+    const mesa = ordenForm.querySelector('#mesa')?.value || 'Invitado';
+    const numeroMesa = parseInt(ordenForm.querySelector('#numeroMesa')?.value || '0');
+    const estado = ordenForm.querySelector('#estado')?.value || 'por_preparar';
+    const mesero = ordenForm.querySelector('#mesero')?.value || 'Invitado';
+
+    const totalRondaInt = parseFloat(totalDisplay?.textContent || '0');
+
+    // Mostrar mensaje de confirmación
+    const confirmar = confirm(`¿Estás seguro de mandar la orden de MX$${totalRondaInt.toFixed(2)}?`);
+    if (!confirmar) {
+        return; // Cancelar el envío si el usuario selecciona "Cancelar"
+    }
+
+    const orden = {
+        mesa,
+        numeroMesa,
+        estado,
+        mesero,
+        productos,
+        cantidades,
+        descripciones,
+        totalRonda: totalRondaInt,
+    };
+
+    fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
+        method: 'POST',
+        body: JSON.stringify(orden),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Orden enviada:', data);
+            alert('Orden enviada correctamente.');
+            carritoContainer.innerHTML = '';
+            totalRonda = 0;
+            if (totalDisplay) {
+                totalDisplay.textContent = '0.00';
+            }
+
+            // Cerrar el modal del carrito después de enviar el pedido
+            const carritoModal = document.getElementById('carrito-modal');
+            if (carritoModal) {
+                carritoModal.style.display = 'none';
+            }
+        })
+        .catch(error => {
+            console.error('Error al enviar la orden:', error);
+            alert('Hubo un error al enviar la orden.');
+        });
+});
+
+
 });
