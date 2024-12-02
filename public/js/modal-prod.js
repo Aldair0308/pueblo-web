@@ -17,19 +17,19 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('modalImage').src = product.foto;
 
             // Renderizar extras y personalización
-            renderOptions(extrasContainer, [
+            renderSingleSelectOptions(extrasContainer, [
                 { name: 'Tamarindo', price: 0 },
                 { name: 'Sal y Limón', price: 0 },
                 { name: 'Sin escarchar', price: 0 },
-            ], 3);
+            ]);
 
-            renderOptions(customizationContainer, [
-                { name: 'Con sal y limon', price: 0 },
-                { name: 'Con clamato', price: 0 },
-                { name: 'Con poco clamato', price: 0 },
-                { name: 'Solo con limon', price: 0 },
-                { name: 'Sola', price: 0 },
-            ], 5);
+            renderGroupedSingleSelectOptions(customizationContainer, [
+                { name: 'Con sal y limon', group: 'group1', price: 0 },
+                { name: 'Solo con limon', group: 'group1', price: 0 },
+                { name: 'Sola', group: 'group1', price: 0 },
+                { name: 'Con clamato', group: 'group2', price: 0 },
+                { name: 'Con poco clamato', group: 'group2', price: 0 },
+            ]);
 
             // Reiniciar cantidad y mostrar el precio calculado
             currentQuantity = 1;
@@ -52,8 +52,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    // Renderizar opciones dinámicas
-    function renderOptions(container, options, maxSelections) {
+    // Renderizar opciones dinámicas con selección única
+    function renderSingleSelectOptions(container, options) {
         container.innerHTML = ''; // Limpia opciones previas
 
         options.forEach(option => {
@@ -66,6 +66,13 @@ document.addEventListener('DOMContentLoaded', function () {
             input.dataset.price = option.price;
             input.classList.add('option-input');
 
+            input.addEventListener('change', function () {
+                // Desmarca otras opciones si esta se selecciona
+                Array.from(container.querySelectorAll('input')).forEach(otherInput => {
+                    if (otherInput !== input) otherInput.checked = false;
+                });
+            });
+
             const span = document.createElement('span');
             span.textContent = `${option.name} ${option.price > 0 ? `+MX$${option.price}` : ''}`;
 
@@ -73,14 +80,36 @@ document.addEventListener('DOMContentLoaded', function () {
             label.appendChild(span);
             container.appendChild(label);
         });
+    }
 
-        // Manejar el límite de selección
-        container.addEventListener('change', function (event) {
-            const selectedOptions = Array.from(container.querySelectorAll('input:checked'));
-            if (selectedOptions.length > maxSelections) {
-                event.target.checked = false;
-                alert(`Puedes seleccionar hasta ${maxSelections} opciones.`);
-            }
+    // Renderizar opciones dinámicas agrupadas con selección única por grupo
+    function renderGroupedSingleSelectOptions(container, options) {
+        container.innerHTML = ''; // Limpia opciones previas
+
+        options.forEach(option => {
+            const label = document.createElement('label');
+            label.classList.add('option-label');
+
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.value = option.name;
+            input.dataset.price = option.price;
+            input.dataset.group = option.group;
+            input.classList.add('option-input');
+
+            input.addEventListener('change', function () {
+                // Desmarca otras opciones en el mismo grupo si esta se selecciona
+                Array.from(container.querySelectorAll(`input[data-group="${option.group}"]`)).forEach(otherInput => {
+                    if (otherInput !== input) otherInput.checked = false;
+                });
+            });
+
+            const span = document.createElement('span');
+            span.textContent = `${option.name} ${option.price > 0 ? `+MX$${option.price}` : ''}`;
+
+            label.appendChild(input);
+            label.appendChild(span);
+            container.appendChild(label);
         });
     }
 
