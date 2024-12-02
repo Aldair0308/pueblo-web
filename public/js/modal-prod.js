@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const extrasContainer = document.getElementById('extrasContainer');
     const customizationContainer = document.getElementById('customizationContainer');
     const carritoWrapper = document.getElementById('carritoWrapper');
+    const modalBody = document.querySelector('.modal-body'); // Contenedor del cuerpo del modal
     let currentProduct = null;
     let currentQuantity = 1;
 
@@ -31,8 +32,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Con poco clamato', group: 'group2', price: 0 },
             ]);
 
-            // Reiniciar cantidad y mostrar el precio calculado
+            // Reiniciar cantidad a 1 y seleccionar opciones predeterminadas
             currentQuantity = 1;
+            document.getElementById('quantity').textContent = currentQuantity;
+
+            // Seleccionar opciones predeterminadas
+            setDefaultSelections();
+
+            // Restablecer el scroll del modal a la parte superior
+            modal.scrollTop = 0; // Asegura que el modal principal esté arriba
+            modalBody.scrollTop = 0; // Asegura que el cuerpo del modal esté arriba
+
+            // Mostrar el precio calculado
             updateTotalPrice();
 
             // Mostrar el modal y ocultar el carrito
@@ -111,6 +122,17 @@ document.addEventListener('DOMContentLoaded', function () {
             label.appendChild(span);
             container.appendChild(label);
         });
+    }
+
+    // Seleccionar opciones predeterminadas
+    function setDefaultSelections() {
+        // Seleccionar "Tamarindo" en extras
+        const tamarindoInput = extrasContainer.querySelector('input[value="Tamarindo"]');
+        if (tamarindoInput) tamarindoInput.checked = true;
+
+        // Seleccionar "Con sal y limon" en personalización
+        const conSalYLimonInput = customizationContainer.querySelector('input[value="Con sal y limon"]');
+        if (conSalYLimonInput) conSalYLimonInput.checked = true;
     }
 
     // Actualizar la cantidad y recalcular el precio total
