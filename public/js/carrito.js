@@ -29,21 +29,61 @@ document.addEventListener('DOMContentLoaded', function () {
         carritoItem.classList.add('carrito-item');
         carritoItem.dataset.precio = product.precio;
         carritoItem.dataset.cantidad = cantidad;
-        carritoItem.dataset.nombre = product.nombre; // Agregar nombre del producto al dataset
-        carritoItem.dataset.descripcion = descripcion; // Agregar descripción al dataset
+        carritoItem.dataset.nombre = product.nombre;
+        carritoItem.dataset.descripcion = descripcion;
 
-        // Nombre del producto
+        // Contenedor principal del item
+        const itemContent = document.createElement('div');
+        itemContent.classList.add('carrito-item-content');
+        itemContent.style.display = 'flex';
+        itemContent.style.justifyContent = 'space-between';
+        itemContent.style.alignItems = 'center';
+        itemContent.style.gap = '15px';
+        carritoItem.appendChild(itemContent);
+
+        // Información del producto
+        const productInfo = document.createElement('div');
+        productInfo.classList.add('product-info');
+        productInfo.style.flex = '1';
+
         const nombre = document.createElement('p');
-        nombre.textContent = `Producto: ${product.nombre}`;
-        carritoItem.appendChild(nombre);
+        nombre.textContent = product.nombre;
+        nombre.classList.add('product-name');
+        nombre.style.fontWeight = 'bold';
+        nombre.style.fontSize = '1em';
 
-        // Controles de cantidad en fila
+        const descripcionTexto = document.createElement('p');
+        descripcionTexto.textContent = descripcion ? `Extra: ${descripcion}` : 'Sin descripción';
+        descripcionTexto.classList.add('product-description');
+        descripcionTexto.style.fontSize = '0.9em';
+        descripcionTexto.style.color = '#666';
+
+        productInfo.appendChild(nombre);
+        productInfo.appendChild(descripcionTexto);
+        itemContent.appendChild(productInfo);
+
+        // Controles de cantidad
         const cantidadContainer = document.createElement('div');
-        cantidadContainer.classList.add('cantidad-container');
+        cantidadContainer.classList.add('quantity-controls');
+        cantidadContainer.style.display = 'flex';
+        cantidadContainer.style.alignItems = 'center';
+        cantidadContainer.style.gap = '10px';
 
         const decrementBtn = document.createElement('button');
         decrementBtn.textContent = '-';
         decrementBtn.classList.add('cantidad-btn');
+        decrementBtn.style.backgroundColor = '#e60000';
+        decrementBtn.style.color = 'white';
+        decrementBtn.style.border = 'none';
+        decrementBtn.style.width = '30px';
+        decrementBtn.style.height = '30px';
+        decrementBtn.style.display = 'flex';
+        decrementBtn.style.justifyContent = 'center';
+        decrementBtn.style.alignItems = 'center';
+        decrementBtn.style.borderRadius = '5px';
+        decrementBtn.style.cursor = 'pointer';
+        decrementBtn.style.fontSize = '1.2em';
+
         decrementBtn.addEventListener('click', function () {
             let cantidadActual = parseInt(carritoItem.dataset.cantidad);
             if (cantidadActual > 1) {
@@ -57,10 +97,24 @@ document.addEventListener('DOMContentLoaded', function () {
         const cantidadTexto = document.createElement('span');
         cantidadTexto.textContent = `${cantidad}`;
         cantidadTexto.classList.add('cantidad-texto');
+        cantidadTexto.style.fontWeight = 'bold';
+        cantidadTexto.style.fontSize = '1em';
 
         const incrementBtn = document.createElement('button');
         incrementBtn.textContent = '+';
         incrementBtn.classList.add('cantidad-btn');
+        incrementBtn.style.backgroundColor = '#e60000';
+        incrementBtn.style.color = 'white';
+        incrementBtn.style.border = 'none';
+        incrementBtn.style.width = '30px';
+        incrementBtn.style.height = '30px';
+        incrementBtn.style.display = 'flex';
+        incrementBtn.style.justifyContent = 'center';
+        incrementBtn.style.alignItems = 'center';
+        incrementBtn.style.borderRadius = '5px';
+        incrementBtn.style.cursor = 'pointer';
+        incrementBtn.style.fontSize = '1.2em';
+
         incrementBtn.addEventListener('click', function () {
             let cantidadActual = parseInt(carritoItem.dataset.cantidad);
             cantidadActual++;
@@ -72,28 +126,43 @@ document.addEventListener('DOMContentLoaded', function () {
         cantidadContainer.appendChild(decrementBtn);
         cantidadContainer.appendChild(cantidadTexto);
         cantidadContainer.appendChild(incrementBtn);
-        carritoItem.appendChild(cantidadContainer);
-
-        // Descripción del producto
-        if (descripcion) {
-            const descripcionTexto = document.createElement('p');
-            descripcionTexto.textContent = `Descripción: ${descripcion}`;
-            carritoItem.appendChild(descripcionTexto);
-        }
+        itemContent.appendChild(cantidadContainer);
 
         // Ícono de eliminar
         const eliminarBtn = document.createElement('button');
         eliminarBtn.classList.add('eliminar-btn');
-        eliminarBtn.innerHTML = '<i class="fas fa-trash"></i>'; // Font Awesome trash icon
+        eliminarBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        eliminarBtn.style.backgroundColor = 'transparent';
+        eliminarBtn.style.color = '#e60000';
+        eliminarBtn.style.border = 'none';
+        eliminarBtn.style.cursor = 'pointer';
+
         eliminarBtn.addEventListener('click', function () {
             carritoItem.remove();
             actualizarTotalRonda();
         });
-        carritoItem.appendChild(eliminarBtn);
 
+        itemContent.appendChild(eliminarBtn);
         carritoContainer.appendChild(carritoItem);
         actualizarTotalRonda();
     });
+
+    // Ajustar el tamaño del scroll dinámicamente
+    function adjustScrollView() {
+        const carritoModal = document.querySelector('.modal-carrito-content');
+        const carritoItemsContainer = document.querySelector('.carrito-items');
+        const totalSection = document.querySelector('.carrito-total');
+        const enviarOrdenButton = document.querySelector('.enviar-orden-btn');
+
+        const modalHeight = carritoModal.offsetHeight;
+        const reservedSpace = totalSection.offsetHeight + enviarOrdenButton.offsetHeight + 40; // Ajustar el espacio reservado
+        carritoItemsContainer.style.maxHeight = `${modalHeight - reservedSpace}px`;
+        carritoItemsContainer.style.overflowY = 'auto';
+    }
+
+    window.addEventListener('resize', adjustScrollView);
+    adjustScrollView(); // Inicializar al cargar
+
 
 // Enviar el pedido
 ordenForm.addEventListener('submit', function (event) {

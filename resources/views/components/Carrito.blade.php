@@ -25,8 +25,8 @@
         </div>
         <div class="carrito-total">
             <p>Total: $<span id="totalRonda">0.00</span></p>
+            <button type="submit" form="ordenForm" class="enviar-orden-btn">Enviar Orden</button>
         </div>
-        <button type="submit" form="ordenForm" class="enviar-orden-btn">Enviar Orden</button>
     </div>
 </div>
 
