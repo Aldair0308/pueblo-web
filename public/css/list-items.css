@@ -1,0 +1,90 @@
+/* Estilos para los items del carrito */
+.carrito-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    gap: 10px;
+    font-family: Arial, sans-serif;
+}
+
+.product-info {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.product-name {
+    font-weight: bold;
+    margin: 0;
+    font-size: 1em;
+    color: #000;
+}
+
+.product-description {
+    font-size: 0.9em;
+    color: #666;
+    margin: 0;
+}
+
+.product-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-right: 10px;
+}
+
+.cantidad-btn {
+    background-color: #e60000;
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cantidad-btn:hover {
+    background-color: #bf0000;
+}
+
+.cantidad-text {
+    font-weight: bold;
+    font-size: 1em;
+    width: 20px;
+    text-align: center;
+}
+
+.product-price {
+    font-weight: bold;
+    font-size: 1.1em;
+    white-space: nowrap;
+}
+
+.eliminar-btn {
+    background: none;
+    border: none;
+    color: #e60000;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.eliminar-btn:hover {
+    color: #bf0000;
+}

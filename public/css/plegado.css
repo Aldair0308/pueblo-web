@@ -1,0 +1,90 @@
+/* Carrito plegado */
+.carrito-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border-top: 3px solid #ffc6a0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    font-family: Arial, sans-serif;
+}
+
+/* Contenido del carrito */
+.carrito-content {
+    flex-direction: row; /* Asegura orientación horizontal */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Ocupar todo el ancho */
+    gap: 0px; /* Espaciado entre los elementos */
+    padding: 0px 35px 0px 0px;
+}
+
+/* Información del total */
+.carrito-total-info {
+    display: flex;
+    flex-direction: row; /* Mantener alineado horizontalmente */
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px; /* Espaciado entre el precio y el ahorro */
+    flex: 1;
+    max-width: 70%; /* Limitar el ancho de esta sección */
+}
+
+.carrito-total-info p {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 0;
+    color: #000;
+}
+
+.carrito-saved {
+    font-size: 0.9em;
+    color: #ff6600;
+    white-space: nowrap; /* Evitar salto de línea */
+}
+
+/* Botón Ver Carrito */
+.ver-carrito-btn {
+    background-color: #ff6600;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre el texto y el badge */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    white-space: nowrap; /* Evitar salto de línea */
+}
+
+.ver-carrito-btn:hover {
+    background-color: #e65c00;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Badge del carrito */
+.carrito-badge {
+    background-color: #fff;
+    color: #e60000;
+    border: 2px solid #e60000;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 0.9em;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}

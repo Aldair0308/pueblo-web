@@ -5,13 +5,16 @@
             <span id="carrito-saved-info" class="carrito-saved"></span>
         </div>
         <button id="ver-carrito-btn" class="ver-carrito-btn">
-            <span>View Cart</span>
+            <span>Ver Carrito</span>
             <div class="carrito-badge" style="display: none;">
                 <span id="carrito-count">0</span>
             </div>
         </button>
     </div>
 </div>
+
+
+
 
 <div id="carrito-modal" class="modal-carrito">
     <div class="modal-carrito-content">
@@ -30,278 +33,8 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 
+
 <script src="{{ asset('js/Carro.js') }}"></script>
-
-<style>
-    /* Carrito plegado */
-    .carrito-container {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background-color: #fff;
-        border-top: 3px solid #e60000;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 20px;
-        box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-    }
-
-    .carrito-total-info {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    .carrito-total-info p {
-        font-size: 1.2em;
-        font-weight: bold;
-        margin: 0;
-    }
-
-    .carrito-saved {
-        font-size: 0.9em;
-        color: #666;
-    }
-
-    .ver-carrito-btn {
-        background-color: #ff6600;
-        color: #fff;
-        border: none;
-        padding: 10px 15px;
-        font-size: 1em;
-        font-weight: bold;
-        border-radius: 5px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        transition: background-color 0.3s ease;
-    }
-
-    .ver-carrito-btn:hover {
-        background-color: #e65c00;
-    }
-
-    .carrito-badge {
-        background-color: #fff;
-        color: #e60000;
-        border: 2px solid #e60000;
-        border-radius: 50%;
-        width: 25px;
-        height: 25px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-    }
-
-    /* Modal del carrito */
-    .modal-carrito {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1001;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal-carrito-content {
-        background-color: #fff;
-        border-radius: 10px;
-        padding: 20px;
-        width: 90%;
-        max-width: 500px;
-        max-height: 90%;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-        position: relative;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .cerrar-carrito-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: none;
-        border: none;
-        color: #e60000;
-        font-size: 1.5em;
-        cursor: pointer;
-    }
-
-    /* Carrito plegado */
-    .carrito-container {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background-color: #fff;
-        border-top: 3px solid #e60000;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 20px;
-        box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-    }
-
-    .ver-carrito-btn {
-        background-color: #ff6600;
-        color: #fff;
-        border: none;
-        padding: 10px 15px;
-        font-size: 1em;
-        font-weight: bold;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .ver-carrito-btn:hover {
-        background-color: #e65c00;
-    }
-
-    /* Modal del carrito */
-    .modal-carrito {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1001;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal-carrito-content {
-        background-color: #fff;
-        border-radius: 10px;
-        padding: 20px;
-        width: 90%;
-        max-width: 500px;
-        max-height: 90%;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-        position: relative;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .cerrar-carrito-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: none;
-        border: none;
-        color: #e60000;
-        font-size: 1.5em;
-        cursor: pointer;
-    }
-
-    /* Estilos del carrito (idénticos al diseño anterior) */
-    .carrito-items {
-        flex-grow: 1;
-        overflow-y: auto;
-        margin: 15px 0;
-        border-top: 1px solid #ddd;
-        border-bottom: 1px solid #ddd;
-        padding: 10px 0;
-    }
-
-    .carrito-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .product-info {
-        flex: 1;
-        margin-right: 15px;
-    }
-
-    .product-name {
-        font-weight: bold;
-    }
-
-    .product-description {
-        font-size: 0.9em;
-        color: #666;
-    }
-
-    .quantity-controls {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .cantidad-btn {
-        background-color: #e60000;
-        color: white;
-        border: none;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 5px;
-        font-size: 1.2em;
-        cursor: pointer;
-    }
-
-    .cantidad-btn:hover {
-        background-color: #bf0000;
-    }
-
-    .cantidad-text {
-        font-weight: bold;
-        font-size: 1em;
-        margin: 0 10px;
-    }
-
-    .product-price {
-        font-weight: bold;
-        font-size: 1.1em;
-    }
-
-    .eliminar-btn {
-        background: none;
-        border: none;
-        color: #e74c3c;
-        font-size: 1.2em;
-        cursor: pointer;
-        margin-left: 10px;
-    }
-
-    .eliminar-btn:hover {
-        color: #bf0000;
-    }
-
-    .enviar-orden-btn {
-        background-color: #29a64d;
-        color: #fff;
-        border: none;
-        padding: 15px;
-        font-size: 1.2em;
-        font-weight: bold;
-        border-radius: 5px;
-        cursor: pointer;
-        width: 100%;
-    }
-
-    .enviar-orden-btn:hover {
-        background-color: #23923c;
-    }
-</style>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -372,9 +105,24 @@
         });
 
         // Sincronizar la información del carrito cada 2 segundos
-        setInterval(updateCarritoViews, 2000);
+        setInterval(updateCarritoViews, 1800);
 
         // Inicializar la vista del carrito al cargar la página
         updateCarritoViews();
+
+        document.getElementById("ver-carrito-btn").addEventListener("click", function() {
+            document.getElementById("carrito-modal").style.display = "flex";
+            document.body.classList.add("body-no-scroll");
+        });
+
+        document.getElementById("cerrar-carrito-btn").addEventListener("click", function() {
+            document.getElementById("carrito-modal").style.display = "none";
+            document.body.classList.remove("body-no-scroll");
+        });
+
     });
 </script>
+
+<link rel="stylesheet" href="{{ asset('css/plegado.css') }}">
+<link rel="stylesheet" href="{{ asset('css/desplegado.css') }}">
+<link rel="stylesheet" href="{{ asset('css/list-items.css') }}">

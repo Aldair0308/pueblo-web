@@ -1,17 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const ordenForm = document.getElementById('ordenForm');
+    const carritoContainer = document.getElementById('carritoItems');
     const totalDisplay = document.getElementById('totalRonda');
     let totalRonda = 0;
-
-    if (!carritoContainer) {
-        console.error("El contenedor con ID 'carritoItems' no existe en el DOM.");
-        return;
-    }
-
-    if (!ordenForm) {
-        console.error("El formulario con ID 'ordenForm' no existe en el DOM.");
-        return;
-    }
 
     // Recalcular el total de la ronda
     window.actualizarTotalRonda = function () {
@@ -28,10 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-
-    const carritoContainer = document.getElementById('carritoItems');
-
-    // Función para agregar controles de cantidad
+    // Función para inicializar controles de cantidad
     function initializeQuantityControls(carritoItem) {
         const decrementBtn = carritoItem.querySelector('.cantidad-btn-decrement');
         const incrementBtn = carritoItem.querySelector('.cantidad-btn-increment');
@@ -40,19 +27,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const precioProducto = parseFloat(carritoItem.dataset.precio);
 
-        decrementBtn.addEventListener('click', function() {
+        decrementBtn.addEventListener('click', function () {
             let cantidadActual = parseInt(carritoItem.dataset.cantidad);
             if (cantidadActual > 1) {
                 cantidadActual--;
                 carritoItem.dataset.cantidad = cantidadActual;
                 cantidadText.textContent = cantidadActual;
-                productPriceElement.textContent =
-                    `MX$${(precioProducto * cantidadActual).toFixed(2)}`;
+                productPriceElement.textContent = `MX$${(precioProducto * cantidadActual).toFixed(2)}`;
                 window.actualizarTotalRonda();
             }
         });
 
-        incrementBtn.addEventListener('click', function() {
+        incrementBtn.addEventListener('click', function () {
             let cantidadActual = parseInt(carritoItem.dataset.cantidad);
             cantidadActual++;
             carritoItem.dataset.cantidad = cantidadActual;
@@ -63,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Observador para detectar elementos nuevos
-    const observer = new MutationObserver(function(mutationsList) {
+    const observer = new MutationObserver(function (mutationsList) {
         mutationsList.forEach(mutation => {
             mutation.addedNodes.forEach(node => {
                 if (node.classList && node.classList.contains('carrito-item')) {
@@ -77,8 +63,8 @@ document.addEventListener('DOMContentLoaded', function () {
         childList: true
     });
 
-    // Simulación de añadir un producto con los controles
-    window.addToCart = function(product) {
+    // Función para agregar productos al carrito
+    window.addToCart = function (product) {
         const carritoItem = document.createElement('div');
         carritoItem.classList.add('carrito-item');
         carritoItem.dataset.precio = product.precio;
@@ -86,8 +72,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         carritoItem.innerHTML = `
             <div class="product-info">
-                <p class="product-name">Producto: ${product.nombre}</p>
-                <p class="product-description">Descripción: ${product.descripcion || 'Sin descripción'}</p>
+                <p class="product-name">${product.nombre}</p>
+                <p class="product-description">${product.descripcion || 'Sin descripción'}</p>
             </div>
             <div class="product-controls">
                 <div class="quantity-controls">
