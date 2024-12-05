@@ -15,6 +15,10 @@
     <a class="btn btn-success" href="{{ route('meseros.pdf.descargas') }}" target="_blank">Descargar el PDF Por mesero</a>
     {{-- <x-Catalogo /> --}}
     {{-- <x-ProductoCard /> --}}
+    <a href="{{ url('auth/google') }}" class="btn btn-danger">
+        Iniciar sesión con Google
+    </a>
+
 @stop
 
 

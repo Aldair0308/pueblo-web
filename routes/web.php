@@ -14,6 +14,11 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 
 
+use App\Http\Controllers\GoogleController;
+
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
 
 
 
@@ -32,7 +37,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Auth::routes();
 
@@ -41,6 +46,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/inicio', function () {
+    return view('inicio');
+})->name('inicio');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
