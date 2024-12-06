@@ -8,9 +8,19 @@ class OrdenarController extends Controller
 {
     public function ordenarPorNumeroMesa($numeroMesa)
     {
-        // Aquí puedes implementar la lógica para mostrar la pantalla dependiendo del número de mesa
-        return view('ordenar', ['numeroMesa' => $numeroMesa]);
-    }
+        // Obtener los datos del usuario desde la sesión
+        $user = session('user');
 
-    // Otros métodos para manejar lógica adicional según sea necesario
+        // Asegurarse de que los datos básicos estén disponibles
+        $name = $user['name'] ?? 'Invitado';
+        $lastName = $user['last_name'] ?? '';
+        $photo = $user['photo'] ?? '/default-avatar.png';
+
+        return view('ordenar', [
+            'numeroMesa' => $numeroMesa,
+            'name' => $name,
+            'lastName' => $lastName,
+            'photo' => $photo,
+        ]);
+    }
 }

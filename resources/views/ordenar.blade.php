@@ -15,7 +15,7 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1>Bienvenido</h1>
+            <h1>Bienvenido {{ $name }}</h1>
             <p>Selecciona tus productos realiza tu pedido para la mesa {{ $numeroMesa }}.</p>
         </header>
 
@@ -23,11 +23,9 @@
         <div class="order-info">
             <h3 class="order-title">Tu pedido</h3>
             <form id="ordenForm" class="order-form">
-                <!-- Campos ocultos para el nombre del usuario y mesero -->
-                <input type="hidden" id="mesa" name="mesa"
-                    value="{{ Auth::check() ? Auth::user()->name : 'Invitado' }}">
-                <input type="hidden" id="mesero" name="mesero"
-                    value="{{ Auth::check() ? Auth::user()->name : 'Invitado' }}">
+                <!-- Inputs ocultos para la mesa y mesero -->
+                <input type="hidden" id="mesa" name="mesa" value="{{ $name }} {{ $lastName }}">
+                <input type="hidden" id="mesero" name="mesero" value="{{ $name }} {{ $lastName }}">
 
                 <!-- Número de Mesa obtenido de la ruta -->
                 <label for="numeroMesa">Mesa:</label>
@@ -92,6 +90,8 @@
     <script src="{{ asset('js/modal-prod.js') }}"></script>
     <script src="{{ asset('js/carrito.js') }}"></script>
     <script src="{{ asset('js/ordenar.js') }}"></script>
+    <script src="{{ asset('js/AuthGoogle.js') }}"></script>
+
 </body>
 
 </html>

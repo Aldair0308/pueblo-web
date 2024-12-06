@@ -39,6 +39,20 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+Route::get('/api/check-auth', function () {
+    $user = session('user');
+    if ($user) {
+        return response()->json(['authenticated' => true]);
+    }
+
+    // Agregar la URL actual como referencia para redirección
+    $currentUrl = url()->current();
+    return response()->json([
+        'authenticated' => false,
+        'redirect_url' => $currentUrl, // URL actual
+    ]);
+});
+
 Auth::routes();
 
 Route::middleware('auth')->group(function () {

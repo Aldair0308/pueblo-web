@@ -16,6 +16,11 @@ class GoogleController extends Controller
     public function redirectToGoogle()
     {
         \Log::info('Redirigiendo al flujo de Google OAuth');
+
+        // Guardar la URL de referencia en la sesión
+        $previousUrl = url()->previous();
+        session(['redirect_after_login' => $previousUrl]);
+
         return Socialite::driver('google')->redirect();
     }
 
@@ -70,7 +75,10 @@ class GoogleController extends Controller
                     'photo' => $localPhotoUrl,
                 ])]);
 
-                return redirect('/inicio');
+                // Redirigir al usuario a la URL original o al inicio
+                $redirectUrl = session('redirect_after_login', '/inicio');
+                session()->forget('redirect_after_login'); // Limpiar la sesión
+                return redirect($redirectUrl);
             }
 
             // Preparar el cuerpo de la solicitud de registro
@@ -94,11 +102,14 @@ class GoogleController extends Controller
                     'photo' => $localPhotoUrl,
                 ])]);
 
-                return redirect('/inicio');
+                // Redirigir al usuario a la URL original o al inicio
+                $redirectUrl = session('redirect_after_login', '/inicio');
+                session()->forget('redirect_after_login'); // Limpiar la sesión
+                return redirect($redirectUrl);
             }
 
             \Log::error('Error al registrar al usuario en la API', ['response_body' => $response->body()]);
-            return redirect()->route('login')->withErrors('Error al registrar al usuario en el sistema.');
+            return redirect()->route('welcome')->withErrors('Error al registrar al usuario en el sistema.');
         } catch (\Exception $e) {
             \Log::error('Error inesperado durante el flujo de autenticación:', [
                 'exception_message' => $e->getMessage(),
