@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ordena tus productos</title>
-    <link rel="stylesheet" href="{{ asset('css/home-styles.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/modal-styles.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/carrito.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/home-styles.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/modal-styles.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/carrito.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
@@ -87,10 +87,10 @@
     </div>
     </div>
 
-    <script src="{{ asset('js/modal-prod.js') }}"></script>
-    <script src="{{ asset('js/carrito.js') }}"></script>
-    <script src="{{ asset('js/ordenar.js') }}"></script>
-    <script src="{{ asset('js/AuthGoogle.js') }}"></script>
+    <script src="{{ secure_asset('js/modal-prod.js') }}"></script>
+    <script src="{{ secure_asset('js/carrito.js') }}"></script>
+    <script src="{{ secure_asset('js/ordenar.js') }}"></script>
+    <script src="{{ secure_asset('js/AuthGoogle.js') }}"></script>
 
 </body>
 

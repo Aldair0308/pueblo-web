@@ -34,7 +34,7 @@
 
 
 
-<script src="{{ asset('js/Carro.js') }}"></script>
+<script src="{{ secure_asset('js/Carro.js') }}"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -123,6 +123,6 @@
     });
 </script>
 
-<link rel="stylesheet" href="{{ asset('css/plegado.css') }}">
-<link rel="stylesheet" href="{{ asset('css/desplegado.css') }}">
-<link rel="stylesheet" href="{{ asset('css/list-items.css') }}">
+<link rel="stylesheet" href="{{ secure_asset('css/plegado.css') }}">
+<link rel="stylesheet" href="{{ secure_asset('css/desplegado.css') }}">
+<link rel="stylesheet" href="{{ secure_asset('css/list-items.css') }}">
