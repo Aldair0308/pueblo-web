@@ -95,14 +95,14 @@
                         agregarBtn.addEventListener('click', function() {
                             const cantidad = parseInt(cantidadInput.value);
                             const descripcion = descripcionInput.value
-                        .trim(); // Obtener la descripción
+                                .trim(); // Obtener la descripción
 
                             if (cantidad > 0) {
                                 agregarAlCarrito(producto, cantidad, descripcion);
                                 calcularTotalRonda(producto.precio,
-                                cantidad); // Calcular totalRonda
+                                    cantidad); // Calcular totalRonda
                                 cantidadInput.value =
-                                '0'; // Reiniciar cantidad a cero después de agregar al carrito
+                                    '0'; // Reiniciar cantidad a cero después de agregar al carrito
                                 descripcionInput.value = ''; // Limpiar campo de descripción
                             } else {
                                 alert('Selecciona al menos una unidad del producto.');

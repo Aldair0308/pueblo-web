@@ -95,7 +95,7 @@
     align-items: center;
     background-color: white; /* Fondo del pie de página */
     border-top: 1px solid #ddd; /* Línea divisoria superior */
-    padding: 10px 15px; /* Espaciado interno */
+    padding: 10px 1500px 10px 10px; /* Espaciado interno */
     z-index: 1001; /* Asegura que quede por encima del contenido */
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Sombra superior */
 }
@@ -103,8 +103,8 @@
 .quantity-controls {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-right: 10px; /* Espaciado hacia el botón naranja */
+    gap: 5px;
+    margin-right: 1px; /* Espaciado hacia el botón naranja */
 }
 
 .quantity-controls button {

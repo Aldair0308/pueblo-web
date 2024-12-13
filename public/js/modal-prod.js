@@ -143,12 +143,38 @@ document.addEventListener('DOMContentLoaded', function () {
         updateTotalPrice();
     };
 
-    // Calcular y mostrar el precio total
-    function updateTotalPrice() {
-        const basePrice = currentProduct ? currentProduct.precio : 0;
-        const totalPrice = basePrice * currentQuantity;
-        document.querySelector('.add-to-cart').innerHTML = `Agregar al Carrito MX$${totalPrice.toFixed(2)}`;
+// Calcular y mostrar el precio total
+function updateTotalPrice() {
+    const basePrice = currentProduct ? currentProduct.precio : 0;
+    const totalPrice = basePrice * currentQuantity;
+    
+    // Seleccionar el botón
+    const button = document.querySelector('.add-to-cart');
+    
+    // Actualizar el texto del botón con el precio
+    button.innerHTML = `Agregar al Carrito MX$${totalPrice.toFixed(2)}`;
+    
+    // Estilizar el botón
+    button.style.backgroundColor = '#ff6600'; // Color de fondo
+    button.style.color = 'white'; // Color del texto
+    button.style.border = 'none'; // Sin borde
+    button.style.padding = '10px 6px 10px 6px'; // Espaciado interno
+    button.style.fontSize = '1.2em'; // Tamaño de la fuente
+    button.style.fontWeight = 'bold'; // Negrita
+    button.style.borderRadius = '50px'; // Bordes redondeados
+    button.style.cursor = 'pointer'; // Cursor de puntero al pasar
+    button.style.width = '100px'; // Ancho completo
+    button.style.margin = '0px 18px 0px 0px'; // Ancho completo
+    
+    // Efecto hover
+    button.onmouseover = function() {
+        button.style.backgroundColor = '#bf0000'; // Color más oscuro al pasar el ratón
     }
+    
+    button.onmouseout = function() {
+        button.style.backgroundColor = '#e60000'; // Regresa al color original
+    }
+}
 
     // Agregar al carrito
     window.addToCart = function () {
