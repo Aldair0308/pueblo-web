@@ -32,8 +32,8 @@ return [
     ],
 
 'google' => [
-    'client_id' => ('1016932618065-jcr4qtug99fpq45pdhmoc02bafqaitad.apps.googleusercontent.com'),
-    'client_secret' => ('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'),
+    'client_id' => env('GOOGLE_CLIENT_ID'),
+    'client_secret' => env('GOOGLE_CLIENT_SECRET'),
     'redirect' => 'https://pueblo-web-production-772f.up.railway.app/auth/google/callback',
 ],
 
