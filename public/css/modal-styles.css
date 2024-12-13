@@ -192,6 +192,7 @@
     cursor: pointer;
     background-color: #f9f9f9;
     transition: background-color 0.3s ease;
+    flex-direction: row-reverse;
 }
 
 .options-container label:hover {
