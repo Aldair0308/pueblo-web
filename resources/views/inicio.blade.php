@@ -21,7 +21,7 @@
         @else
             <p>No se encontró información del usuario.</p>
         @endif
-        <a href="http://127.0.0.1:8000/ordenar/2">Ordena para la mesa 2</a>
+        <a href="https://pueblo-web-production-772f.up.railway.app/ordenar/2">Ordena para la mesa 2</a>
     </div>
 </body>
 
