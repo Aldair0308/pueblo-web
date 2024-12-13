@@ -10,9 +10,7 @@
 <body>
     <a href="{{ route('login') }}">ir al login</a>
     <a href="{{ route('register') }}">ir al register</a>
-    <a href="{{ url('auth/google') }}" class="btn btn-danger">
-        Iniciar sesión con Google
-    </a>
+    <a href="{{ route('google') }}">Iniciar sesión con Google</a>
 </body>
 
 </html>
