@@ -17,7 +17,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\GoogleController;
 
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
-Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google');
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 
 
