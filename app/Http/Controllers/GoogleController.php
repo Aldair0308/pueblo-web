@@ -8,11 +8,6 @@ use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController extends Controller
 {
-    /**
-     * Redirige al usuario a Google para iniciar sesión.
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function redirectToGoogle()
     {
         \Log::info('Redirigiendo al flujo de Google OAuth');
@@ -24,11 +19,6 @@ class GoogleController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    /**
-     * Maneja el callback de Google después de la autenticación.
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function handleGoogleCallback()
     {
         try {
@@ -65,6 +55,8 @@ class GoogleController extends Controller
             $existingUserResponse = Http::get('https://pueblo-nest-production-5afd.up.railway.app/api/v1/users', [
                 'email' => $googleUser->getEmail(),
             ]);
+
+            session()->forget('user'); // Elimina los datos del usuario anterior
 
             if ($existingUserResponse->successful() && count($existingUserResponse->json()) > 0) {
                 \Log::info('El usuario ya existe en la API');
