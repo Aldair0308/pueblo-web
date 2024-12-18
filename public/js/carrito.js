@@ -171,79 +171,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 // Enviar el pedido
-// ordenForm.addEventListener('submit', function (event) {
-//     event.preventDefault();
-
-//     const carritoItems = carritoContainer.querySelectorAll('.carrito-item');
-//     const productos = [];
-//     const cantidades = [];
-//     const descripciones = [];
-
-//     carritoItems.forEach(item => {
-//         const nombreProducto = item.dataset.nombre; // Recuperar el nombre del producto del dataset
-//         const cantidad = parseInt(item.dataset.cantidad);
-//         const descripcion = item.dataset.descripcion || ''; // Recuperar descripción del dataset
-
-//         productos.push(nombreProducto);
-//         cantidades.push(cantidad);
-//         descripciones.push(descripcion);
-//     });
-
-//     const mesa = ordenForm.querySelector('#mesa')?.value || 'Invitado';
-//     const numeroMesa = parseInt(ordenForm.querySelector('#numeroMesa')?.value || '0');
-//     const estado = ordenForm.querySelector('#estado')?.value || 'por_preparar';
-//     const mesero = ordenForm.querySelector('#mesero')?.value || 'Invitado';
-
-//     const totalRondaInt = parseFloat(totalDisplay?.textContent || '0');
-
-//     // Mostrar mensaje de confirmación
-//     const confirmar = confirm(`¿Estás seguro de mandar la orden de MX$${totalRondaInt.toFixed(2)}?`);
-//     if (!confirmar) {
-//         return; // Cancelar el envío si el usuario selecciona "Cancelar"
-//     }
-
-//     const orden = {
-//         mesa,
-//         numeroMesa,
-//         estado,
-//         mesero,
-//         productos,
-//         cantidades,
-//         descripciones,
-//         totalRonda: totalRondaInt,
-//     };
-
-//     fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
-//         method: 'POST',
-//         body: JSON.stringify(orden),
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log('Orden enviada:', data);
-//             alert('Orden enviada correctamente.');
-//             carritoContainer.innerHTML = '';
-//             totalRonda = 0;
-//             if (totalDisplay) {
-//                 totalDisplay.textContent = '0.00';
-//             }
-
-//             // Cerrar el modal del carrito después de enviar el pedido
-//             const carritoModal = document.getElementById('carrito-modal');
-//             if (carritoModal) {
-//                 carritoModal.style.display = 'none';
-//             }
-//         })
-//         .catch(error => {
-//             console.error('Error al enviar la orden:', error);
-//             alert('Hubo un error al enviar la orden.');
-//         });
-// });
-
-
-
 ordenForm.addEventListener('submit', async function (event) {
     event.preventDefault();
 
@@ -274,24 +201,34 @@ ordenForm.addEventListener('submit', async function (event) {
     if (!confirmar) return;
 
     try {
-        // Buscar o crear la mesa
+        // Buscar la mesa
         let mesaExiste = false;
         try {
             const response = await fetch(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/mesas/encontrar/${mesa}`);
             if (response.ok) {
                 const mesaData = await response.json();
-                mesaExiste = !!mesaData;
+
+                // Validar si el cuerpo está vacío o no
+                if (Object.keys(mesaData).length > 0) {
+                    console.log('Mesa encontrada:', mesaData);
+                    mesaExiste = true;
+                } else {
+                    console.log('Mesa no encontrada. Cuerpo vacío.');
+                }
+            } else {
+                console.error('Error al buscar la mesa:', response.statusText);
             }
         } catch (error) {
             console.warn('Error buscando mesa existente. Procediendo a crear una nueva.', error);
         }
 
+        // Crear la mesa si no existe
         if (!mesaExiste) {
             try {
                 const nuevaMesaResponse = await fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/mesas', {
                     method: 'POST',
                     body: JSON.stringify({
-                        cliente: mesa,
+                        cliente: mesa, // Nombre del cliente
                         numeroMesa: numeroMesa,
                     }),
                     headers: {
@@ -348,6 +285,9 @@ ordenForm.addEventListener('submit', async function (event) {
         alert('Hubo un error al enviar la orden.');
     }
 });
+
+
+
 
 
 });
