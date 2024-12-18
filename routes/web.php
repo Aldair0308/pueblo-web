@@ -15,6 +15,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\InicioController;
 
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
@@ -69,6 +70,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 
 Route::get('ordenar/{numerodemesa}', [OrdenarController::class, 'ordenarPorNumeroMesa'])->name('ordenar.por-numero-mesa');
+
+Route::get('inicio/{numerodemesa}', [InicioController::class, 'inicioPorNumeroMesa'])->name('inicio.por-numero-mesa');
 
 Route::resource('mesas', MesaController::class);
 

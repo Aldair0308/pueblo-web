@@ -6,12 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/AuthGoogle.js') }}"></script>
+
 </head>
 
 <body>
     <div class="container">
         <h1>Bienvenido a la Página de Inicio</h1>
         <p>Esta es la página principal de tu aplicación Laravel.</p>
+        <p>Selecciona tus productos y realiza tu pedido para la mesa {{ $numeroMesa }}.</p>
+
         @if (session('user'))
             <div class="info-cliente">
                 <img src="{{ session('user')['photo'] }}" alt="Foto de {{ session('user')['first_name'] }}"
@@ -21,8 +25,11 @@
         @else
             <p>No se encontró información del usuario.</p>
         @endif
-        {{-- <a href="{{ route('bebidas') }}" class="btn btn-success">Bebidas</a> --}}
-        <a>Ordena para la mesa 2</a>
+
+        <!-- Botón para redirigir a la ruta de ordenar -->
+        <a href="{{ route('ordenar.por-numero-mesa', ['numerodemesa' => $numeroMesa]) }}" class="btn btn-primary">
+            Ordenar
+        </a>
     </div>
 </body>
 
