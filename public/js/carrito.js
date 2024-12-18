@@ -313,8 +313,10 @@ ordenForm.addEventListener('submit', async function (event) {
 
     // Construir y enviar la orden
     const orden = {
-        mesaId, // ID de la mesa existente o creada
+        mesa,
+        numeroMesa,
         estado,
+        mesero,
         productos,
         cantidades,
         descripciones,
