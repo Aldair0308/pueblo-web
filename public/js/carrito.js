@@ -291,8 +291,8 @@ ordenForm.addEventListener('submit', async function (event) {
                 method: 'POST',
                 body: JSON.stringify({
                     cliente: mesa,
-                    numeroMesa: numeroMesa,
-                    mesero: mesero,
+                    noMesa: numeroMesa,
+                    estado: 'Activa',
                 }),
                 headers: {
                     'Content-Type': 'application/json',
