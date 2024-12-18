@@ -242,7 +242,8 @@ document.addEventListener('DOMContentLoaded', function () {
 //         });
 // });
 
-// Enviar el pedido
+
+
 ordenForm.addEventListener('submit', async function (event) {
     event.preventDefault();
 
@@ -252,7 +253,7 @@ ordenForm.addEventListener('submit', async function (event) {
     const descripciones = [];
 
     carritoItems.forEach(item => {
-        const nombreProducto = item.dataset.nombre; // Recuperar el nombre del producto
+        const nombreProducto = item.dataset.nombre;
         const cantidad = parseInt(item.dataset.cantidad);
         const descripcion = item.dataset.descripcion || '';
 
@@ -261,69 +262,65 @@ ordenForm.addEventListener('submit', async function (event) {
         descripciones.push(descripcion);
     });
 
-    const mesa = ordenForm.querySelector('#mesa')?.value || 'Invitado';
+    const mesa = ordenForm.querySelector('#mesa')?.value || 'Invitado'; // Nombre del cliente
     const numeroMesa = parseInt(ordenForm.querySelector('#numeroMesa')?.value || '0');
     const estado = ordenForm.querySelector('#estado')?.value || 'por_preparar';
     const mesero = ordenForm.querySelector('#mesero')?.value || 'Invitado';
 
     const totalRondaInt = parseFloat(totalDisplay?.textContent || '0');
 
-    // Mostrar mensaje de confirmación
+    // Confirmar la orden
     const confirmar = confirm(`¿Estás seguro de mandar la orden de MX$${totalRondaInt.toFixed(2)}?`);
-    if (!confirmar) {
-        return;
-    }
-
-    let mesaId = null;
+    if (!confirmar) return;
 
     try {
-        // Buscar si existe la mesa por cliente
-        const response = await fetch(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/mesas/encontrar/${mesa}`);
-        const mesaData = await response.json();
-
-        if (response.ok && mesaData) {
-            // Si la mesa existe, tomar su ID
-            mesaId = mesaData.id;
-            console.log('Mesa encontrada:', mesaId);
-        } else {
-            // Si no existe, crear una nueva mesa
-            const nuevaMesaResponse = await fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/mesas', {
-                method: 'POST',
-                body: JSON.stringify({
-                    cliente: mesa,
-                    noMesa: numeroMesa,
-                    estado: 'Activa',
-                }),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (!nuevaMesaResponse.ok) throw new Error('Error al crear la mesa.');
-
-            const nuevaMesaData = await nuevaMesaResponse.json();
-            mesaId = nuevaMesaData.id;
-            console.log('Mesa creada:', mesaId);
+        // Buscar o crear la mesa
+        let mesaExiste = false;
+        try {
+            const response = await fetch(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/mesas/encontrar/${mesa}`);
+            if (response.ok) {
+                const mesaData = await response.json();
+                mesaExiste = !!mesaData;
+            }
+        } catch (error) {
+            console.warn('Error buscando mesa existente. Procediendo a crear una nueva.', error);
         }
-    } catch (error) {
-        console.error('Error al validar/crear la mesa:', error);
-        alert('Hubo un error al validar/crear la mesa.');
-        return;
-    }
 
-    // Construir y enviar la orden
-    const orden = {
-        mesa,
-        numeroMesa,
-        estado,
-        mesero,
-        productos,
-        cantidades,
-        descripciones,
-        totalRonda: totalRondaInt,
-    };
+        if (!mesaExiste) {
+            try {
+                const nuevaMesaResponse = await fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/mesas', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        cliente: mesa,
+                        numeroMesa: numeroMesa,
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
 
-    try {
+                if (!nuevaMesaResponse.ok) throw new Error('Error al crear la mesa.');
+                const nuevaMesaData = await nuevaMesaResponse.json();
+                console.log('Nueva mesa creada:', nuevaMesaData);
+            } catch (error) {
+                console.error('Error al crear la mesa:', error);
+                alert('Hubo un error al validar/crear la mesa.');
+                return;
+            }
+        }
+
+        // Crear la ronda
+        const orden = {
+            mesa, // Nombre del cliente
+            numeroMesa,
+            estado,
+            mesero,
+            productos,
+            cantidades,
+            descripciones,
+            totalRonda: totalRondaInt,
+        };
+
         const response = await fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
             method: 'POST',
             body: JSON.stringify(orden),
@@ -332,29 +329,25 @@ ordenForm.addEventListener('submit', async function (event) {
             },
         });
 
+        if (!response.ok) throw new Error('Error al enviar la orden.');
+
         const data = await response.json();
+        console.log('Orden enviada correctamente:', data);
+        alert('Orden enviada correctamente.');
 
-        if (response.ok) {
-            console.log('Orden enviada:', data);
-            alert('Orden enviada correctamente.');
-            carritoContainer.innerHTML = '';
-            totalRonda = 0;
-            totalDisplay.textContent = '0.00';
+        // Resetear el carrito
+        carritoContainer.innerHTML = '';
+        totalDisplay.textContent = '0.00';
 
-            // Cerrar el modal del carrito después de enviar el pedido
-            const carritoModal = document.getElementById('carrito-modal');
-            if (carritoModal) {
-                carritoModal.style.display = 'none';
-            }
-        } else {
-            throw new Error('Error al enviar la orden.');
-        }
+        // Cerrar el modal del carrito
+        const carritoModal = document.getElementById('carrito-modal');
+        if (carritoModal) carritoModal.style.display = 'none';
+
     } catch (error) {
         console.error('Error al enviar la orden:', error);
         alert('Hubo un error al enviar la orden.');
     }
 });
-
 
 
 });
