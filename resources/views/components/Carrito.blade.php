@@ -105,7 +105,7 @@
         });
 
         // Sincronizar la información del carrito cada 2 segundos
-        setInterval(updateCarritoViews, 1800);
+        setInterval(updateCarritoViews, 800);
 
         // Inicializar la vista del carrito al cargar la página
         updateCarritoViews();

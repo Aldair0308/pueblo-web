@@ -21,17 +21,16 @@ document.addEventListener('DOMContentLoaded', function () {
         totalDisplay.textContent = totalRonda.toFixed(2);
     }
 
-    // Escuchar evento de agregar al carrito
     document.addEventListener('add-to-cart', function (event) {
         const { product, cantidad, descripcion } = event.detail;
-
+    
         const carritoItem = document.createElement('div');
         carritoItem.classList.add('carrito-item');
         carritoItem.dataset.precio = product.precio;
         carritoItem.dataset.cantidad = cantidad;
         carritoItem.dataset.nombre = product.nombre;
         carritoItem.dataset.descripcion = descripcion;
-
+    
         // Contenedor principal del item
         const itemContent = document.createElement('div');
         itemContent.classList.add('carrito-item-content');
@@ -39,36 +38,47 @@ document.addEventListener('DOMContentLoaded', function () {
         itemContent.style.justifyContent = 'space-between';
         itemContent.style.alignItems = 'center';
         itemContent.style.gap = '15px';
+    
         carritoItem.appendChild(itemContent);
-
+    
+        // Imagen del producto
+        const productImage = document.createElement('img');
+        productImage.src = product.foto; // Propiedad "foto" del producto
+        productImage.alt = product.nombre;
+        productImage.style.width = '60px';
+        productImage.style.height = '60px';
+        productImage.style.objectFit = 'contain';
+        productImage.style.borderRadius = '8px';
+        itemContent.appendChild(productImage);
+    
         // Información del producto
         const productInfo = document.createElement('div');
         productInfo.classList.add('product-info');
         productInfo.style.flex = '1';
-
+    
         const nombre = document.createElement('p');
         nombre.textContent = product.nombre;
         nombre.classList.add('product-name');
         nombre.style.fontWeight = 'bold';
         nombre.style.fontSize = '1em';
-
+    
         const descripcionTexto = document.createElement('p');
-        descripcionTexto.textContent = descripcion ? `Extra: ${descripcion}` : 'Sin descripción';
+        descripcionTexto.textContent = descripcion ? `Descripción: ${descripcion}` : 'Sin descripción';
         descripcionTexto.classList.add('product-description');
         descripcionTexto.style.fontSize = '0.9em';
         descripcionTexto.style.color = '#666';
-
+    
         productInfo.appendChild(nombre);
         productInfo.appendChild(descripcionTexto);
         itemContent.appendChild(productInfo);
-
+    
         // Controles de cantidad
         const cantidadContainer = document.createElement('div');
         cantidadContainer.classList.add('quantity-controls');
         cantidadContainer.style.display = 'flex';
         cantidadContainer.style.alignItems = 'center';
         cantidadContainer.style.gap = '10px';
-
+    
         const decrementBtn = document.createElement('button');
         decrementBtn.textContent = '-';
         decrementBtn.classList.add('cantidad-btn');
@@ -77,13 +87,10 @@ document.addEventListener('DOMContentLoaded', function () {
         decrementBtn.style.border = 'none';
         decrementBtn.style.width = '30px';
         decrementBtn.style.height = '30px';
-        decrementBtn.style.display = 'flex';
-        decrementBtn.style.justifyContent = 'center';
-        decrementBtn.style.alignItems = 'center';
         decrementBtn.style.borderRadius = '5px';
         decrementBtn.style.cursor = 'pointer';
         decrementBtn.style.fontSize = '1.2em';
-
+    
         decrementBtn.addEventListener('click', function () {
             let cantidadActual = parseInt(carritoItem.dataset.cantidad);
             if (cantidadActual > 1) {
@@ -93,28 +100,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 actualizarTotalRonda();
             }
         });
-
+    
         const cantidadTexto = document.createElement('span');
         cantidadTexto.textContent = `${cantidad}`;
         cantidadTexto.classList.add('cantidad-texto');
         cantidadTexto.style.fontWeight = 'bold';
         cantidadTexto.style.fontSize = '1em';
-
+    
         const incrementBtn = document.createElement('button');
         incrementBtn.textContent = '+';
         incrementBtn.classList.add('cantidad-btn');
-        incrementBtn.style.backgroundColor = '#e60000';
+        incrementBtn.style.backgroundColor = '#6fe060';
         incrementBtn.style.color = 'white';
         incrementBtn.style.border = 'none';
         incrementBtn.style.width = '30px';
         incrementBtn.style.height = '30px';
-        incrementBtn.style.display = 'flex';
-        incrementBtn.style.justifyContent = 'center';
-        incrementBtn.style.alignItems = 'center';
         incrementBtn.style.borderRadius = '5px';
         incrementBtn.style.cursor = 'pointer';
         incrementBtn.style.fontSize = '1.2em';
-
+    
         incrementBtn.addEventListener('click', function () {
             let cantidadActual = parseInt(carritoItem.dataset.cantidad);
             cantidadActual++;
@@ -122,12 +126,12 @@ document.addEventListener('DOMContentLoaded', function () {
             cantidadTexto.textContent = `${cantidadActual}`;
             actualizarTotalRonda();
         });
-
+    
         cantidadContainer.appendChild(decrementBtn);
         cantidadContainer.appendChild(cantidadTexto);
         cantidadContainer.appendChild(incrementBtn);
         itemContent.appendChild(cantidadContainer);
-
+    
         // Ícono de eliminar
         const eliminarBtn = document.createElement('button');
         eliminarBtn.classList.add('eliminar-btn');
@@ -136,16 +140,18 @@ document.addEventListener('DOMContentLoaded', function () {
         eliminarBtn.style.color = '#e60000';
         eliminarBtn.style.border = 'none';
         eliminarBtn.style.cursor = 'pointer';
-
+    
         eliminarBtn.addEventListener('click', function () {
             carritoItem.remove();
             actualizarTotalRonda();
         });
-
+    
         itemContent.appendChild(eliminarBtn);
         carritoContainer.appendChild(carritoItem);
         actualizarTotalRonda();
     });
+    
+
 
     // Ajustar el tamaño del scroll dinámicamente
     function adjustScrollView() {
