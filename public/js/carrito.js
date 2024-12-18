@@ -242,7 +242,6 @@ document.addEventListener('DOMContentLoaded', function () {
 //         });
 // });
 
-
 // Enviar el pedido
 ordenForm.addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -275,19 +274,19 @@ ordenForm.addEventListener('submit', async function (event) {
         return;
     }
 
-    let mesaId = null; // ID de la mesa, se inicializa como null
+    let mesaId = null;
 
     try {
-        // Buscar si existe la mesa
+        // Buscar si existe la mesa por cliente
         const response = await fetch(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/mesas/encontrar/${mesa}`);
         const mesaData = await response.json();
 
-        if (mesaData && mesaData.id) {
-            // Si la mesa existe, se toma su ID
+        if (response.ok && mesaData) {
+            // Si la mesa existe, tomar su ID
             mesaId = mesaData.id;
             console.log('Mesa encontrada:', mesaId);
         } else {
-            // Si la mesa no existe, se crea una nueva mesa
+            // Si no existe, crear una nueva mesa
             const nuevaMesaResponse = await fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/mesas', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -300,23 +299,21 @@ ordenForm.addEventListener('submit', async function (event) {
                 },
             });
 
+            if (!nuevaMesaResponse.ok) throw new Error('Error al crear la mesa.');
+
             const nuevaMesaData = await nuevaMesaResponse.json();
-            if (nuevaMesaData && nuevaMesaData.id) {
-                mesaId = nuevaMesaData.id;
-                console.log('Mesa creada:', mesaId);
-            } else {
-                throw new Error('Error al crear la mesa.');
-            }
+            mesaId = nuevaMesaData.id;
+            console.log('Mesa creada:', mesaId);
         }
     } catch (error) {
-        console.error('Error en la validación/creación de mesa:', error);
+        console.error('Error al validar/crear la mesa:', error);
         alert('Hubo un error al validar/crear la mesa.');
         return;
     }
 
     // Construir y enviar la orden
     const orden = {
-        mesaId, // ID de la mesa obtenida o creada
+        mesaId, // ID de la mesa existente o creada
         estado,
         productos,
         cantidades,
@@ -324,34 +321,38 @@ ordenForm.addEventListener('submit', async function (event) {
         totalRonda: totalRondaInt,
     };
 
-    fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
-        method: 'POST',
-        body: JSON.stringify(orden),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then(response => response.json())
-        .then(data => {
+    try {
+        const response = await fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
+            method: 'POST',
+            body: JSON.stringify(orden),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
             console.log('Orden enviada:', data);
             alert('Orden enviada correctamente.');
             carritoContainer.innerHTML = '';
             totalRonda = 0;
-            if (totalDisplay) {
-                totalDisplay.textContent = '0.00';
-            }
+            totalDisplay.textContent = '0.00';
 
             // Cerrar el modal del carrito después de enviar el pedido
             const carritoModal = document.getElementById('carrito-modal');
             if (carritoModal) {
                 carritoModal.style.display = 'none';
             }
-        })
-        .catch(error => {
-            console.error('Error al enviar la orden:', error);
-            alert('Hubo un error al enviar la orden.');
-        });
+        } else {
+            throw new Error('Error al enviar la orden.');
+        }
+    } catch (error) {
+        console.error('Error al enviar la orden:', error);
+        alert('Hubo un error al enviar la orden.');
+    }
 });
+
 
 
 });
