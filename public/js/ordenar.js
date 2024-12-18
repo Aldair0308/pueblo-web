@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function () {
         productos.forEach(producto => {
             const card = document.createElement('div');
             card.classList.add('card-producto');
+            card.addEventListener('click', function () {
+                toggleModal(true, producto); // Abrir modal para personalizar el producto
+            });
 
             const imagen = document.createElement('img');
             imagen.src = producto.foto;
