@@ -171,7 +171,80 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 // Enviar el pedido
-ordenForm.addEventListener('submit', function (event) {
+// ordenForm.addEventListener('submit', function (event) {
+//     event.preventDefault();
+
+//     const carritoItems = carritoContainer.querySelectorAll('.carrito-item');
+//     const productos = [];
+//     const cantidades = [];
+//     const descripciones = [];
+
+//     carritoItems.forEach(item => {
+//         const nombreProducto = item.dataset.nombre; // Recuperar el nombre del producto del dataset
+//         const cantidad = parseInt(item.dataset.cantidad);
+//         const descripcion = item.dataset.descripcion || ''; // Recuperar descripción del dataset
+
+//         productos.push(nombreProducto);
+//         cantidades.push(cantidad);
+//         descripciones.push(descripcion);
+//     });
+
+//     const mesa = ordenForm.querySelector('#mesa')?.value || 'Invitado';
+//     const numeroMesa = parseInt(ordenForm.querySelector('#numeroMesa')?.value || '0');
+//     const estado = ordenForm.querySelector('#estado')?.value || 'por_preparar';
+//     const mesero = ordenForm.querySelector('#mesero')?.value || 'Invitado';
+
+//     const totalRondaInt = parseFloat(totalDisplay?.textContent || '0');
+
+//     // Mostrar mensaje de confirmación
+//     const confirmar = confirm(`¿Estás seguro de mandar la orden de MX$${totalRondaInt.toFixed(2)}?`);
+//     if (!confirmar) {
+//         return; // Cancelar el envío si el usuario selecciona "Cancelar"
+//     }
+
+//     const orden = {
+//         mesa,
+//         numeroMesa,
+//         estado,
+//         mesero,
+//         productos,
+//         cantidades,
+//         descripciones,
+//         totalRonda: totalRondaInt,
+//     };
+
+//     fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
+//         method: 'POST',
+//         body: JSON.stringify(orden),
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//     })
+//         .then(response => response.json())
+//         .then(data => {
+//             console.log('Orden enviada:', data);
+//             alert('Orden enviada correctamente.');
+//             carritoContainer.innerHTML = '';
+//             totalRonda = 0;
+//             if (totalDisplay) {
+//                 totalDisplay.textContent = '0.00';
+//             }
+
+//             // Cerrar el modal del carrito después de enviar el pedido
+//             const carritoModal = document.getElementById('carrito-modal');
+//             if (carritoModal) {
+//                 carritoModal.style.display = 'none';
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error al enviar la orden:', error);
+//             alert('Hubo un error al enviar la orden.');
+//         });
+// });
+
+
+// Enviar el pedido
+ordenForm.addEventListener('submit', async function (event) {
     event.preventDefault();
 
     const carritoItems = carritoContainer.querySelectorAll('.carrito-item');
@@ -180,9 +253,9 @@ ordenForm.addEventListener('submit', function (event) {
     const descripciones = [];
 
     carritoItems.forEach(item => {
-        const nombreProducto = item.dataset.nombre; // Recuperar el nombre del producto del dataset
+        const nombreProducto = item.dataset.nombre; // Recuperar el nombre del producto
         const cantidad = parseInt(item.dataset.cantidad);
-        const descripcion = item.dataset.descripcion || ''; // Recuperar descripción del dataset
+        const descripcion = item.dataset.descripcion || '';
 
         productos.push(nombreProducto);
         cantidades.push(cantidad);
@@ -199,14 +272,52 @@ ordenForm.addEventListener('submit', function (event) {
     // Mostrar mensaje de confirmación
     const confirmar = confirm(`¿Estás seguro de mandar la orden de MX$${totalRondaInt.toFixed(2)}?`);
     if (!confirmar) {
-        return; // Cancelar el envío si el usuario selecciona "Cancelar"
+        return;
     }
 
+    let mesaId = null; // ID de la mesa, se inicializa como null
+
+    try {
+        // Buscar si existe la mesa
+        const response = await fetch(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/mesas/encontrar/${mesa}`);
+        const mesaData = await response.json();
+
+        if (mesaData && mesaData.id) {
+            // Si la mesa existe, se toma su ID
+            mesaId = mesaData.id;
+            console.log('Mesa encontrada:', mesaId);
+        } else {
+            // Si la mesa no existe, se crea una nueva mesa
+            const nuevaMesaResponse = await fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/mesas', {
+                method: 'POST',
+                body: JSON.stringify({
+                    cliente: mesa,
+                    numeroMesa: numeroMesa,
+                    mesero: mesero,
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const nuevaMesaData = await nuevaMesaResponse.json();
+            if (nuevaMesaData && nuevaMesaData.id) {
+                mesaId = nuevaMesaData.id;
+                console.log('Mesa creada:', mesaId);
+            } else {
+                throw new Error('Error al crear la mesa.');
+            }
+        }
+    } catch (error) {
+        console.error('Error en la validación/creación de mesa:', error);
+        alert('Hubo un error al validar/crear la mesa.');
+        return;
+    }
+
+    // Construir y enviar la orden
     const orden = {
-        mesa,
-        numeroMesa,
+        mesaId, // ID de la mesa obtenida o creada
         estado,
-        mesero,
         productos,
         cantidades,
         descripciones,
