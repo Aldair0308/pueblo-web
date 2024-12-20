@@ -6,13 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const nameElement = document.querySelector('.cuenta p');
         if (nameElement) {
             const nameText = nameElement.textContent.trim();
-            // Verificar si contiene el formato esperado (Nombre Completo)
-            if (nameText.includes(' ')) {
-                userName = nameText;
-                console.log(`Nombre del usuario obtenido: "${userName}"`);
-            } else {
-                console.error('El nombre del usuario no tiene el formato esperado: ', nameText);
-            }
+            // Asignar directamente el nombre sin codificar
+            userName = nameText;
+            console.log(`Nombre del usuario obtenido: "${userName}"`);
         } else {
             console.error('Elemento del DOM para el nombre del usuario no encontrado.');
         }
