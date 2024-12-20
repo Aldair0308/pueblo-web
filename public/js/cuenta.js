@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const resumenCuentaElement = document.getElementById('resumen-cuenta');
     const totalCuentaElement = document.getElementById('total-cuenta');
 
-    fetch(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/resumen/${userName}`)
+    fetch(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/resumen/Aldair Morales Gutierrez`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error:', error);
         });
 
-    fetch(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/total/${userName}`)
+    fetch(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/total/Aldair Morales Gutierrez`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
