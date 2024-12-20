@@ -1,31 +1,38 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Obtener los datos del usuario desde la sesión
     const userName = encodeURIComponent("{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}");
     const resumenCuentaElement = document.getElementById('resumen-cuenta');
     const totalCuentaElement = document.getElementById('total-cuenta');
 
-    // Validar si los elementos existen
-    if (!resumenCuentaElement || !totalCuentaElement) {
-        console.error("Elementos del DOM no encontrados.");
-        return;
-    }
+    // Crear un contenedor para mostrar errores en pantalla
+    const errorContainer = document.createElement('div');
+    errorContainer.id = 'error-container';
+    errorContainer.style.color = 'red';
+    errorContainer.style.marginTop = '10px';
+    document.querySelector('.cuenta').appendChild(errorContainer);
+
+    // Función para mostrar errores en pantalla
+    const showError = (message) => {
+        errorContainer.innerHTML = `<p><strong>Error:</strong> ${message}</p>`;
+    };
 
     // Función para realizar una llamada a la API
-    const fetchData = async (url) => {
+    const fetchData = async (url, element) => {
         try {
             const response = await fetch(url);
             if (!response.ok) {
-                throw new Error(`Error en la respuesta de la API: ${response.statusText}`);
+                const errorText = await response.text(); // Obtener respuesta como texto para depuración
+                throw new Error(`HTTP ${response.status}: ${errorText}`);
             }
             return await response.json();
         } catch (error) {
             console.error('Error al obtener los datos de la API:', error);
-            throw error; // Propagar el error para manejarlo en el contexto que llama esta función
+            showError(error.message); // Mostrar el error en pantalla
+            throw error; // Repropagar el error
         }
     };
 
     // Cargar el resumen de la cuenta
-    fetchData(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/resumen/${userName}`)
+    fetchData(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/resumen/${userName}`, resumenCuentaElement)
         .then(data => {
             if (Array.isArray(data)) {
                 const resumenHtml = data.map(item => `<li>${item.producto} - Cantidad: ${item.cantidad}</li>`).join('');
@@ -35,11 +42,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
         .catch(() => {
-            resumenCuentaElement.innerHTML = '<p>Error al cargar el resumen de la cuenta.</p>';
+            resumenCuentaElement.innerHTML = '<p>No se pudo cargar el resumen de la cuenta. Ver detalles del error arriba.</p>';
         });
 
     // Cargar el total de la cuenta
-    fetchData(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/total/${userName}`)
+    fetchData(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/total/${userName}`, totalCuentaElement)
         .then(data => {
             if (typeof data === 'number') {
                 totalCuentaElement.textContent = `$${data.toFixed(2)}`; // Formato monetario
@@ -48,6 +55,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
         .catch(() => {
-            totalCuentaElement.textContent = 'Error al cargar el total.';
+            totalCuentaElement.textContent = 'No se pudo cargar el total. Ver detalles del error arriba.';
         });
 });
