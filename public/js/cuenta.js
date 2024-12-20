@@ -1,5 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const userName = encodeURIComponent("{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}");
+    // Obtener el nombre completo directamente del DOM
+    const userNameElement = document.querySelector('.cuenta p strong + text');
+    let userName = '';
+
+    if (userNameElement) {
+        userName = userNameElement.textContent.trim(); // Asegurarse de que no haya espacios adicionales
+    }
+
+    if (!userName) {
+        console.error("No se pudo obtener el nombre del usuario del DOM.");
+        return;
+    }
+
     const resumenCuentaElement = document.getElementById('resumen-cuenta');
     const totalCuentaElement = document.getElementById('total-cuenta');
 
@@ -14,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
         errorContainer.innerHTML = `<p><strong>Error:</strong> ${message}</p>`;
     };
 
-    // Función para llamar a la API
+    // Función para realizar una llamada a la API
     const fetchData = async (url) => {
         try {
             const response = await fetch(url);
