@@ -1,48 +1,53 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Obtener los datos del usuario desde la sesión
     const userName = encodeURIComponent("{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}");
     const resumenCuentaElement = document.getElementById('resumen-cuenta');
     const totalCuentaElement = document.getElementById('total-cuenta');
 
-    fetch(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/resumen/Aldair Morales Gutierrez`)
-        .then(response => {
+    // Validar si los elementos existen
+    if (!resumenCuentaElement || !totalCuentaElement) {
+        console.error("Elementos del DOM no encontrados.");
+        return;
+    }
+
+    // Función para realizar una llamada a la API
+    const fetchData = async (url) => {
+        try {
+            const response = await fetch(url);
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error(`Error en la respuesta de la API: ${response.statusText}`);
             }
-            return response.json();
-        })
+            return await response.json();
+        } catch (error) {
+            console.error('Error al obtener los datos de la API:', error);
+            throw error; // Propagar el error para manejarlo en el contexto que llama esta función
+        }
+    };
+
+    // Cargar el resumen de la cuenta
+    fetchData(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/resumen/${userName}`)
         .then(data => {
             if (Array.isArray(data)) {
-                let resumenHtml = '<ul>';
-                data.forEach(item => {
-                    resumenHtml += `<li>${item.producto} - Cantidad: ${item.cantidad}</li>`;
-                });
-                resumenHtml += '</ul>';
-                resumenCuentaElement.innerHTML = resumenHtml;
+                const resumenHtml = data.map(item => `<li>${item.producto} - Cantidad: ${item.cantidad}</li>`).join('');
+                resumenCuentaElement.innerHTML = `<ul>${resumenHtml}</ul>`;
             } else {
                 resumenCuentaElement.innerHTML = '<p>Formato de datos incorrecto.</p>';
             }
         })
-        .catch(error => {
+        .catch(() => {
             resumenCuentaElement.innerHTML = '<p>Error al cargar el resumen de la cuenta.</p>';
-            console.error('Error:', error);
         });
 
-    fetch(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/total/Aldair Morales Gutierrez`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
+    // Cargar el total de la cuenta
+    fetchData(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/total/${userName}`)
         .then(data => {
             if (typeof data === 'number') {
-                totalCuentaElement.textContent = data;
+                totalCuentaElement.textContent = `$${data.toFixed(2)}`; // Formato monetario
             } else {
-                totalCuentaElement.textContent = 'Formato de datos incorrecto';
+                totalCuentaElement.textContent = 'Formato de datos incorrecto.';
             }
         })
-        .catch(error => {
-            totalCuentaElement.textContent = 'Error';
-            console.error('Error:', error);
+        .catch(() => {
+            totalCuentaElement.textContent = 'Error al cargar el total.';
         });
 });
