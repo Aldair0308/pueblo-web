@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const userName = "{{ session('user')['first_name'] }}";
+    const userName = encodeURIComponent("{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}");
     const resumenCuentaElement = document.getElementById('resumen-cuenta');
     const totalCuentaElement = document.getElementById('total-cuenta');
 
