@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Función para actualizar los datos de la cuenta
     const updateData = () => {
         // Llamada para obtener el resumen de la cuenta
-        fetchData(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/resumen/${userName}`, 'resumen de la cuenta')
+        fetchData(`https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/${userName}`, 'resumen de la cuenta')
             .then(data => {
                 if (Array.isArray(data)) {
                     const resumenHtml = data
