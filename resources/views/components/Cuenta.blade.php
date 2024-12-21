@@ -92,11 +92,9 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const userName = encodeURIComponent(
-            "{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}"
-        );
+            "{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}");
         const resumenCuentaElement = document.getElementById('resumen-cuenta');
         const totalCuentaElement = document.getElementById('total-cuenta');
-        let isUpdating = false; // Evitar múltiples actualizaciones simultáneas
 
         // Función para convertir el timestamp a formato AM/PM correctamente (usando UTC)
         const formatTime12Hours = (timestamp) => {
@@ -112,67 +110,48 @@
             return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
         };
 
-        // Función para renderizar las rondas en el DOM
-        const renderRondas = (data) => {
-            let totalCuenta = 0;
-            const html = data.map(ronda => {
-                totalCuenta += ronda.totalRonda;
-                return `
-                <div class="ronda">
-                    <div class="ronda-header">Ronda #${ronda.id} - Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
-                    ${ronda.productos.map((producto, index) => `
-                        <div class="ronda-producto">
-                            ${producto || 'Sin producto'} (Cantidad: ${ronda.cantidades[index] || '0'}) - ${ronda.descripciones[index] || 'Sin descripción'}
-                        </div>
-                    `).join('')}
-                    <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
-                </div>
-            `;
-            }).join('');
-
-            // Actualizar el total de la cuenta
-            totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
-
-            // Usar smoothUpdate para actualizar solo lo necesario
-            smoothUpdate(resumenCuentaElement, html);
-        };
-
-        // Función para evitar el parpadeo durante las actualizaciones
-        const smoothUpdate = (element, newContent) => {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = newContent;
-
-            // Comparar el contenido actual con el nuevo
-            if (element.innerHTML.trim() !== tempDiv.innerHTML.trim()) {
-                element.innerHTML = newContent;
-            }
-        };
-
-        // Función para cargar las rondas
+        // Función para cargar las rondas sin parpadeos
         const fetchRondas = async () => {
-            if (isUpdating) return; // Evitar múltiples actualizaciones simultáneas
-            isUpdating = true;
-
             try {
                 const response = await fetch(
                     `https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/${userName}`
-                );
+                    );
                 if (!response.ok) {
                     throw new Error(`Error HTTP ${response.status}: ${await response.text()}`);
                 }
                 const data = await response.json();
-                if (Array.isArray(data) && data.length > 0) {
-                    renderRondas(data); // Renderizar los datos solo si son válidos
+
+                let totalCuenta = 0;
+                const newHtml = data.map(ronda => {
+                    totalCuenta += ronda.totalRonda;
+                    return `
+                        <div class="ronda">
+                            <div class="ronda-header">Ronda #${ronda.id} - Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
+                            ${ronda.productos.map((producto, index) => `
+                                <div class="ronda-producto">
+                                    ${producto} (Cantidad: ${ronda.cantidades[index]}) - ${ronda.descripciones[index] || ''}
+                                </div>
+                            `).join('')}
+                            <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
+                        </div>
+                    `;
+                }).join('');
+
+                // Actualizar solo si hay cambios para evitar parpadeos
+                if (resumenCuentaElement.innerHTML !== newHtml) {
+                    resumenCuentaElement.innerHTML = newHtml;
                 }
+                totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
             } catch (error) {
                 console.error('Error al cargar las rondas:', error);
-            } finally {
-                isUpdating = false; // Permitir nuevas actualizaciones
+                if (!resumenCuentaElement.innerHTML.includes('Error')) {
+                    resumenCuentaElement.innerHTML = '<p>Error al cargar el resumen de la cuenta.</p>';
+                }
             }
         };
 
-        // Primera carga y actualizaciones periódicas
+        // Cargar las rondas al inicio y actualizar cada 3 segundos sin parpadeos
         fetchRondas();
-        setInterval(fetchRondas, 2900);
+        setInterval(fetchRondas, 3000);
     });
 </script>
