@@ -94,7 +94,7 @@
 
     .modal-content {
         background-color: #f9f9f9;
-        margin: 15% auto;
+        margin: 8% auto;
         padding: 20px;
         border: 1px solid #ccc;
         border-radius: 8px;
