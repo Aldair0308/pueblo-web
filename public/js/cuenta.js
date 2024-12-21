@@ -3,12 +3,19 @@ document.addEventListener('DOMContentLoaded', function () {
     let userName = '';
 
     try {
+        // Buscar el párrafo que contiene el texto "Nombre: Aldair Morales"
         const nameElement = document.querySelector('.cuenta p');
         if (nameElement) {
             const nameText = nameElement.textContent.trim();
-            // Asignar directamente el nombre sin codificar
-            userName = nameText;
-            console.log(`Nombre del usuario obtenido: "${userName}"`);
+            
+            // Eliminar el prefijo "Nombre: " y dejar solo el nombre completo
+            if (nameText.startsWith("Nombre:")) {
+                userName = nameText.replace("Nombre:", "").trim();
+                console.log(`Nombre del usuario obtenido: "${userName}"`);
+            } else {
+                userName = nameText; // Si no tiene el prefijo, tomarlo tal cual
+                console.log(`Nombre del usuario obtenido: "${userName}"`);
+            }
         } else {
             console.error('Elemento del DOM para el nombre del usuario no encontrado.');
         }
