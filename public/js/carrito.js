@@ -224,22 +224,34 @@ ordenForm.addEventListener('submit', function (event) {
         .then(data => {
             console.log('Orden enviada:', data);
             alert('Orden enviada correctamente.');
+    
+            // Limpiar el carrito
             carritoContainer.innerHTML = '';
             totalRonda = 0;
             if (totalDisplay) {
                 totalDisplay.textContent = '0.00';
             }
-
+    
             // Cerrar el modal del carrito después de enviar el pedido
             const carritoModal = document.getElementById('carrito-modal');
             if (carritoModal) {
                 carritoModal.style.display = 'none';
             }
+    
+            // Abrir una nueva ventana o popup
+            const popup = window.open('', 'popup', 'width=600,height=400');
+            popup.document.write('<h1>¡Gracias por tu compra!</h1>'); // Puedes personalizar el contenido del popup aquí.
+    
+            // Regresar a la página anterior después de un retraso (por ejemplo, 2 segundos)
+            setTimeout(() => {
+                window.location.href = document.referrer; // Regresa a la página anterior
+            }, 2000); // Espera 2 segundos antes de redirigir
         })
         .catch(error => {
             console.error('Error al enviar la orden:', error);
             alert('Hubo un error al enviar la orden.');
         });
+    
 });
 
 
