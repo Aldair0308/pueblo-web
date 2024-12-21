@@ -1,34 +1,10 @@
-{{-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    
-</head>
-
-<body>
-    <div class="container">
-        <h1>Bienvenido a la Página de Inicio</h1>
-        <p>Esta es la página principal de tu aplicación Laravel.</p>
-        <p>Selecciona tus productos y realiza tu pedido para la mesa {{ $numeroMesa }}.</p>
-
-        
-    </div>
-</body>
-
-</html> --}}
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Proyecto Laravel</title>
+    <title>Bienvenido</title>
     <link rel="stylesheet" href="{{ secure_asset('css/styles.css') }}">
     <script src="{{ secure_asset('js/AuthGoogle.js') }}"></script>
 </head>

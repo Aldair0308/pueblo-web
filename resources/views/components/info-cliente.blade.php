@@ -4,7 +4,7 @@
             style="width: 100px; height: 100px; border-radius: 50%;">
     </div>
     <div class="info-cliente__name">
-        <h2>{{ $name }} {{ $lastName }}</h2>
+        <h2>{{ $name }}</h2>
     </div>
 </div>
 @if (session('success'))

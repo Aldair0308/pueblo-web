@@ -9,7 +9,7 @@
             <span id="close-modal" class="close">&times;</span>
             <h2>Resumen de la Cuenta</h2>
             @if (session('user'))
-                <p><strong>Nombre:</strong> {{ session('user')['first_name'] }} {{ session('user')['last_name'] }}</p>
+                <p><strong>Nombre:</strong> {{ session('user')['first_name'] }}</p>
                 <div id="resumen-cuenta">
                     <p>Cargando resumen de la cuenta...</p>
                 </div>
