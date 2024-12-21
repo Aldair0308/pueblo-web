@@ -173,6 +173,6 @@
 
         // Primera carga y actualizaciones periódicas
         fetchRondas();
-        setInterval(fetchRondas, 10000);
+        setInterval(fetchRondas, 2900);
     });
 </script>
