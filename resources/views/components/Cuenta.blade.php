@@ -94,7 +94,21 @@
         const userName = encodeURIComponent(
             "{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}"
         );
-        const resumenCuentaElement = document.getElementById('resumen-cuenta');
+        const resumenCuentaElement1 = document.createElement('div'); // Primera lista
+        const resumenCuentaElement2 = document.createElement('div'); // Segunda lista
+        let currentVisible = resumenCuentaElement1; // Contenedor visible actual
+
+        // Agregar ambas listas al DOM
+        resumenCuentaElement1.id = "resumen-cuenta-1";
+        resumenCuentaElement2.id = "resumen-cuenta-2";
+        resumenCuentaElement1.style.display = "block";
+        resumenCuentaElement2.style.display = "none";
+
+        const resumenContainer = document.getElementById('resumen-cuenta');
+        resumenContainer.innerHTML = ""; // Limpiar el contenedor inicial
+        resumenContainer.appendChild(resumenCuentaElement1);
+        resumenContainer.appendChild(resumenCuentaElement2);
+
         const totalCuentaElement = document.getElementById('total-cuenta');
         let isUpdating = false; // Evitar múltiples actualizaciones simultáneas
 
@@ -127,8 +141,8 @@
             });
         };
 
-        // Función para renderizar las rondas en el DOM
-        const renderRondas = (data) => {
+        // Función para renderizar las rondas en el buffer no visible
+        const renderRondasToBuffer = (data, targetBuffer) => {
             let totalCuenta = 0;
             const html = data.map(ronda => {
                 totalCuenta += ronda.totalRonda;
@@ -145,8 +159,21 @@
             `;
             }).join('');
 
-            resumenCuentaElement.innerHTML = html; // Actualizar contenido de las rondas
-            totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`; // Actualizar total
+            targetBuffer.innerHTML = html; // Renderizar en el buffer
+            totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
+        };
+
+        // Función para alternar entre los contenedores visibles
+        const swapBuffers = () => {
+            if (currentVisible === resumenCuentaElement1) {
+                resumenCuentaElement1.style.display = "none";
+                resumenCuentaElement2.style.display = "block";
+                currentVisible = resumenCuentaElement2;
+            } else {
+                resumenCuentaElement2.style.display = "none";
+                resumenCuentaElement1.style.display = "block";
+                currentVisible = resumenCuentaElement1;
+            }
         };
 
         // Función para cargar las rondas
@@ -164,7 +191,12 @@
                 const data = await response.json();
 
                 if (isValidData(data)) {
-                    renderRondas(data); // Renderizar los datos solo si son válidos
+                    const nextBuffer = currentVisible === resumenCuentaElement1 ?
+                        resumenCuentaElement2 :
+                        resumenCuentaElement1;
+
+                    renderRondasToBuffer(data, nextBuffer); // Renderizar en el buffer no visible
+                    swapBuffers(); // Alternar los buffers
                 } else {
                     console.warn('Datos inválidos detectados. Manteniendo la renderización anterior.');
                 }
