@@ -115,7 +115,7 @@
             try {
                 const response = await fetch(
                     `https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/${userName}`
-                    );
+                );
                 if (!response.ok) {
                     throw new Error(`Error HTTP ${response.status}: ${await response.text()}`);
                 }
@@ -152,6 +152,6 @@
 
         // Cargar las rondas al inicio y actualizar cada 3 segundos sin parpadeos
         fetchRondas();
-        setInterval(fetchRondas, 3000);
+        setInterval(fetchRondas, 9000);
     });
 </script>
