@@ -6,7 +6,7 @@
             <p>Cargando resumen de la cuenta...</p>
         </div>
         <div class="total-cuenta">
-            <p><strong>Total de la cuenta:</strong> $<span id="total-cuenta">Cargando...</span></p>
+            <p><strong>Total de la cuenta:</strong> <span id="total-cuenta">Cargando...</span></p>
         </div>
     @else
         <p>No se encontró información del usuario.</p>
