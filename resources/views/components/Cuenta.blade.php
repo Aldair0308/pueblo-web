@@ -134,7 +134,7 @@
             setTimeout(() => {
                 resumenCuentaElement.innerHTML = html;
                 totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
-            }, 200); // Pequeño retraso para garantizar que los datos estén listos
+            }, 1000); // Pequeño retraso para garantizar que los datos estén listos
         };
 
         // Función para cargar las rondas
