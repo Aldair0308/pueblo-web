@@ -13,6 +13,9 @@
                 <div id="resumen-cuenta">
                     <p>Cargando resumen de la cuenta...</p>
                 </div>
+                <div class="total-cuenta">
+                    <p><strong>Total de la cuenta:</strong> <span id="modal-total-cuenta">Cargando...</span></p>
+                </div>
             @else
                 <p>No se encontró información del usuario.</p>
             @endif
@@ -128,6 +131,7 @@
         const closeModalBtn = document.getElementById('close-modal');
         const resumenCuentaElement = document.getElementById('resumen-cuenta');
         const totalCuentaElement = document.getElementById('total-cuenta');
+        const modalTotalCuentaElement = document.getElementById('modal-total-cuenta');
 
         openModalBtn.addEventListener('click', function() {
             modal.style.display = 'block';
@@ -142,6 +146,19 @@
                 modal.style.display = 'none';
             }
         });
+
+        const formatTime12Hours = (timestamp) => {
+            if (!timestamp) return "Hora no disponible";
+
+            const date = new Date(timestamp);
+            if (isNaN(date.getTime())) return "Hora no válida";
+
+            let hours = date.getHours();
+            const minutes = date.getMinutes();
+            const ampm = hours >= 12 ? "PM" : "AM";
+            hours = hours % 12 || 12;
+            return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
+        };
 
         const fetchRondas = async () => {
             try {
@@ -160,7 +177,7 @@
                     totalCuenta += ronda.totalRonda;
                     return `
                         <div class="ronda">
-                            <div class="ronda-header">Mesa: ${ronda.numeroMesa} - ${new Date(ronda.timestamp).toLocaleString()}</div>
+                            <div class="ronda-header">Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
                             ${ronda.productos.map((producto, index) => `
                                 <div class="ronda-producto">
                                     ${producto} (Cantidad: ${ronda.cantidades[index]}) - ${ronda.descripciones[index] || ''}
@@ -173,6 +190,7 @@
 
                 resumenCuentaElement.innerHTML = newHtml;
                 totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
+                modalTotalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
             } catch (error) {
                 console.error('Error al cargar las rondas:', error);
                 resumenCuentaElement.innerHTML = '<p>Error al cargar el resumen de la cuenta.</p>';
