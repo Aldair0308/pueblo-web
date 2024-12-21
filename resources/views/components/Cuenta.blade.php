@@ -164,27 +164,32 @@
         const modalTotalCuentaElement = document.getElementById('modal-total-cuenta');
 
         openModalBtn.addEventListener('click', function() {
-            modal.classList.remove('hide');
-            modal.classList.add('show');
+            modal.style.display = 'block';
+            requestAnimationFrame(() => {
+                modal.classList.remove('hide');
+                modal.classList.add('show');
+            });
         });
 
-        closeModalBtn.addEventListener('click', function() {
+        const closeModal = () => {
             modal.classList.remove('show');
             modal.classList.add('hide');
 
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 400); // Tiempo igual a la duración de la animación
-        });
+            modal.addEventListener(
+                'animationend',
+                () => {
+                    modal.style.display = 'none';
+                }, {
+                    once: true
+                } // Se ejecuta una sola vez para evitar conflictos.
+            );
+        };
+
+        closeModalBtn.addEventListener('click', closeModal);
 
         window.addEventListener('click', function(event) {
             if (event.target === modal) {
-                modal.classList.remove('show');
-                modal.classList.add('hide');
-
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                }, 400);
+                closeModal();
             }
         });
 
@@ -218,19 +223,19 @@
                 const newHtml = data.map(ronda => {
                     totalCuenta += ronda.totalRonda;
                     return `
-                    <div class="ronda">
-                        <div class="ronda-header">Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
-                        ${ronda.productos.map((producto, index) => `
-                            <div class="ronda-producto">
-                                (${ronda.cantidades[index]}) ${producto}
-                            </div>
-                            <div class="ronda-producto">
-                                ${ronda.descripciones[index] || ''}
-                            </div>
-                        `).join('')}
-                        <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
-                    </div>
-                `;
+                <div class="ronda">
+                    <div class="ronda-header">Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
+                    ${ronda.productos.map((producto, index) => `
+                        <div class="ronda-producto">
+                            (${ronda.cantidades[index]}) ${producto}
+                        </div>
+                        <div class="ronda-producto">
+                            ${ronda.descripciones[index] || ''}
+                        </div>
+                    `).join('')}
+                    <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
+                </div>
+            `;
                 }).join('');
 
                 resumenCuentaElement.innerHTML = newHtml;
