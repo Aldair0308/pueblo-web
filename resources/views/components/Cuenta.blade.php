@@ -96,6 +96,8 @@
         const resumenCuentaElement = document.getElementById('resumen-cuenta');
         const totalCuentaElement = document.getElementById('total-cuenta');
 
+        let previousHtml = ""; // Variable para almacenar el contenido previo
+
         // Función para convertir el timestamp a formato AM/PM correctamente (usando UTC)
         const formatTime12Hours = (timestamp) => {
             if (!timestamp) return "Hora no disponible";
@@ -138,14 +140,16 @@
                 }).join('');
 
                 // Actualizar solo si hay cambios para evitar parpadeos
-                if (resumenCuentaElement.innerHTML !== newHtml) {
+                if (newHtml !== previousHtml) {
                     resumenCuentaElement.innerHTML = newHtml;
+                    previousHtml = newHtml;
                 }
                 totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
             } catch (error) {
                 console.error('Error al cargar las rondas:', error);
                 if (!resumenCuentaElement.innerHTML.includes('Error')) {
-                    resumenCuentaElement.innerHTML = '<p>Error al cargar el resumen de la cuenta.</p>';
+                    resumenCuentaElement.innerHTML = previousHtml ||
+                        '<p>Error al cargar el resumen de la cuenta.</p>';
                 }
             }
         };
