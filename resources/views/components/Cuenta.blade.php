@@ -112,24 +112,10 @@
             return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
         };
 
-        // Función para validar los datos antes de renderizar
-        const isValidData = (data) => {
-            if (!Array.isArray(data) || data.length === 0)
-                return false; // Verificar que los datos sean un arreglo válido
-
-            return data.every(ronda => {
-                if (!ronda.productos || !ronda.cantidades || !ronda.descripciones) return false;
-                if (ronda.productos.some(producto => producto === undefined)) return false;
-                if (ronda.cantidades.some(cantidad => cantidad === undefined)) return false;
-                if (ronda.descripciones.some(descripcion => descripcion === undefined))
-                    return false;
-                return true;
-            });
-        };
-
-        // Función para renderizar las rondas en el DOM
+        // Función para renderizar las rondas en un contenedor temporal
         const renderRondas = (data) => {
             let totalCuenta = 0;
+            const tempDiv = document.createElement('div'); // Contenedor temporal
             const html = data.map(ronda => {
                 totalCuenta += ronda.totalRonda;
                 return `
@@ -145,8 +131,22 @@
             `;
             }).join('');
 
-            resumenCuentaElement.innerHTML = html; // Actualizar contenido de las rondas
-            totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`; // Actualizar total
+            tempDiv.innerHTML = html; // Construir el nuevo contenido
+            totalCuentaElement.textContent =
+                `$${totalCuenta.toFixed(2)}`; // Actualizar el total de la cuenta
+
+            // Usar smoothReplace para actualizar solo si todo está listo
+            smoothReplace(resumenCuentaElement, tempDiv);
+        };
+
+        // Función para evitar el parpadeo durante las actualizaciones
+        const smoothReplace = (element, tempDiv) => {
+            // Si el contenido nuevo es diferente, reemplazar
+            if (element.innerHTML.trim() !== tempDiv.innerHTML.trim()) {
+                requestAnimationFrame(() => {
+                    element.innerHTML = tempDiv.innerHTML; // Actualizar contenido
+                });
+            }
         };
 
         // Función para cargar las rondas
@@ -162,11 +162,8 @@
                     throw new Error(`Error HTTP ${response.status}: ${await response.text()}`);
                 }
                 const data = await response.json();
-
-                if (isValidData(data)) {
+                if (Array.isArray(data) && data.length > 0) {
                     renderRondas(data); // Renderizar los datos solo si son válidos
-                } else {
-                    console.warn('Datos inválidos detectados. Manteniendo la renderización anterior.');
                 }
             } catch (error) {
                 console.error('Error al cargar las rondas:', error);
