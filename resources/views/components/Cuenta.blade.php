@@ -96,7 +96,7 @@
         const resumenCuentaElement = document.getElementById('resumen-cuenta');
         const totalCuentaElement = document.getElementById('total-cuenta');
 
-        let previousHtml = ""; // Variable para almacenar el contenido previo
+        let previousHtml = resumenCuentaElement.innerHTML; // Almacenar el contenido previo inicial
 
         // Función para convertir el timestamp a formato AM/PM correctamente (usando UTC)
         const formatTime12Hours = (timestamp) => {
@@ -140,13 +140,14 @@
                 }).join('');
 
                 // Actualizar solo si hay cambios para evitar parpadeos
-                if (newHtml !== previousHtml) {
+                if (newHtml && newHtml !== previousHtml) {
                     resumenCuentaElement.innerHTML = newHtml;
                     previousHtml = newHtml;
                 }
                 totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
             } catch (error) {
                 console.error('Error al cargar las rondas:', error);
+                // Mostrar el contenido previo si hay un error
                 if (!resumenCuentaElement.innerHTML.includes('Error')) {
                     resumenCuentaElement.innerHTML = previousHtml ||
                         '<p>Error al cargar el resumen de la cuenta.</p>';
