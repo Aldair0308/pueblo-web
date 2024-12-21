@@ -96,15 +96,18 @@
         const resumenCuentaElement = document.getElementById('resumen-cuenta');
         const totalCuentaElement = document.getElementById('total-cuenta');
 
-        // Función para convertir el timestamp a formato AM/PM correctamente
-        const formatTimestamp = (timestamp) => {
+        // Función para convertir el timestamp a formato AM/PM correctamente (usando UTC)
+        const formatTime12Hours = (timestamp) => {
+            if (!timestamp) return "Hora no disponible";
+
             const date = new Date(timestamp);
-            let hours = date.getHours();
-            const minutes = date.getMinutes().toString().padStart(2, '0');
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12; // La hora 0 debe ser 12
-            return `${hours}:${minutes} ${ampm}`;
+            if (isNaN(date.getTime())) return "Hora no válida";
+
+            let hours = date.getUTCHours(); // Usar getUTCHours para manejar el formato en Zulu Time
+            const minutes = date.getUTCMinutes();
+            const ampm = hours >= 12 ? "PM" : "AM";
+            hours = hours % 12 || 12; // Convertir la hora a formato de 12 horas
+            return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
         };
 
         // Función para cargar las rondas sin parpadeos
@@ -123,7 +126,7 @@
                     totalCuenta += ronda.totalRonda;
                     return `
                         <div class="ronda">
-                            <div class="ronda-header">Ronda #${ronda.id} - Mesa: ${ronda.numeroMesa} - ${formatTimestamp(ronda.timestamp)}</div>
+                            <div class="ronda-header">Ronda #${ronda.id} - Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
                             ${ronda.productos.map((producto, index) => `
                                 <div class="ronda-producto">
                                     ${producto} (Cantidad: ${ronda.cantidades[index]}) - ${ronda.descripciones[index] || ''}
