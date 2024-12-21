@@ -96,10 +96,6 @@
         );
         const resumenCuentaElement = document.getElementById('resumen-cuenta');
         const totalCuentaElement = document.getElementById('total-cuenta');
-        let bufferElement = document.createElement('div'); // Contenedor en segundo plano
-        bufferElement.style.display = 'none'; // Ocultar mientras se actualiza
-        document.body.appendChild(bufferElement); // Agregar al DOM para procesar datos
-
         let isUpdating = false; // Evitar múltiples actualizaciones simultáneas
 
         // Función para convertir el timestamp a formato AM/PM correctamente (usando UTC)
@@ -116,8 +112,23 @@
             return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
         };
 
-        // Función para procesar los datos y renderizarlos en el buffer
-        const renderRondasToBuffer = (data) => {
+        // Función para validar los datos antes de renderizar
+        const isValidData = (data) => {
+            if (!Array.isArray(data) || data.length === 0)
+        return false; // Verificar que los datos sean un arreglo válido
+
+            return data.every(ronda => {
+                if (!ronda.productos || !ronda.cantidades || !ronda.descripciones) return false;
+                if (ronda.productos.some(producto => producto === undefined)) return false;
+                if (ronda.cantidades.some(cantidad => cantidad === undefined)) return false;
+                if (ronda.descripciones.some(descripcion => descripcion === undefined))
+            return false;
+                return true;
+            });
+        };
+
+        // Función para renderizar las rondas en el DOM
+        const renderRondas = (data) => {
             let totalCuenta = 0;
             const html = data.map(ronda => {
                 totalCuenta += ronda.totalRonda;
@@ -134,13 +145,8 @@
             `;
             }).join('');
 
-            bufferElement.innerHTML = html; // Procesar datos en el buffer
-            totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
-        };
-
-        // Función para reemplazar el contenido visible con el contenido del buffer
-        const swapBuffers = () => {
-            resumenCuentaElement.innerHTML = bufferElement.innerHTML; // Reemplazar contenido
+            resumenCuentaElement.innerHTML = html; // Actualizar contenido de las rondas
+            totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`; // Actualizar total
         };
 
         // Función para cargar las rondas
@@ -156,9 +162,11 @@
                     throw new Error(`Error HTTP ${response.status}: ${await response.text()}`);
                 }
                 const data = await response.json();
-                if (Array.isArray(data) && data.length > 0) {
-                    renderRondasToBuffer(data); // Renderizar en el buffer
-                    swapBuffers(); // Reemplazar solo cuando el contenido esté listo
+
+                if (isValidData(data)) {
+                    renderRondas(data); // Renderizar los datos solo si son válidos
+                } else {
+                    console.warn('Datos inválidos detectados. Manteniendo la renderización anterior.');
                 }
             } catch (error) {
                 console.error('Error al cargar las rondas:', error);
