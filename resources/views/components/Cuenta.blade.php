@@ -90,81 +90,68 @@
 </style>
 
 <script>
-    < script >
-        document.addEventListener('DOMContentLoaded', function() {
-            const userName = encodeURIComponent(
-                "{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}");
-            const resumenCuentaElement = document.getElementById('resumen-cuenta');
-            const totalCuentaElement = document.getElementById('total-cuenta');
-            let isUpdating = false; // Evitar múltiples actualizaciones
+    document.addEventListener('DOMContentLoaded', function() {
+        const userName = encodeURIComponent(
+            "{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}");
+        const resumenCuentaElement = document.getElementById('resumen-cuenta');
+        const totalCuentaElement = document.getElementById('total-cuenta');
 
-            // Función para convertir el timestamp a formato AM/PM correctamente (usando UTC)
-            const formatTime12Hours = (timestamp) => {
-                if (!timestamp) return "Hora no disponible";
+        // Función para convertir el timestamp a formato AM/PM correctamente (usando UTC)
+        const formatTime12Hours = (timestamp) => {
+            if (!timestamp) return "Hora no disponible";
 
-                const date = new Date(timestamp);
-                if (isNaN(date.getTime())) return "Hora no válida";
+            const date = new Date(timestamp);
+            if (isNaN(date.getTime())) return "Hora no válida";
 
-                let hours = date.getUTCHours(); // Usar getUTCHours para manejar el formato en Zulu Time
-                const minutes = date.getUTCMinutes();
-                const ampm = hours >= 12 ? "PM" : "AM";
-                hours = hours % 12 || 12; // Convertir la hora a formato de 12 horas
-                return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
-            };
+            let hours = date.getUTCHours(); // Usar getUTCHours para manejar el formato en Zulu Time
+            const minutes = date.getUTCMinutes();
+            const ampm = hours >= 12 ? "PM" : "AM";
+            hours = hours % 12 || 12; // Convertir la hora a formato de 12 horas
+            return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
+        };
 
-            // Función para renderizar las rondas en el DOM
-            const renderRondas = (data) => {
+        // Función para cargar las rondas sin parpadeos
+        const fetchRondas = async () => {
+            try {
+                const response = await fetch(
+                    `https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/${userName}`
+                    );
+                if (!response.ok) {
+                    throw new Error(`Error HTTP ${response.status}: ${await response.text()}`);
+                }
+                const data = await response.json();
+
                 let totalCuenta = 0;
-                const html = data.map(ronda => {
+                const newHtml = data.map(ronda => {
                     totalCuenta += ronda.totalRonda;
                     return `
-                    <div class="ronda">
-                        <div class="ronda-header">Ronda #${ronda.id} - Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
-                        ${ronda.productos.map((producto, index) => `
-                            <div class="ronda-producto">
-                                ${producto || 'Sin producto'} (Cantidad: ${ronda.cantidades[index] || '0'}) - ${ronda.descripciones[index] || 'Sin descripción'}
-                            </div>
-                        `).join('')}
-                        <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
-                    </div>
-                `;
+                        <div class="ronda">
+                            <div class="ronda-header">Ronda #${ronda.id} - Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
+                            ${ronda.productos.map((producto, index) => `
+                                <div class="ronda-producto">
+                                    ${producto} (Cantidad: ${ronda.cantidades[index]}) - ${ronda.descripciones[index] || ''}
+                                </div>
+                            `).join('')}
+                            <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
+                        </div>
+                    `;
                 }).join('');
 
-                // Actualizar contenido de la UI después de un retraso
-                setTimeout(() => {
-                    resumenCuentaElement.innerHTML = html;
-                    totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
-                }, 500); // Esperar 500ms antes de renderizar
-            };
-
-            // Función para cargar las rondas
-            const fetchRondas = async () => {
-                if (isUpdating) return; // Evitar múltiples actualizaciones simultáneas
-                isUpdating = true;
-
-                try {
-                    const response = await fetch(
-                        `https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/${userName}`
-                    );
-                    if (!response.ok) {
-                        throw new Error(`Error HTTP ${response.status}: ${await response.text()}`);
-                    }
-                    const data = await response.json();
-                    await new Promise(resolve => setTimeout(resolve, 2000));
-                    if (Array.isArray(data) && data.length > 0) {
-                        renderRondas(data); // Renderizar los datos solo si son válidos
-                    }
-                } catch (error) {
-                    console.error('Error al cargar las rondas:', error);
-                } finally {
-                    isUpdating = false; // Permitir nuevas actualizaciones
+                // Actualizar solo si hay cambios para evitar parpadeos
+                if (resumenCuentaElement.innerHTML !== newHtml) {
+                    resumenCuentaElement.innerHTML = newHtml;
                 }
-            };
+                totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
+            } catch (error) {
+                console.error('Error al cargar las rondas:', error);
+                if (!resumenCuentaElement.innerHTML.includes('Error')) {
+                    resumenCuentaElement.innerHTML = '<p>Error al cargar el resumen de la cuenta.</p>';
+                }
+            }
+        };
 
-            // Primera carga y actualizaciones periódicas
-            fetchRondas();
-            setInterval(fetchRondas, 7000);
-        });
-</script>
-
+        // Cargar las rondas al inicio y actualizar cada 3 segundos sin parpadeos
+        fetchRondas();
+        setInterval(fetchRondas, 3000);
+    });
 </script>
