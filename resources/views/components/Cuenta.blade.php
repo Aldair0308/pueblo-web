@@ -92,10 +92,11 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const userName = encodeURIComponent(
-            "{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}");
+            "{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}"
+        );
         const resumenCuentaElement = document.getElementById('resumen-cuenta');
         const totalCuentaElement = document.getElementById('total-cuenta');
-        let lastData = null; // Almacena los datos previos
+        let isUpdating = false; // Variable para bloquear actualizaciones simultáneas
 
         // Función para convertir el timestamp a formato AM/PM correctamente (usando UTC)
         const formatTime12Hours = (timestamp) => {
@@ -113,31 +114,32 @@
 
         // Función para renderizar las rondas en el DOM
         const renderRondas = (data) => {
-            if (!data || data.length === 0) {
-                return; // No actualizar si no hay datos
-            }
-
             let totalCuenta = 0;
             const html = data.map(ronda => {
                 totalCuenta += ronda.totalRonda;
                 return `
-                    <div class="ronda">
-                        <div class="ronda-header">Ronda #${ronda.id} - Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
-                        ${ronda.productos.map((producto, index) => `
-                            <div class="ronda-producto">
-                                ${producto || 'Sin producto'} (Cantidad: ${ronda.cantidades[index] || '0'}) - ${ronda.descripciones[index] || 'Sin descripción'}
-                            </div>
-                        `).join('')}
-                        <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
-                    </div>
-                `;
+                <div class="ronda">
+                    <div class="ronda-header">Ronda #${ronda.id} - Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
+                    ${ronda.productos.map((producto, index) => `
+                        <div class="ronda-producto">
+                            ${producto || 'Sin producto'} (Cantidad: ${ronda.cantidades[index] || '0'}) - ${ronda.descripciones[index] || 'Sin descripción'}
+                        </div>
+                    `).join('')}
+                    <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
+                </div>
+            `;
             }).join('');
+
+            // Actualizar contenido de la UI
             resumenCuentaElement.innerHTML = html;
             totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
         };
 
-        // Función para cargar las rondas sin parpadeos
+        // Función para cargar las rondas
         const fetchRondas = async () => {
+            if (isUpdating) return; // Evitar múltiples actualizaciones simultáneas
+            isUpdating = true;
+
             try {
                 const response = await fetch(
                     `https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/${userName}`
@@ -146,18 +148,17 @@
                     throw new Error(`Error HTTP ${response.status}: ${await response.text()}`);
                 }
                 const data = await response.json();
-
-                // Actualizar solo si hay datos nuevos
-                if (!lastData || JSON.stringify(data) !== JSON.stringify(lastData)) {
-                    lastData = data;
-                    renderRondas(data);
+                if (Array.isArray(data) && data.length > 0) {
+                    renderRondas(data); // Renderizar los datos solo si son válidos
                 }
             } catch (error) {
                 console.error('Error al cargar las rondas:', error);
+            } finally {
+                isUpdating = false; // Permitir nuevas actualizaciones
             }
         };
 
-        // Cargar las rondas al inicio y actualizar cada 3 segundos sin parpadeos
+        // Primera carga y actualizaciones periódicas sin parpadeo
         fetchRondas();
         setInterval(fetchRondas, 3000);
     });
