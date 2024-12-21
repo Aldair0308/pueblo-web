@@ -144,7 +144,10 @@
 
             // Comparar el contenido actual con el nuevo
             if (element.innerHTML.trim() !== tempDiv.innerHTML.trim()) {
-                element.innerHTML = newContent;
+                // Mantener el contenido actual hasta que el nuevo esté listo
+                setTimeout(() => {
+                    element.innerHTML = newContent;
+                }, 300); // Retrasar para asegurarse de que el contenido esté listo
             }
         };
 
