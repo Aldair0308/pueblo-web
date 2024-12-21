@@ -96,7 +96,7 @@
         const resumenCuentaElement = document.getElementById('resumen-cuenta');
         const totalCuentaElement = document.getElementById('total-cuenta');
 
-        // Función para convertir el timestamp a formato AM/PM
+        // Función para convertir el timestamp a formato AM/PM correctamente
         const formatTimestamp = (timestamp) => {
             const date = new Date(timestamp);
             let hours = date.getHours();
@@ -107,7 +107,7 @@
             return `${hours}:${minutes} ${ampm}`;
         };
 
-        // Función para cargar las rondas
+        // Función para cargar las rondas sin parpadeos
         const fetchRondas = async () => {
             try {
                 const response = await fetch(
@@ -119,7 +119,7 @@
                 const data = await response.json();
 
                 let totalCuenta = 0;
-                const resumenHtml = data.map(ronda => {
+                const newHtml = data.map(ronda => {
                     totalCuenta += ronda.totalRonda;
                     return `
                         <div class="ronda">
@@ -134,15 +134,20 @@
                     `;
                 }).join('');
 
-                resumenCuentaElement.innerHTML = resumenHtml;
+                // Actualizar solo si hay cambios para evitar parpadeos
+                if (resumenCuentaElement.innerHTML !== newHtml) {
+                    resumenCuentaElement.innerHTML = newHtml;
+                }
                 totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
             } catch (error) {
-                resumenCuentaElement.innerHTML = '<p>Error al cargar el resumen de la cuenta.</p>';
                 console.error('Error al cargar las rondas:', error);
+                if (!resumenCuentaElement.innerHTML.includes('Error')) {
+                    resumenCuentaElement.innerHTML = '<p>Error al cargar el resumen de la cuenta.</p>';
+                }
             }
         };
 
-        // Cargar las rondas al inicio y actualizar cada 3 segundos
+        // Cargar las rondas al inicio y actualizar cada 3 segundos sin parpadeos
         fetchRondas();
         setInterval(fetchRondas, 3000);
     });
