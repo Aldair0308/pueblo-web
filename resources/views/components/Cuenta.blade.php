@@ -62,6 +62,36 @@
         background-color: rgba(0, 0, 0, 0.5);
     }
 
+    .modal.show {
+        display: block;
+        animation: slideIn 0.4s ease-out;
+    }
+
+    .modal.hide {
+        animation: slideOut 0.4s ease-in;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(100%);
+        }
+
+        to {
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideOut {
+        from {
+            transform: translateY(0);
+        }
+
+        to {
+            transform: translateY(100%);
+        }
+    }
+
     .modal-content {
         background-color: #f9f9f9;
         margin: 15% auto;
@@ -134,16 +164,27 @@
         const modalTotalCuentaElement = document.getElementById('modal-total-cuenta');
 
         openModalBtn.addEventListener('click', function() {
-            modal.style.display = 'block';
+            modal.classList.remove('hide');
+            modal.classList.add('show');
         });
 
         closeModalBtn.addEventListener('click', function() {
-            modal.style.display = 'none';
+            modal.classList.remove('show');
+            modal.classList.add('hide');
+
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 400); // Tiempo igual a la duración de la animación
         });
 
         window.addEventListener('click', function(event) {
             if (event.target === modal) {
-                modal.style.display = 'none';
+                modal.classList.remove('show');
+                modal.classList.add('hide');
+
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 400);
             }
         });
 
