@@ -95,6 +95,7 @@
             "{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}");
         const resumenCuentaElement = document.getElementById('resumen-cuenta');
         const totalCuentaElement = document.getElementById('total-cuenta');
+        let lastData = null; // Almacena los datos previos
 
         // Función para convertir el timestamp a formato AM/PM correctamente (usando UTC)
         const formatTime12Hours = (timestamp) => {
@@ -110,43 +111,49 @@
             return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
         };
 
+        // Función para renderizar las rondas en el DOM
+        const renderRondas = (data) => {
+            if (!data || data.length === 0) {
+                return; // No actualizar si no hay datos
+            }
+
+            let totalCuenta = 0;
+            const html = data.map(ronda => {
+                totalCuenta += ronda.totalRonda;
+                return `
+                    <div class="ronda">
+                        <div class="ronda-header">Ronda #${ronda.id} - Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
+                        ${ronda.productos.map((producto, index) => `
+                            <div class="ronda-producto">
+                                ${producto || 'Sin producto'} (Cantidad: ${ronda.cantidades[index] || '0'}) - ${ronda.descripciones[index] || 'Sin descripción'}
+                            </div>
+                        `).join('')}
+                        <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
+                    </div>
+                `;
+            }).join('');
+            resumenCuentaElement.innerHTML = html;
+            totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
+        };
+
         // Función para cargar las rondas sin parpadeos
         const fetchRondas = async () => {
             try {
                 const response = await fetch(
                     `https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/${userName}`
-                    );
+                );
                 if (!response.ok) {
                     throw new Error(`Error HTTP ${response.status}: ${await response.text()}`);
                 }
                 const data = await response.json();
 
-                let totalCuenta = 0;
-                const newHtml = data.map(ronda => {
-                    totalCuenta += ronda.totalRonda;
-                    return `
-                        <div class="ronda">
-                            <div class="ronda-header">Ronda #${ronda.id} - Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
-                            ${ronda.productos.map((producto, index) => `
-                                <div class="ronda-producto">
-                                    ${producto} (Cantidad: ${ronda.cantidades[index]}) - ${ronda.descripciones[index] || ''}
-                                </div>
-                            `).join('')}
-                            <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
-                        </div>
-                    `;
-                }).join('');
-
-                // Actualizar solo si hay cambios para evitar parpadeos
-                if (resumenCuentaElement.innerHTML !== newHtml) {
-                    resumenCuentaElement.innerHTML = newHtml;
+                // Actualizar solo si hay datos nuevos
+                if (!lastData || JSON.stringify(data) !== JSON.stringify(lastData)) {
+                    lastData = data;
+                    renderRondas(data);
                 }
-                totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
             } catch (error) {
                 console.error('Error al cargar las rondas:', error);
-                if (!resumenCuentaElement.innerHTML.includes('Error')) {
-                    resumenCuentaElement.innerHTML = '<p>Error al cargar el resumen de la cuenta.</p>';
-                }
             }
         };
 
