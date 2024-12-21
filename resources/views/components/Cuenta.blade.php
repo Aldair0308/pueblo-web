@@ -96,19 +96,8 @@
         );
         const resumenContainer = document.getElementById('resumen-cuenta');
         const totalCuentaElement = document.getElementById('total-cuenta');
-        const resumenCuentaElement1 = document.createElement('div'); // Primera lista
-        const resumenCuentaElement2 = document.createElement('div'); // Segunda lista
-        let currentVisible = resumenCuentaElement1; // Contenedor visible actual
-
-        // Configuración inicial de los buffers
-        resumenCuentaElement1.id = "resumen-cuenta-1";
-        resumenCuentaElement2.id = "resumen-cuenta-2";
-        resumenCuentaElement1.style.display = "block";
-        resumenCuentaElement2.style.display = "none";
-        resumenContainer.appendChild(resumenCuentaElement1);
-        resumenContainer.appendChild(resumenCuentaElement2);
-
-        let isUpdating = false; // Para evitar múltiples actualizaciones simultáneas
+        let isUpdating = false; // Evitar múltiples actualizaciones simultáneas
+        let currentContent = ""; // Para comparar contenido y evitar parpadeos
 
         // Función para convertir el timestamp a formato AM/PM correctamente (usando UTC)
         const formatTime12Hours = (timestamp) => {
@@ -124,53 +113,43 @@
             return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
         };
 
-        // Función para validar los datos antes de renderizar
-        const isValidData = (data) => {
-            if (!Array.isArray(data) || data.length === 0) return false;
+        // Validar datos de la API y manejar valores predeterminados
+        const validateAndFormatRondas = (data) => {
+            if (!Array.isArray(data) || data.length === 0)
+    return []; // Si no hay datos, devolver arreglo vacío
 
-            return data.every(ronda => {
-                if (!ronda || !ronda.productos || !ronda.cantidades || !ronda.descripciones)
-                return false;
-                if (ronda.productos.some(producto => producto === undefined)) return false;
-                if (ronda.cantidades.some(cantidad => cantidad === undefined)) return false;
-                if (ronda.descripciones.some(descripcion => descripcion === undefined))
-            return false;
-                return true;
-            });
+            return data.map(ronda => ({
+                id: ronda.id || "Sin ID",
+                numeroMesa: ronda.numeroMesa || "Sin número de mesa",
+                estado: ronda.estado || "Desconocido",
+                timestamp: ronda.timestamp || null,
+                productos: Array.isArray(ronda.productos) ? ronda.productos : ["Sin producto"],
+                cantidades: Array.isArray(ronda.cantidades) ? ronda.cantidades : ["0"],
+                descripciones: Array.isArray(ronda.descripciones) ? ronda.descripciones : [
+                    "Sin descripción"
+                ],
+                totalRonda: ronda.totalRonda || 0,
+            }));
         };
 
-        // Función para renderizar datos en el buffer no visible
-        const renderRondasToBuffer = (data, buffer) => {
-            let totalCuenta = 0;
-            const html = data.map(ronda => {
-                totalCuenta += ronda.totalRonda;
-                return `
-                <div class="ronda">
-                    <div class="ronda-header">Ronda #${ronda.id} - Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
-                    ${ronda.productos.map((producto, index) => `
-                        <div class="ronda-producto">
-                            ${producto || 'Sin producto'} (Cantidad: ${ronda.cantidades[index] || '0'}) - ${ronda.descripciones[index] || 'Sin descripción'}
-                        </div>
-                    `).join('')}
-                    <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
-                </div>
-            `;
-            }).join('');
+        // Renderizar las rondas validadas
+        const renderRondas = (rondas) => {
+            const html = rondas.map(ronda => `
+            <div class="ronda">
+                <div class="ronda-header">Ronda #${ronda.id} - Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
+                ${ronda.productos.map((producto, index) => `
+                    <div class="ronda-producto">
+                        ${producto} (Cantidad: ${ronda.cantidades[index] || '0'}) - ${ronda.descripciones[index] || 'Sin descripción'}
+                    </div>
+                `).join('')}
+                <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
+            </div>
+        `).join('');
 
-            buffer.innerHTML = html;
-            totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
-        };
-
-        // Función para alternar buffers
-        const swapBuffers = () => {
-            if (currentVisible === resumenCuentaElement1) {
-                resumenCuentaElement1.style.display = "none";
-                resumenCuentaElement2.style.display = "block";
-                currentVisible = resumenCuentaElement2;
-            } else {
-                resumenCuentaElement2.style.display = "none";
-                resumenCuentaElement1.style.display = "block";
-                currentVisible = resumenCuentaElement1;
+            // Actualizar solo si el contenido nuevo es diferente
+            if (currentContent !== html) {
+                resumenContainer.innerHTML = html;
+                currentContent = html;
             }
         };
 
@@ -188,17 +167,8 @@
                 }
 
                 const data = await response.json();
-
-                if (isValidData(data)) {
-                    const nextBuffer = currentVisible === resumenCuentaElement1 ?
-                        resumenCuentaElement2 :
-                        resumenCuentaElement1;
-
-                    renderRondasToBuffer(data, nextBuffer); // Procesar en el buffer no visible
-                    swapBuffers(); // Alternar buffers solo si los datos son válidos
-                } else {
-                    console.warn("Datos inválidos detectados. Manteniendo la renderización actual.");
-                }
+                const validRondas = validateAndFormatRondas(data); // Validar y formatear datos
+                renderRondas(validRondas); // Renderizar rondas validadas
             } catch (error) {
                 console.error("Error al cargar las rondas:", error);
             } finally {
