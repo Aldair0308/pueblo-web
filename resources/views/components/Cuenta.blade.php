@@ -96,7 +96,7 @@
         );
         const resumenCuentaElement = document.getElementById('resumen-cuenta');
         const totalCuentaElement = document.getElementById('total-cuenta');
-        let lastData = null; // Almacena los datos previamente cargados
+        let lastData = null; // Variable para almacenar los datos previos
 
         // Función para convertir el timestamp a formato AM/PM correctamente (usando UTC)
         const formatTime12Hours = (timestamp) => {
@@ -141,6 +141,9 @@
         // Función para cargar las rondas sin parpadeos
         const fetchRondas = async () => {
             try {
+                console.log(
+                    `Realizando petición a la API (resumen de la cuenta): https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/${userName}`
+                    );
                 const response = await fetch(
                     `https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/${userName}`
                 );
@@ -148,6 +151,7 @@
                     throw new Error(`Error HTTP ${response.status}: ${await response.text()}`);
                 }
                 const data = await response.json();
+                console.log("Respuesta de la API (resumen de la cuenta):", data);
 
                 // Actualizar solo si hay datos nuevos
                 if (!lastData || JSON.stringify(data) !== JSON.stringify(lastData)) {
