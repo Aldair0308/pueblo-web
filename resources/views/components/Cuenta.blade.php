@@ -112,10 +112,9 @@
             return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
         };
 
-        // Función para renderizar las rondas en un contenedor temporal
+        // Función para renderizar las rondas en el DOM
         const renderRondas = (data) => {
             let totalCuenta = 0;
-            const tempDiv = document.createElement('div'); // Contenedor temporal
             const html = data.map(ronda => {
                 totalCuenta += ronda.totalRonda;
                 return `
@@ -131,21 +130,24 @@
             `;
             }).join('');
 
-            tempDiv.innerHTML = html; // Construir el nuevo contenido
-            totalCuentaElement.textContent =
-                `$${totalCuenta.toFixed(2)}`; // Actualizar el total de la cuenta
+            // Actualizar el total de la cuenta
+            totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
 
-            // Usar smoothReplace para actualizar solo si todo está listo
-            smoothReplace(resumenCuentaElement, tempDiv);
+            // Usar smoothUpdate para actualizar solo lo necesario
+            smoothUpdate(resumenCuentaElement, html);
         };
 
         // Función para evitar el parpadeo durante las actualizaciones
-        const smoothReplace = (element, tempDiv) => {
-            // Si el contenido nuevo es diferente, reemplazar
+        const smoothUpdate = (element, newContent) => {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = newContent;
+
+            // Comparar el contenido actual con el nuevo
             if (element.innerHTML.trim() !== tempDiv.innerHTML.trim()) {
-                requestAnimationFrame(() => {
-                    element.innerHTML = tempDiv.innerHTML; // Actualizar contenido
-                });
+                // Mantener el contenido actual hasta que el nuevo esté listo
+                setTimeout(() => {
+                    element.innerHTML = newContent;
+                }, 300); // Retrasar para asegurarse de que el contenido esté listo
             }
         };
 
