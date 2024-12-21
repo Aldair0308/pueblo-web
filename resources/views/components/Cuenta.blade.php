@@ -94,23 +94,21 @@
         const userName = encodeURIComponent(
             "{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}"
         );
+        const resumenContainer = document.getElementById('resumen-cuenta');
+        const totalCuentaElement = document.getElementById('total-cuenta');
         const resumenCuentaElement1 = document.createElement('div'); // Primera lista
         const resumenCuentaElement2 = document.createElement('div'); // Segunda lista
         let currentVisible = resumenCuentaElement1; // Contenedor visible actual
 
-        // Agregar ambas listas al DOM
+        // Configuración inicial de los buffers
         resumenCuentaElement1.id = "resumen-cuenta-1";
         resumenCuentaElement2.id = "resumen-cuenta-2";
         resumenCuentaElement1.style.display = "block";
         resumenCuentaElement2.style.display = "none";
-
-        const resumenContainer = document.getElementById('resumen-cuenta');
-        resumenContainer.innerHTML = ""; // Limpiar el contenedor inicial
         resumenContainer.appendChild(resumenCuentaElement1);
         resumenContainer.appendChild(resumenCuentaElement2);
 
-        const totalCuentaElement = document.getElementById('total-cuenta');
-        let isUpdating = false; // Evitar múltiples actualizaciones simultáneas
+        let isUpdating = false; // Para evitar múltiples actualizaciones simultáneas
 
         // Función para convertir el timestamp a formato AM/PM correctamente (usando UTC)
         const formatTime12Hours = (timestamp) => {
@@ -119,20 +117,20 @@
             const date = new Date(timestamp);
             if (isNaN(date.getTime())) return "Hora no válida";
 
-            let hours = date.getUTCHours(); // Usar getUTCHours para manejar el formato en Zulu Time
+            let hours = date.getUTCHours();
             const minutes = date.getUTCMinutes();
             const ampm = hours >= 12 ? "PM" : "AM";
-            hours = hours % 12 || 12; // Convertir la hora a formato de 12 horas
+            hours = hours % 12 || 12;
             return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
         };
 
         // Función para validar los datos antes de renderizar
         const isValidData = (data) => {
-            if (!Array.isArray(data) || data.length === 0)
-        return false; // Verificar que los datos sean un arreglo válido
+            if (!Array.isArray(data) || data.length === 0) return false;
 
             return data.every(ronda => {
-                if (!ronda.productos || !ronda.cantidades || !ronda.descripciones) return false;
+                if (!ronda || !ronda.productos || !ronda.cantidades || !ronda.descripciones)
+                return false;
                 if (ronda.productos.some(producto => producto === undefined)) return false;
                 if (ronda.cantidades.some(cantidad => cantidad === undefined)) return false;
                 if (ronda.descripciones.some(descripcion => descripcion === undefined))
@@ -141,8 +139,8 @@
             });
         };
 
-        // Función para renderizar las rondas en el buffer no visible
-        const renderRondasToBuffer = (data, targetBuffer) => {
+        // Función para renderizar datos en el buffer no visible
+        const renderRondasToBuffer = (data, buffer) => {
             let totalCuenta = 0;
             const html = data.map(ronda => {
                 totalCuenta += ronda.totalRonda;
@@ -159,11 +157,11 @@
             `;
             }).join('');
 
-            targetBuffer.innerHTML = html; // Renderizar en el buffer
+            buffer.innerHTML = html;
             totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
         };
 
-        // Función para alternar entre los contenedores visibles
+        // Función para alternar buffers
         const swapBuffers = () => {
             if (currentVisible === resumenCuentaElement1) {
                 resumenCuentaElement1.style.display = "none";
@@ -176,7 +174,7 @@
             }
         };
 
-        // Función para cargar las rondas
+        // Función para cargar datos de la API
         const fetchRondas = async () => {
             if (isUpdating) return; // Evitar múltiples actualizaciones simultáneas
             isUpdating = true;
@@ -188,6 +186,7 @@
                 if (!response.ok) {
                     throw new Error(`Error HTTP ${response.status}: ${await response.text()}`);
                 }
+
                 const data = await response.json();
 
                 if (isValidData(data)) {
@@ -195,13 +194,13 @@
                         resumenCuentaElement2 :
                         resumenCuentaElement1;
 
-                    renderRondasToBuffer(data, nextBuffer); // Renderizar en el buffer no visible
-                    swapBuffers(); // Alternar los buffers
+                    renderRondasToBuffer(data, nextBuffer); // Procesar en el buffer no visible
+                    swapBuffers(); // Alternar buffers solo si los datos son válidos
                 } else {
-                    console.warn('Datos inválidos detectados. Manteniendo la renderización anterior.');
+                    console.warn("Datos inválidos detectados. Manteniendo la renderización actual.");
                 }
             } catch (error) {
-                console.error('Error al cargar las rondas:', error);
+                console.error("Error al cargar las rondas:", error);
             } finally {
                 isUpdating = false; // Permitir nuevas actualizaciones
             }
