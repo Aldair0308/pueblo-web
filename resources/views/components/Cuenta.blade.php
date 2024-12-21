@@ -22,6 +22,110 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('cuenta-modal');
+        const openModalBtn = document.getElementById('open-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const resumenCuentaElement = document.getElementById('resumen-cuenta');
+        const totalCuentaElement = document.getElementById('total-cuenta');
+        const modalTotalCuentaElement = document.getElementById('modal-total-cuenta');
+        const totalCuentaWrapper = document.querySelector(
+        '.total-cuenta'); // Wrapper para ocultar total y botón.
+
+        openModalBtn.addEventListener('click', function() {
+            modal.style.display = 'block';
+            requestAnimationFrame(() => {
+                modal.classList.remove('hide');
+                modal.classList.add('show');
+            });
+        });
+
+        const closeModal = () => {
+            modal.classList.remove('show');
+            modal.classList.add('hide');
+
+            modal.addEventListener(
+                'animationend',
+                () => {
+                    modal.style.display = 'none';
+                }, {
+                    once: true
+                }
+            );
+        };
+
+        closeModalBtn.addEventListener('click', closeModal);
+
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        const formatTime12Hours = (timestamp) => {
+            if (!timestamp) return "Hora no disponible";
+
+            const date = new Date(timestamp);
+            if (isNaN(date.getTime())) return "Hora no válida";
+
+            let hours = date.getUTCHours(); // Usar getUTCHours para manejar el formato en Zulu Time
+            const minutes = date.getUTCMinutes();
+            const ampm = hours >= 12 ? "PM" : "AM";
+            hours = hours % 12 || 12; // Convertir a formato de 12 horas
+            return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
+        };
+
+        const fetchRondas = async () => {
+            try {
+                const userName = encodeURIComponent(
+                    "{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}"
+                );
+                const response = await fetch(
+                    `https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/${userName}`
+                );
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        totalCuentaWrapper.style.display = 'none'; // Ocultar total y botón.
+                    }
+                    throw new Error(`Error HTTP ${response.status}: ${await response.text()}`);
+                }
+                const data = await response.json();
+
+                let totalCuenta = 0;
+                const newHtml = data.map(ronda => {
+                    totalCuenta += ronda.totalRonda;
+                    return `
+                <div class="ronda">
+                    <div class="ronda-header">Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
+                    ${ronda.productos.map((producto, index) => `
+                        <div class="ronda-producto">
+                            (${ronda.cantidades[index]}) ${producto}
+                        </div>
+                        <div class="ronda-producto">
+                            ${ronda.descripciones[index] || ''}
+                        </div>
+                    `).join('')}
+                    <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
+                </div>
+            `;
+                }).join('');
+
+                resumenCuentaElement.innerHTML = newHtml;
+                totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
+                modalTotalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
+                totalCuentaWrapper.style.display =
+                ''; // Mostrar total y botón si se cargan rondas correctamente.
+            } catch (error) {
+                console.error('Error al cargar las rondas:', error);
+                resumenCuentaElement.innerHTML = '<p>Error al cargar el resumen de la cuenta.</p>';
+            }
+        };
+
+        fetchRondas();
+        setInterval(fetchRondas, 10000);
+    });
+</script>
 
 <style>
     .cuenta {
@@ -94,7 +198,7 @@
 
     .modal-content {
         background-color: #f9f9f9;
-        margin: 8% auto;
+        margin: % auto;
         padding: 20px;
         border: 1px solid #ccc;
         border-radius: 8px;
@@ -153,101 +257,3 @@
         color: #666;
     }
 </style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const modal = document.getElementById('cuenta-modal');
-        const openModalBtn = document.getElementById('open-modal');
-        const closeModalBtn = document.getElementById('close-modal');
-        const resumenCuentaElement = document.getElementById('resumen-cuenta');
-        const totalCuentaElement = document.getElementById('total-cuenta');
-        const modalTotalCuentaElement = document.getElementById('modal-total-cuenta');
-
-        openModalBtn.addEventListener('click', function() {
-            modal.style.display = 'block';
-            requestAnimationFrame(() => {
-                modal.classList.remove('hide');
-                modal.classList.add('show');
-            });
-        });
-
-        const closeModal = () => {
-            modal.classList.remove('show');
-            modal.classList.add('hide');
-
-            modal.addEventListener(
-                'animationend',
-                () => {
-                    modal.style.display = 'none';
-                }, {
-                    once: true
-                } // Se ejecuta una sola vez para evitar conflictos.
-            );
-        };
-
-        closeModalBtn.addEventListener('click', closeModal);
-
-        window.addEventListener('click', function(event) {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
-
-        const formatTime12Hours = (timestamp) => {
-            if (!timestamp) return "Hora no disponible";
-
-            const date = new Date(timestamp);
-            if (isNaN(date.getTime())) return "Hora no válida";
-
-            let hours = date.getUTCHours(); // Usar getUTCHours para manejar el formato en Zulu Time
-            const minutes = date.getUTCMinutes();
-            const ampm = hours >= 12 ? "PM" : "AM";
-            hours = hours % 12 || 12; // Convertir a formato de 12 horas
-            return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
-        };
-
-        const fetchRondas = async () => {
-            try {
-                const userName = encodeURIComponent(
-                    "{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}"
-                );
-                const response = await fetch(
-                    `https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/${userName}`
-                );
-                if (!response.ok) {
-                    throw new Error(`Error HTTP ${response.status}: ${await response.text()}`);
-                }
-                const data = await response.json();
-
-                let totalCuenta = 0;
-                const newHtml = data.map(ronda => {
-                    totalCuenta += ronda.totalRonda;
-                    return `
-                <div class="ronda">
-                    <div class="ronda-header">Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
-                    ${ronda.productos.map((producto, index) => `
-                        <div class="ronda-producto">
-                            (${ronda.cantidades[index]}) ${producto}
-                        </div>
-                        <div class="ronda-producto">
-                            ${ronda.descripciones[index] || ''}
-                        </div>
-                    `).join('')}
-                    <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
-                </div>
-            `;
-                }).join('');
-
-                resumenCuentaElement.innerHTML = newHtml;
-                totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
-                modalTotalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
-            } catch (error) {
-                console.error('Error al cargar las rondas:', error);
-                resumenCuentaElement.innerHTML = '<p>Error al cargar el resumen de la cuenta.</p>';
-            }
-        };
-
-        fetchRondas();
-        setInterval(fetchRondas, 10000);
-    });
-</script>
