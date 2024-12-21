@@ -166,7 +166,7 @@
                     "{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}");
                 const response = await fetch(
                     `https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/${userName}`
-                    );
+                );
                 if (!response.ok) {
                     throw new Error(`Error HTTP ${response.status}: ${await response.text()}`);
                 }
@@ -180,7 +180,10 @@
                             <div class="ronda-header">Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
                             ${ronda.productos.map((producto, index) => `
                                 <div class="ronda-producto">
-                                    ${producto} (Cantidad: ${ronda.cantidades[index]}) - ${ronda.descripciones[index] || ''}
+                                    (${ronda.cantidades[index]}) ${producto}
+                                </div>
+                                <div class="ronda-producto">
+                                    ${ronda.descripciones[index] || ''}
                                 </div>
                             `).join('')}
                             <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
