@@ -144,10 +144,7 @@
 
             // Comparar el contenido actual con el nuevo
             if (element.innerHTML.trim() !== tempDiv.innerHTML.trim()) {
-                // Mantener el contenido actual hasta que el nuevo esté listo
-                setTimeout(() => {
-                    element.innerHTML = newContent;
-                }, 300); // Retrasar para asegurarse de que el contenido esté listo
+                element.innerHTML = newContent;
             }
         };
 
@@ -176,6 +173,6 @@
 
         // Primera carga y actualizaciones periódicas
         fetchRondas();
-        setInterval(fetchRondas, 2800);
+        setInterval(fetchRondas, 3000);
     });
 </script>
