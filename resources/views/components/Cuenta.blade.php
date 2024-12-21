@@ -153,11 +153,10 @@
             const date = new Date(timestamp);
             if (isNaN(date.getTime())) return "Hora no válida";
 
-            let hours = date.getUTCHours();
-            const minutes = date.getUTCMinutes();
+            let hours = date.getHours(); // Obtener la hora local
+            const minutes = date.getMinutes();
             const ampm = hours >= 12 ? "PM" : "AM";
-            hours = (hours + new Date().getTimezoneOffset() / 60) % 24;
-            hours = hours % 12 || 12;
+            hours = hours % 12 || 12; // Convertir a formato de 12 horas
             return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
         };
 
