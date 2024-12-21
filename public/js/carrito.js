@@ -238,14 +238,8 @@ ordenForm.addEventListener('submit', function (event) {
                 carritoModal.style.display = 'none';
             }
     
-            // Abrir una nueva ventana o popup
-            const popup = window.open('', 'popup', 'width=600,height=400');
-            popup.document.write('<h1>¡Gracias por tu compra!</h1>'); // Puedes personalizar el contenido del popup aquí.
-    
-            // Regresar a la página anterior después de un retraso (por ejemplo, 2 segundos)
-            setTimeout(() => {
-                window.location.href = document.referrer; // Regresa a la página anterior
-            }, 2000); // Espera 2 segundos antes de redirigir
+            // Regresar a la página anterior en el historial
+            window.history.back(); // Esto hace que el navegador regrese a la página anterior
         })
         .catch(error => {
             console.error('Error al enviar la orden:', error);
