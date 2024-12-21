@@ -14,7 +14,6 @@
     @endif
 </div>
 
-
 <style>
     .cuenta {
         max-width: 600px;
@@ -54,12 +53,31 @@
     }
 
     #resumen-cuenta li {
-        padding: 5px 0;
+        padding: 10px;
         border-bottom: 1px solid #eee;
     }
 
     #resumen-cuenta li:last-child {
         border-bottom: none;
+    }
+
+    .ronda {
+        margin-bottom: 15px;
+        padding: 10px;
+        background-color: #f1f1f1;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .ronda-header {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .ronda-producto {
+        margin-left: 15px;
+        font-size: 14px;
+        color: #666;
     }
 
     .total-cuenta {
@@ -70,3 +88,62 @@
         margin-top: 20px;
     }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const userName = encodeURIComponent(
+            "{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}");
+        const resumenCuentaElement = document.getElementById('resumen-cuenta');
+        const totalCuentaElement = document.getElementById('total-cuenta');
+
+        // Función para convertir el timestamp a formato AM/PM
+        const formatTimestamp = (timestamp) => {
+            const date = new Date(timestamp);
+            let hours = date.getHours();
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // La hora 0 debe ser 12
+            return `${hours}:${minutes} ${ampm}`;
+        };
+
+        // Función para cargar las rondas
+        const fetchRondas = async () => {
+            try {
+                const response = await fetch(
+                    `https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas/mesa/${userName}`
+                    );
+                if (!response.ok) {
+                    throw new Error(`Error HTTP ${response.status}: ${await response.text()}`);
+                }
+                const data = await response.json();
+
+                let totalCuenta = 0;
+                const resumenHtml = data.map(ronda => {
+                    totalCuenta += ronda.totalRonda;
+                    return `
+                        <div class="ronda">
+                            <div class="ronda-header">Ronda #${ronda.id} - Mesa: ${ronda.numeroMesa} - ${formatTimestamp(ronda.timestamp)}</div>
+                            ${ronda.productos.map((producto, index) => `
+                                <div class="ronda-producto">
+                                    ${producto} (Cantidad: ${ronda.cantidades[index]}) - ${ronda.descripciones[index] || ''}
+                                </div>
+                            `).join('')}
+                            <div><strong>Total de la ronda:</strong> $${ronda.totalRonda.toFixed(2)}</div>
+                        </div>
+                    `;
+                }).join('');
+
+                resumenCuentaElement.innerHTML = resumenHtml;
+                totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
+            } catch (error) {
+                resumenCuentaElement.innerHTML = '<p>Error al cargar el resumen de la cuenta.</p>';
+                console.error('Error al cargar las rondas:', error);
+            }
+        };
+
+        // Cargar las rondas al inicio y actualizar cada 3 segundos
+        fetchRondas();
+        setInterval(fetchRondas, 3000);
+    });
+</script>
