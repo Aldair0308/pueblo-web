@@ -96,6 +96,10 @@
         );
         const resumenCuentaElement = document.getElementById('resumen-cuenta');
         const totalCuentaElement = document.getElementById('total-cuenta');
+        let bufferElement = document.createElement('div'); // Contenedor en segundo plano
+        bufferElement.style.display = 'none'; // Ocultar mientras se actualiza
+        document.body.appendChild(bufferElement); // Agregar al DOM para procesar datos
+
         let isUpdating = false; // Evitar múltiples actualizaciones simultáneas
 
         // Función para convertir el timestamp a formato AM/PM correctamente (usando UTC)
@@ -112,10 +116,9 @@
             return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${ampm}`;
         };
 
-        // Función para renderizar las rondas en un contenedor temporal
-        const renderRondas = (data) => {
+        // Función para procesar los datos y renderizarlos en el buffer
+        const renderRondasToBuffer = (data) => {
             let totalCuenta = 0;
-            const tempDiv = document.createElement('div'); // Contenedor temporal
             const html = data.map(ronda => {
                 totalCuenta += ronda.totalRonda;
                 return `
@@ -131,22 +134,13 @@
             `;
             }).join('');
 
-            tempDiv.innerHTML = html; // Construir el nuevo contenido
-            totalCuentaElement.textContent =
-            `$${totalCuenta.toFixed(2)}`; // Actualizar el total de la cuenta
-
-            // Usar smoothReplace para actualizar solo si todo está listo
-            smoothReplace(resumenCuentaElement, tempDiv);
+            bufferElement.innerHTML = html; // Procesar datos en el buffer
+            totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
         };
 
-        // Función para evitar el parpadeo durante las actualizaciones
-        const smoothReplace = (element, tempDiv) => {
-            // Si el contenido nuevo es diferente, reemplazar
-            if (element.innerHTML.trim() !== tempDiv.innerHTML.trim()) {
-                requestAnimationFrame(() => {
-                    element.innerHTML = tempDiv.innerHTML; // Actualizar contenido
-                });
-            }
+        // Función para reemplazar el contenido visible con el contenido del buffer
+        const swapBuffers = () => {
+            resumenCuentaElement.innerHTML = bufferElement.innerHTML; // Reemplazar contenido
         };
 
         // Función para cargar las rondas
@@ -163,7 +157,8 @@
                 }
                 const data = await response.json();
                 if (Array.isArray(data) && data.length > 0) {
-                    renderRondas(data); // Renderizar los datos solo si son válidos
+                    renderRondasToBuffer(data); // Renderizar en el buffer
+                    swapBuffers(); // Reemplazar solo cuando el contenido esté listo
                 }
             } catch (error) {
                 console.error('Error al cargar las rondas:', error);
