@@ -130,11 +130,22 @@
             `;
             }).join('');
 
-            // Mantener el contenido actual hasta que se valide completamente el nuevo contenido
-            setTimeout(() => {
-                resumenCuentaElement.innerHTML = html;
-                totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
-            }, 3200); // Pequeño retraso para garantizar que los datos estén listos
+            // Actualizar el total de la cuenta
+            totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
+
+            // Usar smoothUpdate para actualizar solo lo necesario
+            smoothUpdate(resumenCuentaElement, html);
+        };
+
+        // Función para evitar el parpadeo durante las actualizaciones
+        const smoothUpdate = (element, newContent) => {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = newContent;
+
+            // Comparar el contenido actual con el nuevo
+            if (element.innerHTML.trim() !== tempDiv.innerHTML.trim()) {
+                element.innerHTML = newContent;
+            }
         };
 
         // Función para cargar las rondas
