@@ -125,7 +125,7 @@
                     totalCuenta += ronda.totalRonda;
                     return `
                         <div class="ronda">
-                            <div class="ronda-header">Ronda #${ronda.id} - Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
+                            <div class="ronda-header">Mesa: ${ronda.numeroMesa} - ${formatTime12Hours(ronda.timestamp)}</div>
                             ${ronda.productos.map((producto, index) => `
                                 <div class="ronda-producto">
                                     ${producto} (Cantidad: ${ronda.cantidades[index]}) - ${ronda.descripciones[index] || ''}
