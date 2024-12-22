@@ -31,7 +31,7 @@
         const totalCuentaElement = document.getElementById('total-cuenta');
         const modalTotalCuentaElement = document.getElementById('modal-total-cuenta');
         const totalCuentaWrapper = document.querySelector(
-        '.total-cuenta'); // Wrapper para ocultar total y botón.
+            '.total-cuenta'); // Wrapper para ocultar total y botón.
 
         openModalBtn.addEventListener('click', function() {
             modal.style.display = 'block';
@@ -115,7 +115,7 @@
                 totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
                 modalTotalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
                 totalCuentaWrapper.style.display =
-                ''; // Mostrar total y botón si se cargan rondas correctamente.
+                    ''; // Mostrar total y botón si se cargan rondas correctamente.
             } catch (error) {
                 console.error('Error al cargar las rondas:', error);
                 resumenCuentaElement.innerHTML = '<p>Error al cargar el resumen de la cuenta.</p>';
@@ -198,7 +198,8 @@
 
     .modal-content {
         background-color: #f9f9f9;
-        margin: % auto;
+        margin: 15% auto;
+        /* Corrige el centrado vertical y horizontal */
         padding: 20px;
         border: 1px solid #ccc;
         border-radius: 8px;
@@ -206,6 +207,7 @@
         max-width: 600px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
+
 
     .modal-content h2 {
         font-size: 24px;
