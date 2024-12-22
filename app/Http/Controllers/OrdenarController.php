@@ -12,9 +12,12 @@ class OrdenarController extends Controller
     public $photo;
     
     // El constructor ahora solo se utiliza para otros propósitos si es necesario
-    public function __construct()
+
+    public function __construct($name, $lastName, $photo)
     {
-        // No necesitas inyectar parámetros como $name, $lastName, $photo
+        $this->name = $name;
+        $this->lastName = $lastName;
+        $this->photo = $photo;
     }
 
     public function ordenarPorNumeroMesa($numeroMesa, Request $request)
