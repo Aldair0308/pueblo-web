@@ -34,7 +34,8 @@
 
 
 
-<script src="{{ secure_asset('js/Carro.js') }}"></script>
+<script src="{{ secure_asset('js/carrito.js') }}"></script>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

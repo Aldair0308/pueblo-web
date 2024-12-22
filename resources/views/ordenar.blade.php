@@ -88,7 +88,6 @@
     </div>
 
     <script src="{{ secure_asset('js/modal-prod.js') }}"></script>
-    <script src="{{ secure_asset('js/carrito.js') }}"></script>
     <script src="{{ secure_asset('js/ordenar.js') }}"></script>
     <script src="{{ secure_asset('js/AuthGoogle.js') }}"></script>
 
