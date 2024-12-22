@@ -30,16 +30,7 @@
         const resumenCuentaElement = document.getElementById('resumen-cuenta');
         const totalCuentaElement = document.getElementById('total-cuenta');
         const modalTotalCuentaElement = document.getElementById('modal-total-cuenta');
-        const totalCuentaWrapper = document.querySelector(
-            '.total-cuenta'); // Wrapper para ocultar total y botón.
-
-        openModalBtn.addEventListener('click', function() {
-            modal.style.display = 'block';
-            requestAnimationFrame(() => {
-                modal.classList.remove('hide');
-                modal.classList.add('show');
-            });
-        });
+        const totalCuentaWrapper = document.querySelector('.total-cuenta');
 
         const closeModal = () => {
             modal.classList.remove('show');
@@ -54,6 +45,14 @@
                 }
             );
         };
+
+        openModalBtn.addEventListener('click', function() {
+            modal.style.display = 'block';
+            requestAnimationFrame(() => {
+                modal.classList.remove('hide');
+                modal.classList.add('show');
+            });
+        });
 
         closeModalBtn.addEventListener('click', closeModal);
 
@@ -87,6 +86,9 @@
                 if (!response.ok) {
                     if (response.status === 404) {
                         totalCuentaWrapper.style.display = 'none'; // Ocultar total y botón.
+                        if (modal.style.display === 'block') {
+                            closeModal(); // Cerrar el modal si está abierto.
+                        }
                     }
                     throw new Error(`Error HTTP ${response.status}: ${await response.text()}`);
                 }
@@ -115,7 +117,7 @@
                 totalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
                 modalTotalCuentaElement.textContent = `$${totalCuenta.toFixed(2)}`;
                 totalCuentaWrapper.style.display =
-                    ''; // Mostrar total y botón si se cargan rondas correctamente.
+                ''; // Mostrar total y botón si se cargan rondas correctamente.
             } catch (error) {
                 console.error('Error al cargar las rondas:', error);
                 resumenCuentaElement.innerHTML = '<p>Error al cargar el resumen de la cuenta.</p>';
