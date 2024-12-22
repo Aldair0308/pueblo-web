@@ -154,17 +154,6 @@ document.addEventListener('DOMContentLoaded', function () {
             descripciones.push(descripcion);
         }
 
-        const orden = {
-            mesa: formData.get('mesa'),
-            numeroMesa: parseInt(formData.get('numeroMesa')),
-            estado: formData.get('estado'),
-            mesero: formData.get('mesero'),
-            productos,
-            cantidades,
-            descripciones,
-            totalRonda,
-        };
-
         fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
             method: 'POST',
             body: JSON.stringify(orden),
