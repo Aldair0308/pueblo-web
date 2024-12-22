@@ -26,7 +26,6 @@
                 <!-- Inputs ocultos para la mesa y mesero -->
                 <input type="hidden" id="mesa" name="mesa" value="{{ $name }} {{ $lastName }}">
                 <input type="hidden" id="mesero" name="mesero" value="{{ $name }} {{ $lastName }}">
-                <div id="userInfo" data-fullname="{{ $name }} {{ $lastName }}"></div>
 
                 <!-- Número de Mesa obtenido de la ruta -->
                 <label for="numeroMesa">Mesa:</label>
@@ -89,6 +88,7 @@
     </div>
 
     <script src="{{ secure_asset('js/modal-prod.js') }}"></script>
+    <script src="{{ secure_asset('js/carrito.js') }}"></script>
     <script src="{{ secure_asset('js/ordenar.js') }}"></script>
     <script src="{{ secure_asset('js/AuthGoogle.js') }}"></script>
 

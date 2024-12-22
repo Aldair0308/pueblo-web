@@ -216,38 +216,38 @@ ordenForm.addEventListener('submit', function (event) {
         totalRonda: totalRondaInt,
     };
 
-    fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
-        method: 'POST',
-        body: JSON.stringify(orden),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Orden enviada:', data);
-            alert('Orden enviada correctamente.');
+    // fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
+    //     method: 'POST',
+    //     body: JSON.stringify(orden),
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    // })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         console.log('Orden enviada:', data);
+    //         alert('Orden enviada correctamente.');
     
-            // Limpiar el carrito
-            carritoContainer.innerHTML = '';
-            totalRonda = 0;
-            if (totalDisplay) {
-                totalDisplay.textContent = '0.00';
-            }
+    //         // Limpiar el carrito
+    //         carritoContainer.innerHTML = '';
+    //         totalRonda = 0;
+    //         if (totalDisplay) {
+    //             totalDisplay.textContent = '0.00';
+    //         }
     
-            // Cerrar el modal del carrito después de enviar el pedido
-            const carritoModal = document.getElementById('carrito-modal');
-            if (carritoModal) {
-                carritoModal.style.display = 'none';
-            }
+    //         // Cerrar el modal del carrito después de enviar el pedido
+    //         const carritoModal = document.getElementById('carrito-modal');
+    //         if (carritoModal) {
+    //             carritoModal.style.display = 'none';
+    //         }
     
-            // Regresar a la página anterior en el historial
-            window.history.back(); // Esto hace que el navegador regrese a la página anterior
-        })
-        .catch(error => {
-            console.error('Error al enviar la orden:', error);
-            alert('Hubo un error al enviar la orden.');
-        });
+    //         // Regresar a la página anterior en el historial
+    //         window.history.back(); // Esto hace que el navegador regrese a la página anterior
+    //     })
+    //     .catch(error => {
+    //         console.error('Error al enviar la orden:', error);
+    //         alert('Hubo un error al enviar la orden.');
+    //     });
     
 });
 
