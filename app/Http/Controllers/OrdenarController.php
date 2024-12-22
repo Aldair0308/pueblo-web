@@ -6,46 +6,28 @@ use Illuminate\Http\Request;
 
 class OrdenarController extends Controller
 {
-    // Definir las propiedades de la clase
+    // Propiedades de la clase
     public $name;
     public $lastName;
     public $photo;
     
-    /**
-     * Crear una nueva instancia del componente.
-     *
-     * @param string $name
-     * @param string $lastName
-     * @param string $photo
-     */
-    public function __construct($name, $lastName, $photo)
+    // El constructor ahora solo se utiliza para otros propósitos si es necesario
+    public function __construct()
     {
-        // Asignar los valores a las propiedades
-        $this->name = $name;
-        $this->lastName = $lastName;
-        $this->photo = $photo;
+        // No necesitas inyectar parámetros como $name, $lastName, $photo
     }
 
-    /**
-     * Ordenar por número de mesa.
-     *
-     * @param int $numeroMesa
-     * @return \Illuminate\View\View
-     */
-    public function ordenarPorNumeroMesa($numeroMesa)
+    public function ordenarPorNumeroMesa($numeroMesa, Request $request)
     {
-        // Aquí puedes realizar cualquier lógica relacionada con el número de mesa
+        // Obtener los valores desde la solicitud HTTP
+        $this->name = $request->input('name');
+        $this->lastName = $request->input('lastName');
+        $this->photo = $request->input('photo');
         
         // Llamar al método render para devolver la vista
         return $this->render($numeroMesa);
     }
 
-    /**
-     * Renderizar la vista.
-     *
-     * @param int $numeroMesa
-     * @return \Illuminate\View\View
-     */
     public function render($numeroMesa)
     {
         return view('ordenar', [
