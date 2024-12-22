@@ -15,7 +15,7 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1>Bienvenido {{ $name }}</h1>
+            <h1>Bienvenido {{ $lastName }}</h1>
             <p>Selecciona tus productos realiza tu pedido para la mesa {{ $numeroMesa }}.</p>
         </header>
 
