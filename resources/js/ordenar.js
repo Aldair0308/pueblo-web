@@ -134,56 +134,54 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Hubo un error al obtener los productos');
         });
 
-    document.getElementById('ordenForm').addEventListener('submit', function (event) {
-        event.preventDefault();
+    // document.getElementById('ordenForm').addEventListener('submit', function (event) {
+    //     event.preventDefault();
 
-        const formData = new FormData(this);
+    //     const formData = new FormData(this);
 
-        const carritoItems = carritoContainer.getElementsByClassName('carrito-item');
-        const productos = [];
-        const cantidades = [];
-        const descripciones = [];
+    //     const carritoItems = carritoContainer.getElementsByClassName('carrito-item');
+    //     const productos = [];
+    //     const cantidades = [];
+    //     const descripciones = [];
 
-        for (let item of carritoItems) {
-            const nombreProducto = item.querySelector('p:first-child').textContent.split(': ')[1];
-            const cantidad = parseInt(item.querySelector('p:nth-child(2)').textContent.split(': ')[1]);
-            const descripcion = item.querySelector('p:nth-child(3)')?.textContent.split(': ')[1] || '';
+    //     for (let item of carritoItems) {
+    //         const nombreProducto = item.querySelector('p:first-child').textContent.split(': ')[1];
+    //         const cantidad = parseInt(item.querySelector('p:nth-child(2)').textContent.split(': ')[1]);
+    //         const descripcion = item.querySelector('p:nth-child(3)')?.textContent.split(': ')[1] || '';
 
-            productos.push(nombreProducto);
-            cantidades.push(cantidad);
-            descripciones.push(descripcion);
-        }
+    //         productos.push(nombreProducto);
+    //         cantidades.push(cantidad);
+    //         descripciones.push(descripcion);
+    //     }
 
-        const userFullName = document.querySelector('#userInfo')?.dataset.fullname || "Invitado";
+    //     const orden = {
+    //         mesa: formData.get('mesa'),
+    //         numeroMesa: parseInt(formData.get('numeroMesa')),
+    //         estado: formData.get('estado'),
+    //         mesero: formData.get('mesero'),
+    //         productos,
+    //         cantidades,
+    //         descripciones,
+    //         totalRonda,
+    //     };
 
-        const orden = {
-            mesa: userFullName,
-            numeroMesa: parseInt(formData.get('numeroMesa')),
-            estado: formData.get('estado'),
-            mesero: formData.get('mesero'),
-            productos,
-            cantidades,
-            descripciones,
-            totalRonda,
-        };
-
-        fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
-            method: 'POST',
-            body: JSON.stringify(orden),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Respuesta:', data);
-                alert('Orden enviada correctamente');
-                carritoContainer.innerHTML = '';
-                totalRonda = 0;
-            })
-            .catch(error => {
-                console.error('Error al enviar la orden:', error);
-                alert('Hubo un error al enviar la orden');
-            });
-    });
+    //     fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
+    //         method: 'POST',
+    //         body: JSON.stringify(orden),
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //     })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log('Respuesta:', data);
+    //             alert('Orden enviada correctamente');
+    //             carritoContainer.innerHTML = '';
+    //             totalRonda = 0;
+    //         })
+    //         .catch(error => {
+    //             console.error('Error al enviar la orden:', error);
+    //             alert('Hubo un error al enviar la orden');
+    //         });
+    // });
 });
