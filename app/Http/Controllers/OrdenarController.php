@@ -6,38 +6,19 @@ use Illuminate\Http\Request;
 
 class OrdenarController extends Controller
 {
-    // Propiedades de la clase
-    public $name;
-    public $lastName;
-    public $photo;
-    
-    // El constructor ahora solo se utiliza para otros propósitos si es necesario
-
-    public function __construct($name, $lastName, $photo)
+    public function ordenarPorNumeroMesa($numeroMesa)
     {
-        $this->name = $name;
-        $this->lastName = $lastName;
-        $this->photo = $photo;
-    }
-
-    public function ordenarPorNumeroMesa($numeroMesa, Request $request)
-    {
-        // Obtener los valores desde la solicitud HTTP
-        $this->name = $request->input('name');
-        $this->lastName = $request->input('lastName');
-        $this->photo = $request->input('photo');
+        // Obtener los datos del usuario desde la sesión
+        $name = session('user.name', 'Invitado');
+        $lastName = session('user.last_name', '');
+        $photo = session('user.photo', '/default-avatar.png');
         
-        // Llamar al método render para devolver la vista
-        return $this->render($numeroMesa);
-    }
-
-    public function render($numeroMesa)
-    {
+        // Retornar la vista con los datos
         return view('ordenar', [
             'numeroMesa' => $numeroMesa,
-            'name' => $this->name,
-            'lastName' => $this->lastName,
-            'photo' => $this->photo,
+            'name' => $name,
+            'lastName' => $lastName,
+            'photo' => $photo,
         ]);
     }
 }

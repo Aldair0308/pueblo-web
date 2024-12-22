@@ -14,9 +14,10 @@
         <h1>Bienvenido a la mesa {{ $numeroMesa }}</h1>
     </div>
     <!-- Botón para redirigir a la ruta de ordenar -->
-    <a href="{{ route('ordenar.por-numero-mesa', ['numerodemesa' => $numeroMesa]) }}" class="btn btn-primary">
+    <a href="{{ route('ordenar.por-numero-mesa', ['numeroMesa' => $numeroMesa]) }}" class="btn btn-primary">
         Ordenar
     </a>
+
     @if (session('user'))
         <div class="info-cliente">
             <img src="{{ session('user')['photo'] }}" alt="Foto de {{ session('user')['first_name'] }}"
