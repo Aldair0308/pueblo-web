@@ -189,7 +189,7 @@ ordenForm.addEventListener('submit', function (event) {
         descripciones.push(descripcion);
     });
 
-    const mesa = ordenForm.querySelector('#mesero')?.value || 'Invitado';
+    const mesa = ordenForm.querySelector('#mesa')?.value || 'Invitado';
     const numeroMesa = parseInt(ordenForm.querySelector('#numeroMesa')?.value || '0');
     const estado = ordenForm.querySelector('#estado')?.value || 'por_preparar';
     const mesero = ordenForm.querySelector('#mesero')?.value || 'Invitado';
@@ -202,11 +202,8 @@ ordenForm.addEventListener('submit', function (event) {
         return; // Cancelar el envío si el usuario selecciona "Cancelar"
     }
 
-    const userFullName = document.querySelector('#userInfo')?.dataset.fullname || "Invitado";
-
-
     const orden = {
-        mesa: userFullName,
+        mesa,
         numeroMesa,
         estado,
         mesero,
