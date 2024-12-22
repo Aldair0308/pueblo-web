@@ -189,10 +189,11 @@ ordenForm.addEventListener('submit', function (event) {
         descripciones.push(descripcion);
     });
 
-    const mesa = ordenForm.querySelector('#mesa')?.value || 'Invitado';
-    const numeroMesa = parseInt(ordenForm.querySelector('#numeroMesa')?.value || '0');
-    const estado = ordenForm.querySelector('#estado')?.value || 'por_preparar';
-    const mesero = ordenForm.querySelector('#mesero')?.value || 'Invitado';
+    const mesa = "{{ $name }} {{ $lastName }}".trim() || "Invitado";
+    const numeroMesa = parseInt(ordenForm.querySelector('#numeroMesa')?.value || "0");
+    const estado = ordenForm.querySelector('#estado')?.value || "por_preparar";
+    const mesero = ordenForm.querySelector('#mesero')?.value || "Invitado";
+    
 
     const totalRondaInt = parseFloat(totalDisplay?.textContent || '0');
 
