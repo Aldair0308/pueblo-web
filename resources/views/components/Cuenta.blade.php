@@ -198,7 +198,7 @@
 
     .modal-content {
         background-color: #f9f9f9;
-        margin: 15% auto;
+        margin: 8% auto;
         /* Corrige el centrado vertical y horizontal */
         padding: 20px;
         border: 1px solid #ccc;
