@@ -134,57 +134,57 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Hubo un error al obtener los productos');
         });
 
-    document.getElementById('ordenForm').addEventListener('submit', function (event) {
-        event.preventDefault();
+    // document.getElementById('ordenForm').addEventListener('submit', function (event) {
+    //     event.preventDefault();
 
-        const formData = new FormData(this);
+    //     const formData = new FormData(this);
 
-        const carritoItems = carritoContainer.getElementsByClassName('carrito-item');
-        const productos = [];
-        const cantidades = [];
-        const descripciones = [];
+    //     const carritoItems = carritoContainer.getElementsByClassName('carrito-item');
+    //     const productos = [];
+    //     const cantidades = [];
+    //     const descripciones = [];
 
-        for (let item of carritoItems) {
-            const nombreProducto = item.querySelector('p:first-child').textContent.split(': ')[1];
-            const cantidad = parseInt(item.querySelector('p:nth-child(2)').textContent.split(': ')[1]);
-            const descripcion = item.querySelector('p:nth-child(3)')?.textContent.split(': ')[1] || '';
+    //     for (let item of carritoItems) {
+    //         const nombreProducto = item.querySelector('p:first-child').textContent.split(': ')[1];
+    //         const cantidad = parseInt(item.querySelector('p:nth-child(2)').textContent.split(': ')[1]);
+    //         const descripcion = item.querySelector('p:nth-child(3)')?.textContent.split(': ')[1] || '';
 
-            productos.push(nombreProducto);
-            cantidades.push(cantidad);
-            descripciones.push(descripcion);
-        }
+    //         productos.push(nombreProducto);
+    //         cantidades.push(cantidad);
+    //         descripciones.push(descripcion);
+    //     }
 
-        fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
-            method: 'POST',
-            body: JSON.stringify(orden),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Orden enviada:', data);
-                alert('Orden enviada correctamente.');
+    //     fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas', {
+    //         method: 'POST',
+    //         body: JSON.stringify(orden),
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //     })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log('Orden enviada:', data);
+    //             alert('Orden enviada correctamente.');
         
-                // Limpiar el carrito
-                carritoContainer.innerHTML = '';
-                totalRonda = 0;
-                if (totalDisplay) {
-                    totalDisplay.textContent = '0.00';
-                }
+    //             // Limpiar el carrito
+    //             carritoContainer.innerHTML = '';
+    //             totalRonda = 0;
+    //             if (totalDisplay) {
+    //                 totalDisplay.textContent = '0.00';
+    //             }
         
-                // Cerrar el modal del carrito después de enviar el pedido
-                const carritoModal = document.getElementById('carrito-modal');
-                if (carritoModal) {
-                    carritoModal.style.display = 'none';
-                }
+    //             // Cerrar el modal del carrito después de enviar el pedido
+    //             const carritoModal = document.getElementById('carrito-modal');
+    //             if (carritoModal) {
+    //                 carritoModal.style.display = 'none';
+    //             }
         
-                // Regresar a la página anterior en el historial
-                window.history.back(); // Esto hace que el navegador regrese a la página anterior
-            })
-            .catch(error => {
-                console.error('Error al enviar la orden:', error);
-                alert('Hubo un error al enviar la orden.');
-            });
-    });
+    //             // Regresar a la página anterior en el historial
+    //             window.history.back(); // Esto hace que el navegador regrese a la página anterior
+    //         })
+    //         .catch(error => {
+    //             console.error('Error al enviar la orden:', error);
+    //             alert('Hubo un error al enviar la orden.');
+    //         });
+    // });
 });
