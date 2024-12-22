@@ -154,8 +154,10 @@ document.addEventListener('DOMContentLoaded', function () {
             descripciones.push(descripcion);
         }
 
+        const userFullName = document.querySelector('#userInfo')?.dataset.fullname || "Invitado";
+
         const orden = {
-            mesa: formData.get('mesa'),
+            mesa: userFullName,
             numeroMesa: parseInt(formData.get('numeroMesa')),
             estado: formData.get('estado'),
             mesero: formData.get('mesero'),
