@@ -144,13 +144,17 @@
 
 /* Botón Enviar Orden y Sección Total */
 .carrito-total {
-    flex-direction: row; /* Asegura orientación horizontal */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 90%;
+    background-color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%; /* Ocupar todo el ancho */
-    gap: 0px; /* Espaciado entre los elementos */
-    padding: 0px 35px 0px 0px;
+    padding: 22px 20px;
+    border-top: 1px solid #ddd; /* Línea divisoria */
+    box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.1); /* Sombra */
 }
 
 .carrito-total p {
@@ -170,7 +174,7 @@
     border-radius: 25px;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    width: "60%";
+    width: "50%";
 }
 
 .enviar-orden-btn:hover {

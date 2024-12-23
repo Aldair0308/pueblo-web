@@ -24,10 +24,8 @@
             <!-- Aquí se agregarán los productos seleccionados dinámicamente -->
         </div>
         <div class="carrito-total">
-            <div class="carrito-total-info">
-                <p>Total: MX$<span id="totalRonda">0.00</span></p>
-            </div>
-            <button type="submit" form="ordenForm" class="ver-carrito-btn">Enviar Orden</button>
+            <p>Total: MX$<span id="totalRonda">0.00</span></p>
+            <button type="submit" form="ordenForm" class="enviar-orden-btn">Enviar Orden</button>
         </div>
     </div>
 </div>
