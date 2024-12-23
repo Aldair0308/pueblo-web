@@ -12,8 +12,8 @@ class OrdenarController extends Controller
         $name = session('user.name', 'Invitado');
         $lastName = session('user.last_name', '');
         $photo = session('user.photo', '/default-avatar.png');
-        
-        // Retornar la vista con los datos
+
+        // Pasar los datos del usuario a la vista
         return view('ordenar', [
             'numeroMesa' => $numeroMesa,
             'name' => $name,
