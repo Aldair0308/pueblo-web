@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class InicioController extends Controller
 {
+    //
     public function inicioPorNumeroMesa($numeroMesa)
     {
         // Obtener los datos del usuario desde la sesión
@@ -16,13 +17,6 @@ class InicioController extends Controller
         $lastName = $user['last_name'] ?? '';
         $photo = $user['photo'] ?? '/default-avatar.png';
 
-        // Almacenar los datos en la sesión para que estén disponibles en la página siguiente
-        session([
-            'user.name' => $name,
-            'user.last_name' => $lastName,
-            'user.photo' => $photo,
-        ]);
-
         return view('inicio', [
             'numeroMesa' => $numeroMesa,
             'name' => $name,
@@ -30,4 +24,5 @@ class InicioController extends Controller
             'photo' => $photo,
         ]);
     }
+
 }
