@@ -240,6 +240,9 @@ ordenForm.addEventListener('submit', function (event) {
     
             // Regresar a la página anterior en el historial
             window.history.back(); // Esto hace que el navegador regrese a la página anterior
+            // Redirigir a la ruta "inicio/{numeroMesa}"
+            window.location.href = `/inicio/${numeroMesa}`;
+
         })
         .catch(error => {
             console.error('Error al enviar la orden:', error);
