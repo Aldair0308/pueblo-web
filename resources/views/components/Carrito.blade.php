@@ -23,7 +23,7 @@
         <div id="carritoItems" class="carrito-items">
             <!-- Aquí se agregarán los productos seleccionados dinámicamente -->
         </div>
-        <div class="carrito-content">
+        <div class="carrito-total">
             <div class="carrito-total-info">
                 <p>Total: MX$<span id="totalRonda">0.00</span></p>
             </div>
