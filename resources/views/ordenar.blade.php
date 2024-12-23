@@ -24,7 +24,7 @@
             <h3 class="order-title">Tu pedido</h3>
             <form id="ordenForm" class="order-form">
                 <!-- Inputs ocultos para la mesa y mesero -->
-                <input type="hidden" id="mesa" name="mesa" value="{{ $firstName }} {{ $lastName }}">
+                <input type="hidden" id="mesa" name="mesa" value="{{ $firstName }}">
                 <input type="hidden" id="mesero" name="mesero" value="{{ $firstName }} {{ $lastName }}">
 
                 <!-- Número de Mesa obtenido de la ruta -->
