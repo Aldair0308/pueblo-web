@@ -174,7 +174,7 @@
     border-radius: 25px;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    width: "50%";
+    width: "40%";
 }
 
 .enviar-orden-btn:hover {
