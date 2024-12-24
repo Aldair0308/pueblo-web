@@ -155,6 +155,9 @@ function updateTotalPrice() {
     button.innerHTML = `Agregar al Carrito MX$${totalPrice.toFixed(2)}`;
     
     // Estilizar el botón
+    modalPrice.style.margin = '10px 0px 0px 0px'; // Espaciado inferior
+    modalPrice.style.fontSize = '1.2em'; // Tamaño de la fuente
+
     button.style.backgroundColor = '#ff6600'; // Color de fondo
     button.style.color = 'white'; // Color del texto
     button.style.border = 'none'; // Sin borde
