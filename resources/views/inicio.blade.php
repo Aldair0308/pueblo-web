@@ -24,6 +24,7 @@
             <h2>{{ session('user')['first_name'] }} {{ session('user')['last_name'] }}</h2>
         </div>
         <x-Cuenta />
+        <x-preparando />
     @else
         <p>No se encontró información del usuario.</p>
     @endif
