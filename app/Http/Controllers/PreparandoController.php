@@ -11,7 +11,7 @@ class PreparandoController extends Controller
     {
         $user = session('user');
         if (!$user) {
-            return redirect()->route('login')->with('error', 'Debes iniciar sesión primero.');
+            return response('', 204); // Respuesta vacía si no hay usuario en la sesión
         }
 
         $firstName = $user['first_name'] ?? '';
@@ -31,6 +31,6 @@ class PreparandoController extends Controller
             }
         }
 
-        return redirect()->route('home')->with('info', 'No tienes rondas por preparar en este momento.');
+        return response('', 204); // Respuesta vacía si no hay rondas por preparar
     }
 }
