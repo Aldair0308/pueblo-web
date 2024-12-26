@@ -305,3 +305,6 @@ Route::get('mesero/pdf/descarga', function () {
     return $pdf->download('reporte_mesero.pdf');
 })->name('meseros.pdf.descargas');
 
+use App\Http\Controllers\PreparandoController;
+
+Route::get('/preparando', [PreparandoController::class, 'index'])->name('preparando');
