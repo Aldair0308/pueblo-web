@@ -8,7 +8,12 @@
 <script>
     // Primero, obtenemos el fullName desde la ruta '/preparando'
     fetch('/preparando')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('No se pudo obtener el fullName. Usuario no autenticado o error del servidor.');
+            }
+            return response.json();
+        })
         .then(data => {
             const fullName = data.fullName;
 
@@ -17,7 +22,12 @@
                 setInterval(() => {
                     // Hacer la solicitud a la API externa para verificar el estado de las rondas
                     fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas')
-                        .then(response => response.json())
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error al obtener las rondas.');
+                            }
+                            return response.json();
+                        })
                         .then(rondas => {
                             // Filtrar las rondas para ver si hay alguna "por_preparar" y que coincida con la mesa del usuario
                             const rondaPorPreparar = rondas.filter(ronda =>
@@ -38,6 +48,8 @@
                             console.error('Error al hacer la solicitud a la API externa:', error);
                         });
                 }, 3000); // Solicitar cada 3 segundos
+            } else {
+                console.error('No se recibió el fullName o el usuario no está autenticado.');
             }
         })
         .catch(error => {
