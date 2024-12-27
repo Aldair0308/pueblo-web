@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\RondaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PreparandoController;
 use App\Models\Ronda;
         use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -305,6 +306,6 @@ Route::get('mesero/pdf/descarga', function () {
     return $pdf->download('reporte_mesero.pdf');
 })->name('meseros.pdf.descargas');
 
-use App\Http\Controllers\PreparandoController;
 
-Route::get('/preparando', [PreparandoController::class, 'index'])->name('preparando');
+
+Route::get('/api/rondas', [PreparandoController::class, 'getRondas']);
