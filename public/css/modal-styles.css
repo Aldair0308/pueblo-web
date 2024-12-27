@@ -171,8 +171,6 @@
     width: 100%;
     text-align: left;
     flex-direction: row !important;
-    align-content: stretch;
-    align-items: stretch;
 }
 
 .options-container {
