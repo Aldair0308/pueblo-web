@@ -164,7 +164,13 @@
 
 /* Opciones y extras */
 .modal-section {
-    margin: 20px 0;
+    margin: 5px 0;
+}
+
+.title-options {
+    width: 100%;
+    text-align: left;
+    flex-direction: row;
 }
 
 .options-container {

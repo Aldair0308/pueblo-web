@@ -51,15 +51,19 @@
 
                     <!-- Contenedor de opciones de extras -->
                     <div class="options-container">
-                        <h3>Escarchado</h3>
-                        <p>Elige uno</p>
+                        <div class="title-options">
+                            <h3>Escarchado</h3>
+                            <p>Elige uno</p>
+                        </div>
                         <div id="extrasContainer"></div>
                     </div>
 
                     <!-- Contenedor de opciones de personalización -->
                     <div class="options-container">
-                        <h3>Personalizar</h3>
-                        <p>Selecciona hasta 2</p>
+                        <div class="title-options">
+                            <h3>Personalizar</h3>
+                            <p>Selecciona hasta 2</p>
+                        </div>
                         <div id="customizationContainer"></div>
                     </div>
                 </div>
