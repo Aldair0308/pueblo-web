@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-loading">
     <div class="dot"></div>
     <div class="dot"></div>
     <div class="dot"></div>
@@ -18,7 +18,7 @@
 </div>
 
 <style>
-    .container {
+    .container-loading {
         --uib-size: 150px;
         --uib-speed: 1.2s;
         --uib-dot-size: calc(var(--uib-size) * 0.1);
