@@ -6,9 +6,9 @@
         </div>
 
         <!-- Contenedor intermedio para asegurar que el Loading se centra siempre -->
-        <div class="flex justify-center items-center h-full">
+        <div class="flex justify-center items-center">
             <!-- Aquí aplicamos flexbox y centramos el contenido de forma correcta -->
-            <div class="flex justify-center items-center">
+            <div class="flex justify-center items-center h-full">
                 <!-- Este es el componente de carga que no se puede modificar -->
                 <x-Loading />
             </div>
