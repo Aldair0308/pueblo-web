@@ -175,6 +175,7 @@
 
 .options-container h3 {
     font-size: 1.2em;
+    margin-bottom: -10px !important; /* Evita que el margen se aplique al primer elemento */
 }
 
 .options-container p {
