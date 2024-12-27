@@ -4,9 +4,13 @@
             <h2 class="text-3xl font-semibold text-gray-800 mb-4">Estamos preparando tu orden...</h2>
             <p class="text-gray-600 text-lg">Por favor, espera mientras procesamos tu pedido...</p>
         </div>
-        <div class="flex justify-center">
+
+        <!-- Aquí aplicamos flexbox y centramos el contenido de forma correcta -->
+        <div class="flex justify-center items-center">
+            <!-- Este es el componente de carga que no se puede modificar -->
             <x-Loading />
         </div>
+
         <div class="text-center">
             <p class="text-gray-500 text-sm">Si el proceso toma más de un minuto, intenta actualizar la página.</p>
         </div>
