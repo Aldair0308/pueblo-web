@@ -1,51 +1,30 @@
 <?php
 
-namespace App\View\Components;
+namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Http;
-use Illuminate\View\Component;
+use Illuminate\Http\Request;
 
-class Preparando extends Component
+class Preparando extends Controller
 {
-    public $mostrarMensaje = false;
-
-    /**
-     * Crear una nueva instancia del componente.
-     */
-    public function __construct()
+    public function index()
     {
         $user = session('user');
 
+        // Si hay un usuario en sesión
         if ($user) {
             $firstName = $user['first_name'] ?? '';
             $lastName = $user['last_name'] ?? '';
             $fullName = trim("$firstName $lastName");
 
-            // Consultar las rondas
-            $response = Http::get('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas');
-
-            if ($response->successful()) {
-                $rondas = $response->json();
-                $rondasPorPreparar = collect($rondas)->filter(function ($ronda) use ($fullName) {
-                    return $ronda['estado'] === 'por_preparar' && $ronda['mesa'] === $fullName;
-                });
-
-                $this->mostrarMensaje = $rondasPorPreparar->isNotEmpty();
-            }
-        }
-    }
-
-    /**
-     * Obtener la vista del componente.
-     *
-     * @return \Illuminate\Contracts\View\View|string
-     */
-    public function render()
-    {
-        if ($this->mostrarMensaje) {
-            return view('components.preparando');
+            // Retornamos el fullName al frontend
+            return response()->json([
+                'fullName' => $fullName
+            ]);
         }
 
-        return ''; // No renderiza nada si no hay rondas
+        // Si no hay usuario, regresamos una respuesta vacía o false
+        return response()->json([
+            'fullName' => null
+        ]);
     }
 }
