@@ -8,7 +8,7 @@
 <script>
     // Función para hacer la solicitud HTTP cada 3 segundos
     function verificarEstado() {
-        fetch('/Http/Controllers/View/Components/') // Ruta del controlador que se desea consultar
+        fetch('/preparando') // Ruta del controlador que se desea consultar
             .then(response => response.json())
             .then(data => {
                 if (data.mensaje) {
