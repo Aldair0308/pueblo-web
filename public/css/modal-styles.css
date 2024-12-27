@@ -171,6 +171,8 @@
     width: 100%;
     text-align: left;
     flex-direction: row;
+    align-content: stretch;
+    align-items: stretch;
 }
 
 .options-container {
@@ -180,7 +182,7 @@
 }
 
 .options-container h3 {
-    font-size: 1.2em;
+    font-size: 1.6em;
     margin-bottom: -10px !important; /* Evita que el margen se aplique al primer elemento */
 }
 
