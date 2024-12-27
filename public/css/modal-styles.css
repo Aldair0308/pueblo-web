@@ -171,7 +171,6 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 20px; /* Asegura separación entre las opciones */
 }
 
 .options-container h3 {
