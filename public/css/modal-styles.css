@@ -169,7 +169,6 @@
 
 .title-options {
     width: 100%;
-    text-align: left;
     flex-direction: row !important;
 }
 
@@ -185,7 +184,7 @@
 }
 
 .options-container p {
-    margin-bottom: 10px;
+    margin-left: 10px;
 }
 
 .options-container label {
