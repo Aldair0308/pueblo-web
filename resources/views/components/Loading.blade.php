@@ -25,7 +25,7 @@
         position: relative;
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
         height: calc(var(--uib-size) * 0.64);
         width: calc(var(--uib-size) * 0.64);
         align-self: center;
