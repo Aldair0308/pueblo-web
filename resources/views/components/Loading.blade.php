@@ -28,6 +28,7 @@
         justify-content: flex-start;
         height: calc(var(--uib-size) * 0.64);
         width: calc(var(--uib-size) * 0.64);
+        align-self: center;
     }
 
     @keyframes jump {

@@ -4,7 +4,7 @@
             <h2 class="text-3xl font-semibold text-gray-800 mb-4">Estamos preparando tu orden...</h2>
             <p class="text-gray-600 text-lg">Por favor, espera mientras procesamos tu pedido...</p>
         </div>
-        <div class="flex justify-center">
+        <div class="text-center">
             <x-Loading />
         </div>
         <div class="text-center">
