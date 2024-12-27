@@ -8,13 +8,17 @@
 <script>
     // Función para hacer la solicitud HTTP cada 3 segundos
     function verificarEstado() {
-        fetch('/preparando') // Ruta del controlador que se desea consultar
-            .then(response => response.json())
+        fetch('/preparando') // Ruta que consulta el estado
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.json(); // Convierte la respuesta a JSON
+            })
             .then(data => {
                 if (data.mensaje) {
-                    // Aquí puedes manejar el mensaje o el estado que recibas del servidor
-                    console.log(data
-                        .mensaje); // Muestra el mensaje en la consola, puedes actualizar la interfaz si lo deseas
+                    console.log(data.mensaje); // Muestra el mensaje en la consola
+                    // Aquí puedes manejar el mensaje recibido, por ejemplo, mostrarlo en la interfaz
                 }
             })
             .catch(error => {
