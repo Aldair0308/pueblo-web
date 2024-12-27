@@ -5,13 +5,7 @@
             <p class="text-gray-600 text-lg">Por favor, espera mientras procesamos tu pedido...</p>
         </div>
         <div class="flex justify-center">
-            <svg class="w-16 h-16 text-indigo-600 animate-spin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
-                    class="opacity-25" />
-                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
-                    stroke-dasharray="150, 200" stroke-linecap="round" class="opacity-75" />
-            </svg>
+            <x-Loading />
         </div>
         <div class="text-center">
             <p class="text-gray-500 text-sm">Si el proceso toma más de un minuto, intenta actualizar la página.</p>
