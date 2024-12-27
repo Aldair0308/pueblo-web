@@ -1,10 +1,23 @@
-<div class="flex items-center justify-center h-screen">
-    <div class="bg-white rounded-lg shadow-md p-6 text-center w-full max-w-md">
-        <h2 class="text-lg font-bold text-gray-800">Estamos preparando tu orden...</h2>
-        <p class="text-gray-600 mt-2">Por favor, espera mientras procesamos tu pedido...</p>
+<div class="flex items-center justify-center h-screen bg-gray-100" id="preparando-container" style="display: none;">
+    <div class="bg-white rounded-lg shadow-lg p-8 md:p-10 max-w-lg w-full space-y-6">
+        <div class="text-center">
+            <h2 class="text-3xl font-semibold text-gray-800 mb-4">Estamos preparando tu orden...</h2>
+            <p class="text-gray-600 text-lg">Por favor, espera mientras procesamos tu pedido...</p>
+        </div>
+        <div class="flex justify-center">
+            <svg class="w-16 h-16 text-indigo-600 animate-spin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+                    class="opacity-25" />
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+                    stroke-dasharray="150, 200" stroke-linecap="round" class="opacity-75" />
+            </svg>
+        </div>
+        <div class="text-center">
+            <p class="text-gray-500 text-sm">Si el proceso toma más de un minuto, intenta actualizar la página.</p>
+        </div>
     </div>
 </div>
-
 
 <script>
     // Primero, obtenemos el fullName desde la ruta '/preparando'
