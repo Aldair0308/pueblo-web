@@ -16,6 +16,8 @@
     <!-- Botón para redirigir a la ruta de ordenar -->
     <a href="{{ route('ordenar.por-numero-mesa', ['numerodemesa' => $numeroMesa]) }}" class="btn btn-primary">
         Ordenar
+        <x-photo-scroller />
+
     </a>
     @if (session('user'))
         <div class="info-cliente">
