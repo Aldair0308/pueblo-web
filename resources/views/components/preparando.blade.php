@@ -9,7 +9,7 @@
         <div class="flex justify-center items-center">
             <!-- Aquí aplicamos flexbox y centramos el contenido de forma correcta -->
             <div class="flex justify-center items-center h-full"
-                style="width: 100%; display: flex !important; justify-content: center !important; align-items: center !important; height: 10vh !important;">
+                style="width: 100%; display: flex !important; justify-content: center !important; align-items: center !important; height: 20vh !important;">
                 <x-Loading />
             </div>
         </div>
