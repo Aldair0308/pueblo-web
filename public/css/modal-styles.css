@@ -181,12 +181,10 @@
 
 .options-container h3 {
     font-size: 1.4em;
-    margin-bottom: -10px !important; /* Evita que el margen se aplique al primer elemento */
 }
 
 .options-container p {
-    margin-left: 10px;
-    margin-bottom: -10px !important; /* Evita que el margen se aplique al primer elemento */
+    margin-left: 20px;
 }
 
 .options-container label {
