@@ -157,8 +157,9 @@
     right: 10px;
     background: none;
     border: none;
-    font-size: 1.5em;
+    font-size: 1.9em;
     cursor: pointer;
+    font-weight: bold;
 }
 
 /* Opciones y extras */
