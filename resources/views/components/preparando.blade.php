@@ -6,9 +6,9 @@
 </div>
 
 <script>
-    // Función para hacer la solicitud HTTP cada 3 segundos
+    // Función para hacer la solicitud HTTP cada 4 segundos
     function verificarEstado() {
-        fetch('/preparando') // Ruta que consulta el estado
+        fetch('/preparando') // Ruta del controlador que se desea consultar
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error en la respuesta del servidor');
@@ -26,6 +26,6 @@
             });
     }
 
-    // Llamar a la función cada 3 segundos
-    setInterval(verificarEstado, 3000);
+    // Llamar a la función cada 4 segundos
+    setInterval(verificarEstado, 4000);
 </script>
