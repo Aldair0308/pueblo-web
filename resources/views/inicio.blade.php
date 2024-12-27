@@ -37,7 +37,7 @@
                 // Crear un nuevo elemento div para el componente x-preparando
                 const preparacion = document.createElement('div');
                 preparacion.innerHTML =
-                    `@component('preparando') @endcomponent`;
+                    `<x-preparando>`;
 
                 // Agregar el componente al contenedor
                 container.appendChild(preparacion);
