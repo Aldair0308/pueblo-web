@@ -125,7 +125,7 @@
         };
 
         fetchRondas();
-        setInterval(fetchRondas, 10000);
+        setInterval(fetchRondas, 3000);
     });
 </script>
 
