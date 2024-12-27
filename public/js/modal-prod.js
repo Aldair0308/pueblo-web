@@ -156,7 +156,7 @@ function updateTotalPrice() {
     
     // Estilizar el botón
     modalPrice.style.margin = '20px 0px 0px 0px'; // Espaciado inferior
-    modalPrice.style.fontSize = '1.9em'; // Tamaño de la fuente
+    modalPrice.style.fontSize = '1.7em'; // Tamaño de la fuente
     modalPrice.style.fontWeight = 'bold'; // Negrita
 
     button.style.backgroundColor = '#ff6600'; // Color de fondo
