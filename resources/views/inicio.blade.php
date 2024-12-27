@@ -29,22 +29,24 @@
         <div id="preparando-container"></div>
 
         <script>
-            // Función para agregar el componente x-preparando cada 4 segundos
-            function renderPreparando() {
-                // Obtener el contenedor donde se agregará el componente
+            // Función que agregará el componente x-preparando cada 4 segundos
+            function mostrarPreparando() {
+                // Crear el componente x-preparando como un contenedor HTML
+                const preparacionHTML = `
+                    <div class="preparando-component">
+                        <x-preparando />
+                    </div>
+                `;
+
+                // Obtener el contenedor donde agregar el nuevo componente
                 const container = document.getElementById('preparando-container');
 
-                // Crear un nuevo elemento div para el componente x-preparando
-                const preparacion = document.createElement('div');
-                preparacion.innerHTML =
-                    `<x-preparando>`;
-
-                // Agregar el componente al contenedor
-                container.appendChild(preparacion);
+                // Agregar el HTML generado al contenedor
+                container.innerHTML = preparacionHTML;
             }
 
-            // Llamar a la función cada 4 segundos
-            setInterval(renderPreparando, 4000);
+            // Llamar a la función cada 4 segundos para mostrar el componente
+            setInterval(mostrarPreparando, 4000);
         </script>
     @else
         <p>No se encontró información del usuario.</p>
