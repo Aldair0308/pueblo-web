@@ -5,11 +5,15 @@
             <p class="text-gray-600 text-lg">Por favor, espera mientras procesamos tu pedido...</p>
         </div>
 
-        <!-- Aquí aplicamos flexbox y centramos el contenido de forma correcta -->
-        <div class="flex justify-center items-center">
-            <!-- Este es el componente de carga que no se puede modificar -->
-            <x-Loading />
+        <!-- Contenedor intermedio para asegurar que el Loading se centra siempre -->
+        <div class="flex justify-center items-center h-full">
+            <!-- Aquí aplicamos flexbox y centramos el contenido de forma correcta -->
+            <div class="flex justify-center items-center">
+                <!-- Este es el componente de carga que no se puede modificar -->
+                <x-Loading />
+            </div>
         </div>
+
 
         <div class="text-center">
             <p class="text-gray-500 text-sm">Si el proceso toma más de un minuto, intenta actualizar la página.</p>
