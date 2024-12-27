@@ -20,7 +20,6 @@
         </div>
     </div>
 </div>
-
 <script>
     // Primero, obtenemos el fullName desde la ruta '/preparando'
     fetch('/preparando')
@@ -34,35 +33,12 @@
             const fullName = data.fullName;
 
             if (fullName) {
-                // Si se recibe el fullName, hacemos la petición cada 3 segundos
+                // Realizamos la primera verificación inmediatamente al obtener el fullName
+                verificarEstado(fullName);
+
+                // Luego, hacemos la petición cada 3 segundos
                 setInterval(() => {
-                    // Hacer la solicitud a la API externa para verificar el estado de las rondas
-                    fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas')
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Error al obtener las rondas.');
-                            }
-                            return response.json();
-                        })
-                        .then(rondas => {
-                            // Filtrar las rondas para ver si hay alguna "por_preparar" y que coincida con la mesa del usuario
-                            const rondaPorPreparar = rondas.filter(ronda =>
-                                ronda.estado === 'por_preparar' && ronda.mesa === fullName
-                            );
-
-                            const container = document.getElementById('preparando-container');
-
-                            if (rondaPorPreparar.length > 0) {
-                                // Si hay rondas por preparar, mostrar el contenedor
-                                container.style.display = 'flex';
-                            } else {
-                                // Si no hay rondas por preparar, ocultar el contenedor
-                                container.style.display = 'none';
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error al hacer la solicitud a la API externa:', error);
-                        });
+                    verificarEstado(fullName);
                 }, 3000); // Solicitar cada 3 segundos
             } else {
                 console.error('No se recibió el fullName o el usuario no está autenticado.');
@@ -71,4 +47,35 @@
         .catch(error => {
             console.error('Error al obtener el fullName:', error);
         });
+
+    // Función para verificar el estado de las rondas
+    function verificarEstado(fullName) {
+        // Hacer la solicitud a la API externa para verificar el estado de las rondas
+        fetch('https://pueblo-nest-production-5afd.up.railway.app/api/v1/rondas')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al obtener las rondas.');
+                }
+                return response.json();
+            })
+            .then(rondas => {
+                // Filtrar las rondas para ver si hay alguna "por_preparar" y que coincida con la mesa del usuario
+                const rondaPorPreparar = rondas.filter(ronda =>
+                    ronda.estado === 'por_preparar' && ronda.mesa === fullName
+                );
+
+                const container = document.getElementById('preparando-container');
+
+                if (rondaPorPreparar.length > 0) {
+                    // Si hay rondas por preparar, mostrar el contenedor
+                    container.style.display = 'flex';
+                } else {
+                    // Si no hay rondas por preparar, ocultar el contenedor
+                    container.style.display = 'none';
+                }
+            })
+            .catch(error => {
+                console.error('Error al hacer la solicitud a la API externa:', error);
+            });
+    }
 </script>
