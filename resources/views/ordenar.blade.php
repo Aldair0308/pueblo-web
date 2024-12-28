@@ -71,7 +71,7 @@
                     <div class="quantity-controls">
                         <button onclick="updateQuantity(-1)">−</button>
                         <span id="quantity">1</span>
-                        <button onclick="updateQuantity(1)">+</button>
+                        <button onclick="updateQuantity(1)" style="background-color: rgb(80, 205, 80)">+</button>
                     </div>
                     <button class="add-to-cart" onclick="addToCart()">Agregar al Carrito</button>
                 </div>
