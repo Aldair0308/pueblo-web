@@ -171,6 +171,8 @@
     display: flex;
     width: 100%;
     flex-direction: row !important;
+    margin: 8px 0 5px 0 !important;
+    border: #bf0000 solid 1px;
 }
 
 .options-container {
@@ -186,7 +188,7 @@
 
 .options-container p {
     margin-left: 20px;
-    margin-top: 10px !important;
+    margin-top: 5px !important;
 }
 
 .options-container label {
