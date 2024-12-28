@@ -171,8 +171,7 @@
     display: flex;
     width: auto;
     flex-direction: row !important;
-    margin: 8px 0 -5px 0 !important;
-    border: #bf0000 solid 1px;
+    margin: 8px 0 -7px 0 !important;
     padding: 10px 0px 0 0px !important;
     height: 90%;
 }
