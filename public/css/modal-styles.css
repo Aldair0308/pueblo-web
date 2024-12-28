@@ -186,7 +186,7 @@
 
 .options-container p {
     margin-left: 20px;
-    margin-top: 10px;
+    margin-top: 10px !important;
 }
 
 .options-container label {
