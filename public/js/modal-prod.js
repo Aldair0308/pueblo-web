@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Sin escarchar', price: 0 },
             ],
             customization: [
-                { name: 'Con sal', group: 'group3', price: 0 },
+                { name: 'Con sal', group: 'group1', price: 0 },
                 { name: 'Con limón', group: 'group1', price: 0 },
                 { name: 'Sola', group: 'group1', price: 0 },
                 { name: 'Con clamato', group: 'group2', price: 0 },
@@ -150,33 +150,53 @@ document.addEventListener('DOMContentLoaded', function () {
     // Renderizar opciones dinámicas agrupadas con selección única por grupo
     function renderGroupedSingleSelectOptions(container, options) {
         container.innerHTML = ''; // Limpia opciones previas
-
+    
         options.forEach(option => {
             const label = document.createElement('label');
             label.classList.add('option-label');
-
+    
             const input = document.createElement('input');
             input.type = 'checkbox';
             input.value = option.name;
             input.dataset.price = option.price;
             input.dataset.group = option.group;
             input.classList.add('option-input');
-
+    
             input.addEventListener('change', function () {
-                // Desmarca otras opciones en el mismo grupo si esta se selecciona
-                Array.from(container.querySelectorAll(`input[data-group="${option.group}"]`)).forEach(otherInput => {
-                    if (otherInput !== input) otherInput.checked = false;
-                });
+                // Obtener todas las opciones del mismo grupo
+                const groupInputs = Array.from(container.querySelectorAll(`input[data-group="${option.group}"]`));
+    
+                if (input.value === 'Sola' && input.checked) {
+                    // Si se selecciona 'Sola', desmarcar todas las demás opciones del grupo
+                    groupInputs.forEach(otherInput => {
+                        if (otherInput !== input) {
+                            otherInput.checked = false;
+                            otherInput.disabled = true; // Deshabilitar opciones
+                        }
+                    });
+                } else if (input.value === 'Sola' && !input.checked) {
+                    // Si se desmarca 'Sola', habilitar todas las demás opciones del grupo
+                    groupInputs.forEach(otherInput => {
+                        if (otherInput !== input) {
+                            otherInput.disabled = false; // Habilitar opciones
+                        }
+                    });
+                } else {
+                    // Si se seleccionan otras opciones, desmarcar solo 'Sola'
+                    const solaInput = groupInputs.find(otherInput => otherInput.value === 'Sola');
+                    if (solaInput) solaInput.checked = false;
+                }
             });
-
+    
             const span = document.createElement('span');
             span.textContent = `${option.name} ${option.price > 0 ? `+MX$${option.price}` : ''}`;
-
+    
             label.appendChild(input);
             label.appendChild(span);
             container.appendChild(label);
         });
     }
+    
 
     // Seleccionar opciones predeterminadas
 
