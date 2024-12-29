@@ -184,11 +184,12 @@
 
 .options-container h3 {
     font-size: 1.5em;
-    margin: 0 0 -10px 0;
+    margin: 0;
 }
 
 .options-container p {
     margin-top: 0px !important;
+    margin-bottom: -10px !important;
 }
 
 .options-container label {
