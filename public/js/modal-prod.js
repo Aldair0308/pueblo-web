@@ -59,8 +59,24 @@ document.addEventListener('DOMContentLoaded', function () {
             if (productGroup) {
                 // Renderizar las opciones correspondientes al grupo
                 const groupOptions = productGroups[productGroup];
-                renderSingleSelectOptions(extrasContainer, groupOptions.extras);
+    
+                // Limpiar los contenedores antes de agregar nuevas opciones
+                extrasContainer.innerHTML = '';
+                customizationContainer.innerHTML = '';
+    
+                // Mostrar la sección "Escarchado" solo si es bebida
+                if (productGroup === 'bebidas') {
+                    // Mostrar el bloque de escarchado
+                    renderSingleSelectOptions(extrasContainer, groupOptions.extras); // Renderiza Escarchado
+                } else {
+                    // Si no es bebida, no mostrar "Escarchado"
+                    extrasContainer.innerHTML = ''; // Limpiar cualquier contenido previo en extras
+                }
+    
+                // Siempre mostrar la sección de "Personalizar"
                 renderGroupedSingleSelectOptions(customizationContainer, groupOptions.customization);
+    
+                // Seleccionar las opciones predeterminadas
                 setDefaultSelections();
             } else {
                 // Si no se encuentra el grupo, limpiar las opciones
@@ -71,7 +87,6 @@ document.addEventListener('DOMContentLoaded', function () {
             // Reiniciar cantidad a 1 y seleccionar opciones predeterminadas
             currentQuantity = 1;
             document.getElementById('quantity').textContent = currentQuantity;
-            
     
             // Restablecer el scroll del modal a la parte superior
             modal.scrollTop = 0; // Asegura que el modal principal esté arriba
@@ -96,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.body.classList.remove('body-no-scroll');
         }
     };
+    
     
 
     // Renderizar opciones dinámicas con selección única
@@ -255,20 +271,5 @@ function updateTotalPrice() {
         toggleModal(false);
     };
 
-    // Supongamos que `productType` es dinámico, dependiendo del producto que se selecciona
-// Esto debería venir de tu backend, por ejemplo:
-let productType = 'comida'; // Este valor debe venir de tu lógica o de los datos del producto seleccionado
-
-// Cambiar el título de "Escarchado" o "Extras" basado en el tipo de producto
-const escarchadoTitle = document.getElementById('escarchado-title');
-
-// Solo cambian el texto si el tipo de producto es comida o bebida
-if (productType === 'comida') {
-    escarchadoTitle.innerText = 'Extras'; // Si es comida, el título será "Extras"
-} else if (productType === 'bebida') {
-    escarchadoTitle.innerText = 'Escarchado'; // Si es bebida, el título será "Escarchado"
-} else {
-    console.warn('Tipo de producto desconocido:', productType);
-}
-
+    
 });
