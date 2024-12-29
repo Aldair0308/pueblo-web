@@ -163,29 +163,33 @@ document.addEventListener('DOMContentLoaded', function () {
             input.classList.add('option-input');
     
             input.addEventListener('change', function () {
-                // Obtener todas las opciones del mismo grupo
-                const groupInputs = Array.from(container.querySelectorAll(`input[data-group="${option.group}"]`));
+                // Aplicar lógica solo al grupo1
+                if (option.group === 'group1') {
+                    // Obtener todas las opciones del mismo grupo
+                    const groupInputs = Array.from(container.querySelectorAll(`input[data-group="${option.group}"]`));
     
-                if (input.value === 'Sola' && input.checked) {
-                    // Si se selecciona 'Sola', desmarcar todas las demás opciones del grupo
-                    groupInputs.forEach(otherInput => {
-                        if (otherInput !== input) {
-                            otherInput.checked = false;
-                            otherInput.disabled = true; // Deshabilitar opciones
-                        }
-                    });
-                } else if (input.value === 'Sola' && !input.checked) {
-                    // Si se desmarca 'Sola', habilitar todas las demás opciones del grupo
-                    groupInputs.forEach(otherInput => {
-                        if (otherInput !== input) {
-                            otherInput.disabled = false; // Habilitar opciones
-                        }
-                    });
-                } else {
-                    // Si se seleccionan otras opciones, desmarcar solo 'Sola'
-                    const solaInput = groupInputs.find(otherInput => otherInput.value === 'Sola');
-                    if (solaInput) solaInput.checked = false;
+                    if (input.value === 'Sola' && input.checked) {
+                        // Si se selecciona 'Sola', desmarcar todas las demás opciones del grupo
+                        groupInputs.forEach(otherInput => {
+                            if (otherInput !== input) {
+                                otherInput.checked = false;
+                                otherInput.disabled = true; // Deshabilitar opciones
+                            }
+                        });
+                    } else if (input.value === 'Sola' && !input.checked) {
+                        // Si se desmarca 'Sola', habilitar todas las demás opciones del grupo
+                        groupInputs.forEach(otherInput => {
+                            if (otherInput !== input) {
+                                otherInput.disabled = false; // Habilitar opciones
+                            }
+                        });
+                    } else {
+                        // Si se seleccionan otras opciones, desmarcar solo 'Sola'
+                        const solaInput = groupInputs.find(otherInput => otherInput.value === 'Sola');
+                        if (solaInput) solaInput.checked = false;
+                    }
                 }
+                // Para otros grupos (como group2), no se aplica esta lógica.
             });
     
             const span = document.createElement('span');
@@ -196,6 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
             container.appendChild(label);
         });
     }
+    
     
 
     // Seleccionar opciones predeterminadas
