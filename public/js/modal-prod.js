@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Sin escarchar', price: 0 },
             ],
             customization: [
-                { name: 'Con sal y limon', group: 'group1', price: 0 },
-                { name: 'Solo con limon', group: 'group1', price: 0 },
+                { name: 'Con sal', group: 'group3', price: 0 },
+                { name: 'Con limón', group: 'group1', price: 0 },
                 { name: 'Sola', group: 'group1', price: 0 },
                 { name: 'Con clamato', group: 'group2', price: 0 },
                 { name: 'Con poco clamato', group: 'group2', price: 0 },
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const defaultSelections = {
         bebidas: {
             extras: ['Tamarindo'], // Extras predeterminados como arreglo
-            customization: ['Con sal y limon', 'Con clamato'], // Personalizaciones predeterminadas como arreglo
+            customization: ['Con sal', 'Con limón'], // Personalizaciones predeterminadas como arreglo
         },
         comida: {
             extras: ['Extra queso'], // Extras predeterminados como arreglo
