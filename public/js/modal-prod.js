@@ -7,49 +7,98 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentProduct = null;
     let currentQuantity = 1;
 
-    // Abrir o cerrar el modal
-    window.toggleModal = function (show, product = null) {
-        if (show) {
-            currentProduct = product;
-
-            // Actualizar encabezado del modal
-            document.getElementById('modalTitle').textContent = product.nombre;
-            document.getElementById('modalPrice').textContent = `MX$${product.precio}`;
-            document.getElementById('modalImage').src = product.foto;
-
-            // Renderizar extras y personalización
-            renderSingleSelectOptions(extrasContainer, [
+    const productGroups = {
+        bebidas: {
+            extras: [
                 { name: 'Tamarindo', price: 0 },
                 { name: 'Sal y Limón', price: 0 },
                 { name: 'Sin escarchar', price: 0 },
-            ]);
-
-            renderGroupedSingleSelectOptions(customizationContainer, [
+            ],
+            customization: [
                 { name: 'Con sal y limon', group: 'group1', price: 0 },
                 { name: 'Solo con limon', group: 'group1', price: 0 },
                 { name: 'Sola', group: 'group1', price: 0 },
                 { name: 'Con clamato', group: 'group2', price: 0 },
                 { name: 'Con poco clamato', group: 'group2', price: 0 },
-            ]);
+            ],
+        },
+        comida: {
+            extras: [
+                { name: 'Extra queso', price: 10 },
+                { name: 'Salsa picante', price: 5 },
+            ],
+            customization: [
+                { name: 'Tamaño grande', group: 'group1', price: 15 },
+                { name: 'Tamaño mediano', group: 'group1', price: 0 },
+            ],
+        },
+    };
+    
+    const productMapping = {
+        'Laguer chica': 'bebidas',
+        'Ambar chica': 'bebidas',
+        'Laguer grande': 'bebidas',
+        'Ambar grande': 'bebidas',
+        'Palomitas': 'comida',
+        'Maruchan': 'comida',
+    };
 
+    // Abrir o cerrar el modal
+    window.toggleModal = function (show, product = null) {
+        if (show) {
+            currentProduct = product;
+    
+            // Actualizar encabezado del modal
+            document.getElementById('modalTitle').textContent = product.nombre;
+            document.getElementById('modalPrice').textContent = `MX$${product.precio}`;
+            document.getElementById('modalImage').src = product.foto;
+    
+            // Determinar grupo del producto
+            const productGroup = productMapping[product.nombre];
+    
+            if (productGroup) {
+                // Renderizar las opciones correspondientes al grupo
+                const groupOptions = productGroups[productGroup];
+                renderSingleSelectOptions(extrasContainer, groupOptions.extras);
+                renderGroupedSingleSelectOptions(customizationContainer, groupOptions.customization);
+            } else {
+                // Si no se encuentra el grupo, limpiar las opciones
+                extrasContainer.innerHTML = '';
+                customizationContainer.innerHTML = '';
+            }
+    
             // Reiniciar cantidad a 1 y seleccionar opciones predeterminadas
             currentQuantity = 1;
             document.getElementById('quantity').textContent = currentQuantity;
-
+    
             // Seleccionar opciones predeterminadas
-            setDefaultSelections();
-
+            function setDefaultSelections() {
+                // Seleccionar la primera opción en Extras (si existe)
+                const firstExtra = extrasContainer.querySelector('input');
+                if (firstExtra) firstExtra.checked = true;
+            
+                // Seleccionar la primera opción de Personalización por grupo (si existe)
+                const groups = new Set(
+                    Array.from(customizationContainer.querySelectorAll('input')).map(input => input.dataset.group)
+                );
+                groups.forEach(group => {
+                    const firstOption = customizationContainer.querySelector(`input[data-group="${group}"]`);
+                    if (firstOption) firstOption.checked = true;
+                });
+            }
+            
+    
             // Restablecer el scroll del modal a la parte superior
             modal.scrollTop = 0; // Asegura que el modal principal esté arriba
             modalBody.scrollTop = 0; // Asegura que el cuerpo del modal esté arriba
-
+    
             // Mostrar el precio calculado
             updateTotalPrice();
-
+    
             // Mostrar el modal y ocultar el carrito
             modal.style.display = 'flex';
             carritoWrapper.style.display = 'none';
-
+    
             // Deshabilitar scroll en el fondo
             document.body.classList.add('body-no-scroll');
         } else {
@@ -57,11 +106,12 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.style.display = 'none';
             carritoWrapper.style.display = 'block';
             currentProduct = null;
-
+    
             // Habilitar scroll en el fondo
             document.body.classList.remove('body-no-scroll');
         }
     };
+    
 
     // Renderizar opciones dinámicas con selección única
     function renderSingleSelectOptions(container, options) {
