@@ -254,4 +254,17 @@ function updateTotalPrice() {
         // Ocultar el modal y mostrar el carrito
         toggleModal(false);
     };
+
+    // Asumimos que `productType` es una variable que contiene "bebida" o "comida"
+let productType = 'comida'; // O 'bebida', dependiendo del producto
+
+// Ahora, cambiamos el título del escarchado según el tipo de producto
+const escarchadoTitle = document.getElementById('escarchado-title');
+
+if (productType === 'comida') {
+    escarchadoTitle.innerText = 'Extras'; // Cambia el título a "Extras" si es comida
+} else if (productType === 'bebida') {
+    escarchadoTitle.innerText = 'Escarchado'; // Mantiene "Escarchado" si es bebida
+}
+
 });

@@ -52,7 +52,7 @@
                     <!-- Contenedor de opciones de extras -->
                     <div class="options-container">
                         <div class="title-options">
-                            <h3>Escarchado</h3>
+                            <h3 id="escarchado-title">Escarchado</h3>
                             <p>Elige uno</p>
                         </div>
                         <div id="extrasContainer"></div>
@@ -67,6 +67,7 @@
                         <div id="customizationContainer"></div>
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <div class="quantity-controls">
                         <button onclick="updateQuantity(-1)">−</button>
