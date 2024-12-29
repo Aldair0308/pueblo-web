@@ -179,6 +179,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Seleccionar opciones predeterminadas
+
+    const defaultSelections = {
+        bebidas: {
+            extras: ['Tamarindo'], // Extras predeterminados como arreglo
+            customization: ['Con sal y limon', 'Con clamato'], // Personalizaciones predeterminadas como arreglo
+        },
+        comida: {
+            extras: ['Extra queso'], // Extras predeterminados como arreglo
+            customization: ['Tamaño grande'], // Personalizaciones predeterminadas como arreglo
+        },
+    };
+
+    
+
 // Seleccionar opciones predeterminadas
 function setDefaultSelections() {
     // Determinar grupo del producto actual
@@ -186,32 +200,25 @@ function setDefaultSelections() {
     if (!productGroup) return;
 
     // Obtener las opciones predeterminadas para el grupo actual
-    const defaultSelections = {
-        bebidas: {
-            extras: 'Tamarindo', // Extra predeterminado
-            customization: 'Con sal y limon', // Personalización predeterminada
-            customization: 'Con clamato', // Personalización predeterminada
-        },
-        comida: {
-            extras: 'Extra queso', // Extra predeterminado
-            customization: 'Tamaño grande', // Personalización predeterminada
-        },
-    };
-
     const groupDefaults = defaultSelections[productGroup];
 
-    // Seleccionar el extra predeterminado
+    // Seleccionar los extras predeterminados
     if (groupDefaults.extras) {
-        const defaultExtra = extrasContainer.querySelector(`input[value="${groupDefaults.extras}"]`);
-        if (defaultExtra) defaultExtra.checked = true;
+        groupDefaults.extras.forEach(extra => {
+            const defaultExtra = extrasContainer.querySelector(`input[value="${extra}"]`);
+            if (defaultExtra) defaultExtra.checked = true;
+        });
     }
 
-    // Seleccionar la personalización predeterminada
+    // Seleccionar las personalizaciones predeterminadas
     if (groupDefaults.customization) {
-        const defaultCustomization = customizationContainer.querySelector(`input[value="${groupDefaults.customization}"]`);
-        if (defaultCustomization) defaultCustomization.checked = true;
+        groupDefaults.customization.forEach(customization => {
+            const defaultCustomization = customizationContainer.querySelector(`input[value="${customization}"]`);
+            if (defaultCustomization) defaultCustomization.checked = true;
+        });
     }
 }
+
 
 
     // Actualizar la cantidad y recalcular el precio total
