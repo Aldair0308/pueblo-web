@@ -160,15 +160,39 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Seleccionar opciones predeterminadas
-    function setDefaultSelections() {
-        // Seleccionar "Tamarindo" en extras
-        const tamarindoInput = extrasContainer.querySelector('input[value="Tamarindo"]');
-        if (tamarindoInput) tamarindoInput.checked = true;
+// Seleccionar opciones predeterminadas
+function setDefaultSelections() {
+    // Determinar grupo del producto actual
+    const productGroup = productMapping[currentProduct.nombre];
+    if (!productGroup) return;
 
-        // Seleccionar "Con sal y limon" en personalización
-        const conSalYLimonInput = customizationContainer.querySelector('input[value="Con sal y limon"]');
-        if (conSalYLimonInput) conSalYLimonInput.checked = true;
+    // Obtener las opciones predeterminadas para el grupo actual
+    const defaultSelections = {
+        bebidas: {
+            extras: 'Tamarindo', // Extra predeterminado
+            customization: 'Con sal y limon', // Personalización predeterminada
+        },
+        comida: {
+            extras: 'Extra queso', // Extra predeterminado
+            customization: 'Tamaño grande', // Personalización predeterminada
+        },
+    };
+
+    const groupDefaults = defaultSelections[productGroup];
+
+    // Seleccionar el extra predeterminado
+    if (groupDefaults.extras) {
+        const defaultExtra = extrasContainer.querySelector(`input[value="${groupDefaults.extras}"]`);
+        if (defaultExtra) defaultExtra.checked = true;
     }
+
+    // Seleccionar la personalización predeterminada
+    if (groupDefaults.customization) {
+        const defaultCustomization = customizationContainer.querySelector(`input[value="${groupDefaults.customization}"]`);
+        if (defaultCustomization) defaultCustomization.checked = true;
+    }
+}
+
 
     // Actualizar la cantidad y recalcular el precio total
     window.updateQuantity = function (change) {
