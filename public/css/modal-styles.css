@@ -173,7 +173,7 @@
     flex-direction: column !important;
     margin: 8px 0 -7px 0 !important;
     padding: 10px 0px 0 0px !important;
-    height: 90%;
+    height: 99%;
 }
 
 .options-container {
@@ -183,13 +183,12 @@
 }
 
 .options-container h3 {
-    font-size: 1.4em;
-    margin: 0;
+    font-size: 1.5em;
+    margin: 0 0 -10px 0;
 }
 
 .options-container p {
-    margin-left: 20px;
-    margin-top: 7px !important;
+    margin-top: 0px !important;
 }
 
 .options-container label {
