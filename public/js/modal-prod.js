@@ -255,16 +255,20 @@ function updateTotalPrice() {
         toggleModal(false);
     };
 
-    // Asumimos que `productType` es una variable que contiene "bebida" o "comida"
-let productType = 'comida'; // O 'bebida', dependiendo del producto
+    // Supongamos que `productType` es dinámico, dependiendo del producto que se selecciona
+// Esto debería venir de tu backend, por ejemplo:
+let productType = 'comida'; // Este valor debe venir de tu lógica o de los datos del producto seleccionado
 
-// Ahora, cambiamos el título del escarchado según el tipo de producto
+// Cambiar el título de "Escarchado" o "Extras" basado en el tipo de producto
 const escarchadoTitle = document.getElementById('escarchado-title');
 
+// Solo cambian el texto si el tipo de producto es comida o bebida
 if (productType === 'comida') {
-    escarchadoTitle.innerText = 'Extras'; // Cambia el título a "Extras" si es comida
+    escarchadoTitle.innerText = 'Extras'; // Si es comida, el título será "Extras"
 } else if (productType === 'bebida') {
-    escarchadoTitle.innerText = 'Escarchado'; // Mantiene "Escarchado" si es bebida
+    escarchadoTitle.innerText = 'Escarchado'; // Si es bebida, el título será "Escarchado"
+} else {
+    console.warn('Tipo de producto desconocido:', productType);
 }
 
 });
