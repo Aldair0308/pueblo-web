@@ -23,10 +23,10 @@ document.addEventListener('DOMContentLoaded', function () {
             ],
         },
         comida: {
-            // extras: [
-            //     { name: 'Extra queso', price: 10 },
-            //     { name: 'Salsa picante', price: 5 },
-            // ],
+            extras: [
+                { name: 'Extra queso', price: 10 },
+                { name: 'Salsa picante', price: 5 },
+            ],
             customization: [
                 { name: 'Tamaño grande', group: 'group1', price: 15 },
                 { name: 'Tamaño mediano', group: 'group1', price: 0 },
@@ -74,25 +74,18 @@ document.addEventListener('DOMContentLoaded', function () {
             // Seleccionar opciones predeterminadas
             function setDefaultSelections() {
                 // Seleccionar la primera opción en Extras (si existe)
-                const extrasContainer = document.querySelector('#extrasContainer'); // Asegúrate de que el contenedor tenga este ID
-                if (extrasContainer) {
-                    const firstExtra = extrasContainer.querySelector('input[type="checkbox"]');
-                    if (firstExtra) firstExtra.checked = true;
-                }
+                const firstExtra = extrasContainer.querySelector('input');
+                if (firstExtra) firstExtra.checked = true;
             
                 // Seleccionar la primera opción de Personalización por grupo (si existe)
-                const customizationContainer = document.querySelector('#customizationContainer'); // Asegúrate de que el contenedor tenga este ID
-                if (customizationContainer) {
-                    const inputs = Array.from(customizationContainer.querySelectorAll('input[type="checkbox"]'));
-                    const groups = new Set(inputs.map(input => input.dataset.group));
-            
-                    groups.forEach(group => {
-                        const firstOption = customizationContainer.querySelector(`input[data-group="${group}"]`);
-                        if (firstOption) firstOption.checked = true;
-                    });
-                }
+                const groups = new Set(
+                    Array.from(customizationContainer.querySelectorAll('input')).map(input => input.dataset.group)
+                );
+                groups.forEach(group => {
+                    const firstOption = customizationContainer.querySelector(`input[data-group="${group}"]`);
+                    if (firstOption) firstOption.checked = true;
+                });
             }
-            
             
     
             // Restablecer el scroll del modal a la parte superior
@@ -179,6 +172,17 @@ document.addEventListener('DOMContentLoaded', function () {
             label.appendChild(span);
             container.appendChild(label);
         });
+    }
+
+    // Seleccionar opciones predeterminadas
+    function setDefaultSelections() {
+        // Seleccionar "Tamarindo" en extras
+        const tamarindoInput = extrasContainer.querySelector('input[value="Tamarindo"]');
+        if (tamarindoInput) tamarindoInput.checked = true;
+
+        // Seleccionar "Con sal y limon" en personalización
+        const conSalYLimonInput = customizationContainer.querySelector('input[value="Con sal y limon"]');
+        if (conSalYLimonInput) conSalYLimonInput.checked = true;
     }
 
     // Actualizar la cantidad y recalcular el precio total
