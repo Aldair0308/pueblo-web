@@ -35,10 +35,10 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     
     const productMapping = {
-        'Laguer chica': 'bebidas',
-        'Ambar chica': 'bebidas',
-        'Laguer grande': 'bebidas',
-        'Ambar grande': 'bebidas',
+        'XX Laguer Chica': 'bebidas',
+        'XX Laguer Grande': 'bebidas',
+        'XX Ambar Chica': 'bebidas',
+        'XX Ambar Grande': 'bebidas',
         'Palomitas': 'comida',
         'Maruchan': 'comida',
     };
