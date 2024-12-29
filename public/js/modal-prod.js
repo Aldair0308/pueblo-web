@@ -190,6 +190,7 @@ function setDefaultSelections() {
         bebidas: {
             extras: 'Tamarindo', // Extra predeterminado
             customization: 'Con sal y limon', // Personalización predeterminada
+            customization: 'Con clamato', // Personalización predeterminada
         },
         comida: {
             extras: 'Extra queso', // Extra predeterminado
