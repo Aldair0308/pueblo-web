@@ -209,7 +209,8 @@ function updateTotalPrice() {
     modalPrice.style.margin = '25px 0px 0px 0px'; // Espaciado inferior
     modalPrice.style.fontSize = '1.7em'; // Tamaño de la fuente
     modalPrice.style.fontWeight = 'bold'; // Negrita
-
+    modalImage.style.width = '100%'; // Ancho completo
+    modalImage.style.max.width = '300px'; // Ancho máximo
     button.style.backgroundColor = '#ff6600'; // Color de fondo
     button.style.color = 'white'; // Color del texto
     button.style.border = 'none'; // Sin borde
