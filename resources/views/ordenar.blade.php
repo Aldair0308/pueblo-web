@@ -50,9 +50,9 @@
                     <textarea id="modalDescription" placeholder="Escribe una descripción..." class="descripcion-input"></textarea>
 
                     <!-- Contenedor de opciones de extras -->
-                    <div class="options-container">
+                    <div id="escarchado-title" class="options-container">
                         <div class="title-options">
-                            <h3 id="escarchado-title">Escarchado</h3>
+                            <h3>Escarchado</h3>
                             <p>Elige uno</p>
                         </div>
                         <div id="extrasContainer"></div>
