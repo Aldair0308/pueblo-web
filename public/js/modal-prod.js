@@ -181,17 +181,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Seleccionar opciones predeterminadas
-    function setDefaultSelections() {
-        // Seleccionar "Tamarindo" en extras
-        const tamarindoInput = extrasContainer.querySelector('input[value="Tamarindo"]');
-        if (tamarindoInput) tamarindoInput.checked = true;
-
-        // Seleccionar "Con sal y limon" en personalización
-        const conSalYLimonInput = customizationContainer.querySelector('input[value="Con sal y limon"]');
-        if (conSalYLimonInput) conSalYLimonInput.checked = true;
-    }
-
     // Actualizar la cantidad y recalcular el precio total
     window.updateQuantity = function (change) {
         currentQuantity += change;
