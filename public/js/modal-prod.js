@@ -71,22 +71,6 @@ document.addEventListener('DOMContentLoaded', function () {
             // Reiniciar cantidad a 1 y seleccionar opciones predeterminadas
             currentQuantity = 1;
             document.getElementById('quantity').textContent = currentQuantity;
-    
-            // Seleccionar opciones predeterminadas
-            // function setDefaultSelections() {
-            //     // Seleccionar la primera opción en Extras (si existe)
-            //     const firstExtra = extrasContainer.querySelector('input');
-            //     if (firstExtra) firstExtra.checked = true;
-            
-            //     // Seleccionar la primera opción de Personalización por grupo (si existe)
-            //     const groups = new Set(
-            //         Array.from(customizationContainer.querySelectorAll('input')).map(input => input.dataset.group)
-            //     );
-            //     groups.forEach(group => {
-            //         const firstOption = customizationContainer.querySelector(`input[data-group="${group}"]`);
-            //         if (firstOption) firstOption.checked = true;
-            //     });
-            // }
             
     
             // Restablecer el scroll del modal a la parte superior
