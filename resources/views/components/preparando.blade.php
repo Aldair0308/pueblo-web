@@ -13,11 +13,11 @@
                 <x-Loading />
             </div>
         </div>
-
+        {{-- 
 
         <div class="text-center">
             <p class="text-gray-500 text-sm">Si el proceso toma más de un minuto, intenta actualizar la página.</p>
-        </div>
+        </div> --}}
     </div>
 </div>
 <script>
