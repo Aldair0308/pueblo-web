@@ -64,12 +64,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 extrasContainer.innerHTML = '';
                 customizationContainer.innerHTML = '';
     
-                // Mostrar la sección "Escarchado" solo si es bebida
+                // Si es bebida, mostrar la parte de "Escarchado"
                 if (productGroup === 'bebidas') {
-                    // Mostrar el bloque de escarchado
+                    // Mostrar la parte de escarchado
+                    document.getElementById('escarchado-title').style.display = 'block'; // Mostrar título "Escarchado"
                     renderSingleSelectOptions(extrasContainer, groupOptions.extras); // Renderiza Escarchado
                 } else {
-                    // Si no es bebida, no mostrar "Escarchado"
+                    // Si no es bebida, ocultar la parte de "Escarchado"
+                    document.getElementById('escarchado-title').style.display = 'none'; // Ocultar título "Escarchado"
                     extrasContainer.innerHTML = ''; // Limpiar cualquier contenido previo en extras
                 }
     
