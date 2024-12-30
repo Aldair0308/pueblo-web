@@ -91,8 +91,8 @@
         <x-Carrito />
     </div>
     </div>
-
-    <script src="{{ secure_asset('js/modal-prod.js') }}"></script>
+    <script src="{{ secure_asset('js/modal-functions.js') }}" type="module"></script>
+    <script src="{{ secure_asset('js/modal-prod.js') }}" type="module"></script>
     <script src="{{ secure_asset('js/carrito.js') }}"></script>
     <script src="{{ secure_asset('js/ordenar.js') }}"></script>
     <script src="{{ secure_asset('js/AuthGoogle.js') }}"></script>
