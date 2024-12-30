@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Sin escarchar', price: 0 },
             ],
             customization: [
-                { name: 'Con sal', group: 'group1', price: 0 },
-                { name: 'Con limón', group: 'group1', price: 0 },
-                { name: 'Sola', group: 'group1', price: 0 },
+                { name: 'Con sal', group: 'groupA', price: 0 },
+                { name: 'Con limón', group: 'groupA', price: 0 },
+                { name: 'Sola', group: 'groupA', price: 0 },
                 { name: 'Con clamato', group: 'group2', price: 0 },
                 { name: 'Con poco clamato', group: 'group2', price: 0 },
             ],

@@ -32,17 +32,44 @@ export function renderGroupedSingleSelectOptions(container, options) {
         input.dataset.price = option.price;
         input.dataset.group = option.group;
         input.classList.add('option-input');
+
         input.addEventListener('change', function () {
-            Array.from(container.querySelectorAll(`input[data-group="${option.group}"]`)).forEach(otherInput => {
-                if (otherInput !== input) otherInput.checked = false;
-            });
+            if (option.group === 'groupA') {
+                handleGroupASelection(container, input);
+            } else {
+                Array.from(container.querySelectorAll(`input[data-group="${option.group}"]`)).forEach(otherInput => {
+                    if (otherInput !== input) otherInput.checked = false;
+                });
+            }
         });
+
         const span = document.createElement('span');
         span.textContent = `${option.name} ${option.price > 0 ? `+MX$${option.price}` : ''}`;
         label.appendChild(input);
         label.appendChild(span);
         container.appendChild(label);
     });
+}
+
+/**
+ * Lógica específica para manejar selecciones en `groupA`.
+ * @param {HTMLElement} container - El contenedor de las opciones.
+ * @param {HTMLInputElement} input - El input que ha cambiado.
+ */
+function handleGroupASelection(container, input) {
+    const groupAInputs = Array.from(container.querySelectorAll('input[data-group="groupA"]'));
+    const isSolaSelected = input.value === 'Sola';
+
+    if (isSolaSelected && input.checked) {
+        // Si se selecciona "Sola", desmarcar las demás opciones del grupo
+        groupAInputs.forEach(otherInput => {
+            if (otherInput.value !== 'Sola') otherInput.checked = false;
+        });
+    } else if (!isSolaSelected) {
+        // Si no es "Sola", y se selecciona "Con sal" o "Con limón", no desmarcar nada
+        const solaInput = groupAInputs.find(otherInput => otherInput.value === 'Sola');
+        if (solaInput) solaInput.checked = false;
+    }
 }
 
 export function setDefaultSelections(productMapping, currentProduct, extrasContainer, customizationContainer) {
