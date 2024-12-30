@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const customizationContainer = document.getElementById('customizationContainer');
     const carritoWrapper = document.getElementById('carritoWrapper');
     const modalBody = document.querySelector('.modal-body'); // Contenedor del cuerpo del modal
+    const escarchadoTitle = document.getElementById('escarchado-title');
+    const personalizarSection = document.getElementById('personalizar');
     let currentProduct = null;
     let currentQuantity = 1;
 
@@ -52,14 +54,8 @@ document.addEventListener('DOMContentLoaded', function () {
             ],
         },
         otros: {
-            extras: [
-                { name: 'Extra queso', price: 10 },
-                { name: 'Salsa picante', price: 5 },
-            ],
-            customization: [
-                { name: 'Tamaño grande', group: 'group1', price: 15 },
-                { name: 'Tamaño mediano', group: 'group1', price: 0 },
-            ],
+            extras: [],
+            customization: [],
         },
     };
 
@@ -85,6 +81,11 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('modalImage').src = product.foto;
 
             const productGroup = productMapping[product.nombre];
+
+            // Restablecer visibilidad de las secciones
+            escarchadoTitle.style.display = 'none';
+            personalizarSection.style.display = 'none';
+
             if (productGroup) {
                 const groupOptions = productGroups[productGroup];
 
@@ -94,15 +95,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Muestra u oculta las secciones según el grupo del producto
                 if (productGroup === 'bebidas') {
-                    document.getElementById('escarchado-title').style.display = 'block';
+                    escarchadoTitle.style.display = 'block';
                     renderSingleSelectOptions(extrasContainer, groupOptions.extras);
+                    personalizarSection.style.display = 'block';
                     renderGroupedSingleSelectOptions(customizationContainer, groupOptions.customization);
                 } else if (productGroup === 'otros') {
-                    document.getElementById('escarchado-title').style.display = 'none';
-                    document.getElementById('personalizar').style.display = 'none';
+                    // No mostrar secciones de extras o personalización
                 } else {
-                    document.getElementById('escarchado-title').style.display = 'none';
-                    document.getElementById('personalizar').style.display = 'block';
+                    personalizarSection.style.display = 'block';
                     renderGroupedSingleSelectOptions(customizationContainer, groupOptions.customization);
                 }
 
