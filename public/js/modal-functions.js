@@ -90,20 +90,27 @@ export function setDefaultSelections(productMapping, currentProduct, extrasConta
         comida: { extras: ['Extra queso'], customization: ['Tamaño grande'] },
         papas: { extras: ['Extra queso'], customization: ['Capsu', 'Salsa Valentina', 'Queso amarillo'] },
     };
+
     const productGroup = productMapping[currentProduct.nombre];
     if (!productGroup) return;
+
     const groupDefaults = defaultSelections[productGroup];
-    if (groupDefaults.extras) {
-        groupDefaults.extras.forEach(extra => {
-            const defaultExtra = extrasContainer.querySelector(`input[value="${extra}"]`);
-            if (defaultExtra) defaultExtra.checked = true;
-        });
-    }
-    if (groupDefaults.customization) {
-        groupDefaults.customization.forEach(customization => {
-            const defaultCustomization = customizationContainer.querySelector(`input[value="${customization}"]`);
-            if (defaultCustomization) defaultCustomization.checked = true;
-        });
+
+    // Validar si el grupo tiene propiedades de `extras` o `customization`
+    if (groupDefaults) {
+        if (groupDefaults.extras) {
+            groupDefaults.extras.forEach(extra => {
+                const defaultExtra = extrasContainer.querySelector(`input[value="${extra}"]`);
+                if (defaultExtra) defaultExtra.checked = true;
+            });
+        }
+
+        if (groupDefaults.customization) {
+            groupDefaults.customization.forEach(customization => {
+                const defaultCustomization = customizationContainer.querySelector(`input[value="${customization}"]`);
+                if (defaultCustomization) defaultCustomization.checked = true;
+            });
+        }
     }
 }
 
