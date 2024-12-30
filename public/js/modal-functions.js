@@ -47,7 +47,7 @@ export function renderGroupedSingleSelectOptions(container, options) {
 
 export function setDefaultSelections(productMapping, currentProduct, extrasContainer, customizationContainer) {
     const defaultSelections = {
-        bebidas: { extras: ['Tamarindo'], customization: ['Con sal'] },
+        bebidas: { extras: ['Tamarindo'], customization: ['Con sal', 'Con limón'] },
         comida: { extras: ['Extra queso'], customization: ['Tamaño grande'] },
     };
     const productGroup = productMapping[currentProduct.nombre];
