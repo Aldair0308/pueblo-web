@@ -75,13 +75,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Nueva función para reiniciar el scroll
     function resetScroll() {
-        if (modalBody) modalBody.scrollTop = 0; // Reiniciar el scroll interno del modal
-        if (modal) modal.scrollTop = 0; // Reiniciar el scroll del contenedor principal del modal
+        if (modalBody) modalBody.scrollTo({ top: 0, behavior: 'instant' }); // Restablece el scroll del contenido
+        if (modal) modal.scrollTo({ top: 0, behavior: 'instant' }); // Restablece el scroll del modal principal
     }
 
     window.toggleModal = function (show, product = null) {
         if (show) {
-            resetScroll(); // Llamada para reiniciar el scroll antes de mostrar el modal
+            // Asegúrate de que el scroll esté en la parte superior antes de cualquier cambio
+            resetScroll();
 
             currentProduct = product;
             document.getElementById('modalTitle').textContent = product.nombre;
