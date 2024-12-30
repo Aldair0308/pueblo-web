@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'XX Laguer Grande': 'bebidas',
         'XX Ambar Chica': 'bebidas',
         'XX Ambar Grande': 'bebidas',
+        'Squirt': 'bebidas',
         'Heineken Cero alcohol': 'bebidas',
         'Palomitas': 'comida',
         'Maruchan': 'comida',
