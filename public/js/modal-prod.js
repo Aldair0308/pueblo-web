@@ -52,8 +52,14 @@ document.addEventListener('DOMContentLoaded', function () {
             ],
         },
         otros: {
-            extras: [],
-            customization: [],
+            extras: [
+                { name: 'Extra queso', price: 10 },
+                { name: 'Salsa picante', price: 5 },
+            ],
+            customization: [
+                { name: 'Tamaño grande', group: 'group1', price: 15 },
+                { name: 'Tamaño mediano', group: 'group1', price: 0 },
+            ],
         },
     };
 
