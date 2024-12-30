@@ -76,6 +76,7 @@ export function setDefaultSelections(productMapping, currentProduct, extrasConta
     const defaultSelections = {
         bebidas: { extras: ['Tamarindo'], customization: ['Con sal', 'Con limón'] },
         comida: { extras: ['Extra queso'], customization: ['Tamaño grande'] },
+        papas: { extras: ['Extra queso'], customization: ['Capsu', 'Salsa Valentina', 'Queso amarillo'] },
     };
     const productGroup = productMapping[currentProduct.nombre];
     if (!productGroup) return;

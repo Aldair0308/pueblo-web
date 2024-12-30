@@ -41,6 +41,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Tamaño mediano', group: 'group1', price: 0 },
             ],
         },
+        papas: {
+            extras: [
+                { name: 'Extra queso', price: 10 },
+            ],
+            customization: [
+                { name: 'Capsu', group: 'groupB', price: 0 },
+                { name: 'Salsa Valentina', group: 'groupB', price: 0 },
+                { name: 'Queso amarillo', group: 'groupB', price: 0 },
+            ],
+        },
     };
 
     const productMapping = {
@@ -51,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'Heineken Cero alcohol': 'bebidas',
         'Palomitas': 'comida',
         'Maruchan': 'comida',
+        'Papas a la francesa': 'papas',
     };
 
     window.toggleModal = function (show, product = null) {
