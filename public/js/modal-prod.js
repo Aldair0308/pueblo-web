@@ -7,19 +7,12 @@ import {
     styleButton 
 } from './modal-functions.js';
 
-// Nueva función para reiniciar el scroll
-function resetModalScroll(modalBody) {
-    if (modalBody) {
-        modalBody.scrollTop = 0; // Reinicia el scroll del modal a la parte superior
-    }
-}
-
 document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.getElementById('productModal');
+    const modal = document.getElementById('productModal'); // Contenedor principal del modal
     const extrasContainer = document.getElementById('extrasContainer');
     const customizationContainer = document.getElementById('customizationContainer');
     const carritoWrapper = document.getElementById('carritoWrapper');
-    const modalBody = document.querySelector('.modal-body'); // Contenedor del cuerpo del modal
+    const modalBody = document.querySelector('.modal-body'); // Contenedor del cuerpo con scroll interno
     const escarchadoTitle = document.getElementById('escarchado-title');
     const personalizarSection = document.getElementById('personalizar');
     let currentProduct = null;
@@ -80,8 +73,16 @@ document.addEventListener('DOMContentLoaded', function () {
         'Marlboro de capsula': 'otros', // Producto no personalizable
     };
 
+    // Nueva función para reiniciar el scroll
+    function resetScroll() {
+        if (modalBody) modalBody.scrollTop = 0; // Reiniciar el scroll interno del modal
+        if (modal) modal.scrollTop = 0; // Reiniciar el scroll del contenedor principal del modal
+    }
+
     window.toggleModal = function (show, product = null) {
         if (show) {
+            resetScroll(); // Llamada para reiniciar el scroll antes de mostrar el modal
+
             currentProduct = product;
             document.getElementById('modalTitle').textContent = product.nombre;
             document.getElementById('modalPrice').textContent = `MX$${product.precio}`;
@@ -119,10 +120,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             currentQuantity = 1;
             document.getElementById('quantity').textContent = currentQuantity;
-
-            // Restablecer el scroll del modal
-            resetModalScroll(modalBody);
-
             updateTotalPrice(currentProduct, currentQuantity);
             modal.style.display = 'flex';
             carritoWrapper.style.display = 'none';
