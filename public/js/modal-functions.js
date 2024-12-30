@@ -71,7 +71,31 @@ export function updateTotalPrice(currentProduct, currentQuantity) {
     const basePrice = currentProduct ? currentProduct.precio : 0;
     const totalPrice = basePrice * currentQuantity;
     const button = document.querySelector('.add-to-cart');
+    const modalPrice = document.getElementById('modalPrice');
     button.innerHTML = `Agregar al Carrito MX$${totalPrice.toFixed(2)}`;
+    styleButton(button, modalPrice);
+}
+
+export function styleButton(button, modalPrice) {
+    modalPrice.style.margin = '25px 0px 0px 0px';
+    modalPrice.style.fontSize = '1.7em';
+    modalPrice.style.fontWeight = 'bold';
+    button.style.backgroundColor = '#ff6600';
+    button.style.color = 'white';
+    button.style.border = 'none';
+    button.style.padding = '10px 6px 10px 6px';
+    button.style.fontSize = '1.2em';
+    button.style.fontWeight = 'bold';
+    button.style.borderRadius = '50px';
+    button.style.cursor = 'pointer';
+    button.style.width = '100px';
+    button.style.margin = '0px 18px 0px 0px';
+    button.onmouseover = function () {
+        button.style.backgroundColor = '#bf0000';
+    };
+    button.onmouseout = function () {
+        button.style.backgroundColor = '#e60000';
+    };
 }
 
 export function addToCart(currentProduct, currentQuantity, extrasContainer, customizationContainer) {

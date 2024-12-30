@@ -3,7 +3,8 @@ import {
     renderGroupedSingleSelectOptions, 
     setDefaultSelections, 
     updateTotalPrice, 
-    addToCart 
+    addToCart, 
+    styleButton 
 } from './modal-functions.js';
 
 document.addEventListener('DOMContentLoaded', function () {
