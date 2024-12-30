@@ -7,6 +7,13 @@ import {
     styleButton 
 } from './modal-functions.js';
 
+// Nueva función para reiniciar el scroll
+function resetModalScroll(modalBody) {
+    if (modalBody) {
+        modalBody.scrollTop = 0; // Reinicia el scroll del modal a la parte superior
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('productModal');
     const extrasContainer = document.getElementById('extrasContainer');
@@ -75,8 +82,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.toggleModal = function (show, product = null) {
         if (show) {
-
-            
             currentProduct = product;
             document.getElementById('modalTitle').textContent = product.nombre;
             document.getElementById('modalPrice').textContent = `MX$${product.precio}`;
@@ -114,8 +119,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             currentQuantity = 1;
             document.getElementById('quantity').textContent = currentQuantity;
-            modal.scrollTop = 0;
-            modalBody.scrollTop = 0;
+
+            // Restablecer el scroll del modal
+            resetModalScroll(modalBody);
+
             updateTotalPrice(currentProduct, currentQuantity);
             modal.style.display = 'flex';
             carritoWrapper.style.display = 'none';
