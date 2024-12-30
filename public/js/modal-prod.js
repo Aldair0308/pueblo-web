@@ -52,8 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ],
         },
         otros: {
-            extras: [],
-            customization: [],
+            // Productos que no necesitan extras ni personalización
         },
     };
 
@@ -77,39 +76,25 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('modalTitle').textContent = product.nombre;
             document.getElementById('modalPrice').textContent = `MX$${product.precio}`;
             document.getElementById('modalImage').src = product.foto;
-
             const productGroup = productMapping[product.nombre];
-
             if (productGroup) {
                 const groupOptions = productGroups[productGroup];
-                
-                // Limpiar contenedores de extras y personalización
                 extrasContainer.innerHTML = '';
                 customizationContainer.innerHTML = '';
-                
-                // Ocultar o mostrar secciones según el grupo
-                if (productGroup === 'otros') {
+                if (productGroup === 'bebidas') {
+                    document.getElementById('escarchado-title').style.display = 'block';
+                    renderSingleSelectOptions(extrasContainer, groupOptions.extras);
+                } else if (productGroup === 'otros') {
+                    // Ocultar extras y personalización para productos "otros"
                     document.getElementById('escarchado-title').style.display = 'none';
                     document.getElementById('personalizar').style.display = 'none';
                 } else {
-                    if (groupOptions.extras.length > 0) {
-                        document.getElementById('escarchado-title').style.display = 'block';
-                        renderSingleSelectOptions(extrasContainer, groupOptions.extras);
-                    } else {
-                        document.getElementById('escarchado-title').style.display = 'none';
-                    }
-
-                    if (groupOptions.customization.length > 0) {
-                        document.getElementById('personalizar').style.display = 'block';
-                        renderGroupedSingleSelectOptions(customizationContainer, groupOptions.customization);
-                    } else {
-                        document.getElementById('personalizar').style.display = 'none';
-                    }
+                    document.getElementById('escarchado-title').style.display = 'none';
+                    document.getElementById('personalizar').style.display = 'block';
+                    renderGroupedSingleSelectOptions(customizationContainer, groupOptions.customization);
                 }
-
                 setDefaultSelections(productMapping, currentProduct, extrasContainer, customizationContainer);
             }
-
             currentQuantity = 1;
             document.getElementById('quantity').textContent = currentQuantity;
             modal.scrollTop = 0;
