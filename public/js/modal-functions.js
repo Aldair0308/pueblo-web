@@ -154,3 +154,8 @@ export function addToCart(currentProduct, currentQuantity, extrasContainer, cust
     });
     document.dispatchEvent(carritoEvent);
 }
+
+// **NUEVO**: Restablecer el scroll al abrir el modal
+export function resetModalScroll(modalElement) {
+    modalElement.scrollTop = 0;
+}
