@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('productModal');
     const extrasContainer = document.getElementById('extrasContainer');
@@ -51,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
             // Actualizar encabezado del modal
             document.getElementById('modalTitle').textContent = product.nombre;
-            document.getElementById('modalPrice').textContent = `MX$${product.precio}`;
+            document.getElementById('modalPrice').textContent = MX$${product.precio};
             document.getElementById('modalImage').src = product.foto;
     
             // Determinar grupo del producto
@@ -139,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             const span = document.createElement('span');
-            span.textContent = `${option.name} ${option.price > 0 ? `+MX$${option.price}` : ''}`;
+            span.textContent = ${option.name} ${option.price > 0 ? +MX$${option.price} : ''};
 
             label.appendChild(input);
             label.appendChild(span);
@@ -150,58 +151,33 @@ document.addEventListener('DOMContentLoaded', function () {
     // Renderizar opciones dinámicas agrupadas con selección única por grupo
     function renderGroupedSingleSelectOptions(container, options) {
         container.innerHTML = ''; // Limpia opciones previas
-    
+
         options.forEach(option => {
             const label = document.createElement('label');
             label.classList.add('option-label');
-    
+
             const input = document.createElement('input');
             input.type = 'checkbox';
             input.value = option.name;
             input.dataset.price = option.price;
             input.dataset.group = option.group;
             input.classList.add('option-input');
-    
+
             input.addEventListener('change', function () {
-                // Aplicar lógica solo al grupo1
-                if (option.group === 'group1') {
-                    // Obtener todas las opciones del mismo grupo
-                    const groupInputs = Array.from(container.querySelectorAll(`input[data-group="${option.group}"]`));
-    
-                    if (input.value === 'Sola' && input.checked) {
-                        // Si se selecciona 'Sola', desmarcar todas las demás opciones del grupo
-                        groupInputs.forEach(otherInput => {
-                            if (otherInput !== input) {
-                                otherInput.checked = false;
-                                otherInput.disabled = true; // Deshabilitar opciones
-                            }
-                        });
-                    } else if (input.value === 'Sola' && !input.checked) {
-                        // Si se desmarca 'Sola', habilitar todas las demás opciones del grupo
-                        groupInputs.forEach(otherInput => {
-                            if (otherInput !== input) {
-                                otherInput.disabled = false; // Habilitar opciones
-                            }
-                        });
-                    } else {
-                        // Si se seleccionan otras opciones, desmarcar solo 'Sola'
-                        const solaInput = groupInputs.find(otherInput => otherInput.value === 'Sola');
-                        if (solaInput) solaInput.checked = false;
-                    }
-                }
-                // Para otros grupos (como group2), no se aplica esta lógica.
+                // Desmarca otras opciones en el mismo grupo si esta se selecciona
+                Array.from(container.querySelectorAll(input[data-group="${option.group}"])).forEach(otherInput => {
+                    if (otherInput !== input) otherInput.checked = false;
+                });
             });
-    
+
             const span = document.createElement('span');
-            span.textContent = `${option.name} ${option.price > 0 ? `+MX$${option.price}` : ''}`;
-    
+            span.textContent = ${option.name} ${option.price > 0 ? +MX$${option.price} : ''};
+
             label.appendChild(input);
             label.appendChild(span);
             container.appendChild(label);
         });
     }
-    
-    
 
     // Seleccionar opciones predeterminadas
 
@@ -230,7 +206,7 @@ function setDefaultSelections() {
     // Seleccionar los extras predeterminados
     if (groupDefaults.extras) {
         groupDefaults.extras.forEach(extra => {
-            const defaultExtra = extrasContainer.querySelector(`input[value="${extra}"]`);
+            const defaultExtra = extrasContainer.querySelector(input[value="${extra}"]);
             if (defaultExtra) defaultExtra.checked = true;
         });
     }
@@ -238,7 +214,7 @@ function setDefaultSelections() {
     // Seleccionar las personalizaciones predeterminadas
     if (groupDefaults.customization) {
         groupDefaults.customization.forEach(customization => {
-            const defaultCustomization = customizationContainer.querySelector(`input[value="${customization}"]`);
+            const defaultCustomization = customizationContainer.querySelector(input[value="${customization}"]);
             if (defaultCustomization) defaultCustomization.checked = true;
         });
     }
@@ -263,7 +239,7 @@ function updateTotalPrice() {
     const button = document.querySelector('.add-to-cart');
     
     // Actualizar el texto del botón con el precio
-    button.innerHTML = `Agregar al Carrito MX$${totalPrice.toFixed(2)}`;
+    button.innerHTML = Agregar al Carrito MX$${totalPrice.toFixed(2)};
     
     // Estilizar el botón
     modalPrice.style.margin = '25px 0px 0px 0px'; // Espaciado inferior
