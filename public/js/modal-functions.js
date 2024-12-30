@@ -36,6 +36,8 @@ export function renderGroupedSingleSelectOptions(container, options) {
         input.addEventListener('change', function () {
             if (option.group === 'groupA') {
                 handleGroupASelection(container, input);
+            } else if (option.group === 'groupB') {
+                handleGroupBSelection(); // No se requiere lógica específica para groupB.
             } else {
                 Array.from(container.querySelectorAll(`input[data-group="${option.group}"]`)).forEach(otherInput => {
                     if (otherInput !== input) otherInput.checked = false;
@@ -70,6 +72,16 @@ function handleGroupASelection(container, input) {
         const solaInput = groupAInputs.find(otherInput => otherInput.value === 'Sola');
         if (solaInput) solaInput.checked = false;
     }
+}
+
+/**
+ * Lógica específica para manejar selecciones en `groupB`.
+ * 
+ * Para `groupB` no es necesario realizar ningún control adicional, 
+ * ya que permite múltiples selecciones simultáneas.
+ */
+function handleGroupBSelection() {
+    // No se requiere lógica específica ya que `groupB` permite seleccionar cualquier combinación.
 }
 
 export function setDefaultSelections(productMapping, currentProduct, extrasContainer, customizationContainer) {
