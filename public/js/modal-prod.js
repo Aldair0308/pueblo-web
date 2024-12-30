@@ -52,7 +52,8 @@ document.addEventListener('DOMContentLoaded', function () {
             ],
         },
         otros: {
-            // Productos que no necesitan extras ni personalización
+            extras: [],
+            customization: [],
         },
     };
 
@@ -66,8 +67,8 @@ document.addEventListener('DOMContentLoaded', function () {
         'Palomitas': 'comida',
         'Maruchan': 'comida',
         'Papas a la francesa': 'papas',
-        'Marlboro rojo': 'otros',
-        'Marlboro de capsula': 'otros',
+        'Marlboro rojo': 'otros', // Producto no personalizable
+        'Marlboro de capsula': 'otros', // Producto no personalizable
     };
 
     window.toggleModal = function (show, product = null) {
@@ -76,16 +77,21 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('modalTitle').textContent = product.nombre;
             document.getElementById('modalPrice').textContent = `MX$${product.precio}`;
             document.getElementById('modalImage').src = product.foto;
+
             const productGroup = productMapping[product.nombre];
             if (productGroup) {
                 const groupOptions = productGroups[productGroup];
+
+                // Limpia los contenedores antes de renderizar
                 extrasContainer.innerHTML = '';
                 customizationContainer.innerHTML = '';
+
+                // Muestra u oculta las secciones según el grupo del producto
                 if (productGroup === 'bebidas') {
                     document.getElementById('escarchado-title').style.display = 'block';
                     renderSingleSelectOptions(extrasContainer, groupOptions.extras);
+                    renderGroupedSingleSelectOptions(customizationContainer, groupOptions.customization);
                 } else if (productGroup === 'otros') {
-                    // Ocultar extras y personalización para productos "otros"
                     document.getElementById('escarchado-title').style.display = 'none';
                     document.getElementById('personalizar').style.display = 'none';
                 } else {
@@ -93,8 +99,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById('personalizar').style.display = 'block';
                     renderGroupedSingleSelectOptions(customizationContainer, groupOptions.customization);
                 }
+
+                // Seleccionar las opciones predeterminadas si corresponde
                 setDefaultSelections(productMapping, currentProduct, extrasContainer, customizationContainer);
             }
+
             currentQuantity = 1;
             document.getElementById('quantity').textContent = currentQuantity;
             modal.scrollTop = 0;
