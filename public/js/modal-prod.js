@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('productModal');
     const extrasContainer = document.getElementById('extrasContainer');
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Sin escarchar', price: 0 },
             ],
             customization: [
-                { name: 'Con sal', group: 'group1', price: 0 },
+                { name: 'Con sal', group: 'group3', price: 0 },
                 { name: 'Con limón', group: 'group1', price: 0 },
                 { name: 'Sola', group: 'group1', price: 0 },
                 { name: 'Con clamato', group: 'group2', price: 0 },
@@ -52,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
             // Actualizar encabezado del modal
             document.getElementById('modalTitle').textContent = product.nombre;
-            document.getElementById('modalPrice').textContent = MX$${product.precio};
+            document.getElementById('modalPrice').textContent = `MX$${product.precio}`;
             document.getElementById('modalImage').src = product.foto;
     
             // Determinar grupo del producto
@@ -140,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             const span = document.createElement('span');
-            span.textContent = ${option.name} ${option.price > 0 ? +MX$${option.price} : ''};
+            span.textContent = `${option.name} ${option.price > 0 ? `+MX$${option.price}` : ''}`;
 
             label.appendChild(input);
             label.appendChild(span);
@@ -165,13 +164,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             input.addEventListener('change', function () {
                 // Desmarca otras opciones en el mismo grupo si esta se selecciona
-                Array.from(container.querySelectorAll(input[data-group="${option.group}"])).forEach(otherInput => {
+                Array.from(container.querySelectorAll(`input[data-group="${option.group}"]`)).forEach(otherInput => {
                     if (otherInput !== input) otherInput.checked = false;
                 });
             });
 
             const span = document.createElement('span');
-            span.textContent = ${option.name} ${option.price > 0 ? +MX$${option.price} : ''};
+            span.textContent = `${option.name} ${option.price > 0 ? `+MX$${option.price}` : ''}`;
 
             label.appendChild(input);
             label.appendChild(span);
@@ -206,7 +205,7 @@ function setDefaultSelections() {
     // Seleccionar los extras predeterminados
     if (groupDefaults.extras) {
         groupDefaults.extras.forEach(extra => {
-            const defaultExtra = extrasContainer.querySelector(input[value="${extra}"]);
+            const defaultExtra = extrasContainer.querySelector(`input[value="${extra}"]`);
             if (defaultExtra) defaultExtra.checked = true;
         });
     }
@@ -214,7 +213,7 @@ function setDefaultSelections() {
     // Seleccionar las personalizaciones predeterminadas
     if (groupDefaults.customization) {
         groupDefaults.customization.forEach(customization => {
-            const defaultCustomization = customizationContainer.querySelector(input[value="${customization}"]);
+            const defaultCustomization = customizationContainer.querySelector(`input[value="${customization}"]`);
             if (defaultCustomization) defaultCustomization.checked = true;
         });
     }
@@ -239,7 +238,7 @@ function updateTotalPrice() {
     const button = document.querySelector('.add-to-cart');
     
     // Actualizar el texto del botón con el precio
-    button.innerHTML = Agregar al Carrito MX$${totalPrice.toFixed(2)};
+    button.innerHTML = `Agregar al Carrito MX$${totalPrice.toFixed(2)}`;
     
     // Estilizar el botón
     modalPrice.style.margin = '25px 0px 0px 0px'; // Espaciado inferior
