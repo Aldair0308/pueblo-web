@@ -59,7 +59,7 @@
                     </div>
 
                     <!-- Contenedor de opciones de personalización -->
-                    <div class="options-container">
+                    <div id="personalizar" class="options-container">
                         <div class="title-options">
                             <h3>Personalizar</h3>
                             <p>Selecciona hasta 2</p>
