@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.toggleModal = function (show, product = null) {
         if (show) {
 
-            resetModalScroll(document.querySelector('.modal-body'));
+            
             currentProduct = product;
             document.getElementById('modalTitle').textContent = product.nombre;
             document.getElementById('modalPrice').textContent = `MX$${product.precio}`;
