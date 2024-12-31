@@ -62,7 +62,7 @@
                     <div id="personalizar" class="options-container">
                         <div class="title-options">
                             <h3>Personalizar</h3>
-                            <p>Selecciona hasta 2</p>
+                            <p>Selecciona tus preferencias</p>
                         </div>
                         <div id="customizationContainer"></div>
                     </div>
