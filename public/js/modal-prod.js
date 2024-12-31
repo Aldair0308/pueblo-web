@@ -45,14 +45,37 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Sola', group: 'groupA', price: 0 },
             ],
         },
+        maruchan: {
+            extras: [
+                { name: 'Extra queso', price: 10 },
+                { name: 'Salsa picante', price: 5 },
+            ],
+            customization: [
+                { name: 'Camarón con habanero', group: 'group1', price: 15 },
+                { name: 'Camarón con chile piquín', group: 'group1', price: 0 },
+                { name: 'Camarón', group: 'group1', price: 0 },
+            ],
+        },
         comida: {
             extras: [
                 { name: 'Extra queso', price: 10 },
                 { name: 'Salsa picante', price: 5 },
             ],
             customization: [
-                { name: 'Tamaño grande', group: 'group1', price: 15 },
-                { name: 'Tamaño mediano', group: 'group1', price: 0 },
+                { name: 'Camarón con habanero', group: 'group1', price: 15 },
+                { name: 'Camarón con chile piquín', group: 'group1', price: 0 },
+                { name: 'Camarón', group: 'group1', price: 0 },
+            ],
+        },
+        palomitas: {
+            extras: [
+                { name: 'Extra queso', price: 10 },
+                { name: 'Salsa picante', price: 5 },
+            ],
+            customization: [
+                { name: 'Extra mantequilla', group: 'group1', price: 15 },
+                { name: 'Mantequilla', group: 'group1', price: 0 },
+                { name: 'Natural', group: 'group1', price: 0 },
             ],
         },
         papas: {
@@ -78,8 +101,8 @@ document.addEventListener('DOMContentLoaded', function () {
         'XX Ambar Grande': 'bebidas',
         'Squirt': 'preparados',
         'Heineken Cero alcohol': 'bebidas',
-        'Palomitas': 'comida',
-        'Maruchan': 'comida',
+        'Palomitas': 'paolomitas',
+        'Maruchan': 'maruchan',
         'Papas a la francesa': 'papas',
         'Marlboro rojo': 'otros', // Producto no personalizable
         'Marlboro de capsula': 'otros', // Producto no personalizable
