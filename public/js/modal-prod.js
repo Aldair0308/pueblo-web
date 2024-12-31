@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Salsa picante', price: 5 },
             ],
             customization: [
-                { name: 'Camarón con habanero', group: 'group1', price: 15 },
+                { name: 'Camarón con habanero', group: 'group1', price: 0 },
                 { name: 'Camarón con chile piquín', group: 'group1', price: 0 },
                 { name: 'Camarón', group: 'group1', price: 0 },
             ],
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Salsa picante', price: 5 },
             ],
             customization: [
-                { name: 'Extra mantequilla', group: 'group1', price: 15 },
+                { name: 'Extra mantequilla', group: 'group1', price: 0 },
                 { name: 'Mantequilla', group: 'group1', price: 0 },
                 { name: 'Natural', group: 'group1', price: 0 },
             ],
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'XX Ambar Grande': 'bebidas',
         'Squirt': 'preparados',
         'Heineken Cero alcohol': 'bebidas',
-        'Palomitas': 'paolomitas',
+        'Palomitas': 'palomitas',
         'Maruchan': 'maruchan',
         'Papas a la francesa': 'papas',
         'Marlboro rojo': 'otros', // Producto no personalizable
