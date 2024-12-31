@@ -33,6 +33,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Con poco clamato', group: 'group2', price: 0 },
             ],
         },
+        preparados: {
+            extras: [
+                { name: 'Tamarindo', price: 0 },
+                { name: 'Sal y Limón', price: 0 },
+                { name: 'Sin escarchar', price: 0 },
+            ],
+            customization: [
+                { name: 'Con sal', group: 'groupA', price: 0 },
+                { name: 'Con limón', group: 'groupA', price: 0 },
+                { name: 'Sola', group: 'groupA', price: 0 },
+            ],
+        },
         comida: {
             extras: [
                 { name: 'Extra queso', price: 10 },
@@ -64,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'XX Laguer Grande': 'bebidas',
         'XX Ambar Chica': 'bebidas',
         'XX Ambar Grande': 'bebidas',
-        'Squirt': 'bebidas',
+        'Squirt': 'preparados',
         'Heineken Cero alcohol': 'bebidas',
         'Palomitas': 'comida',
         'Maruchan': 'comida',
@@ -103,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 customizationContainer.innerHTML = '';
 
                 // Muestra u oculta las secciones según el grupo del producto
-                if (productGroup === 'bebidas') {
+                if (['bebidas', 'preparados'].includes(productGroup)) { 
                     escarchadoTitle.style.display = 'block';
                     renderSingleSelectOptions(extrasContainer, groupOptions.extras);
                     personalizarSection.style.display = 'block';
