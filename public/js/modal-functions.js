@@ -89,6 +89,9 @@ export function setDefaultSelections(productMapping, currentProduct, extrasConta
         bebidas: { extras: ['Tamarindo'], customization: ['Con sal', 'Con limón'] },
         comida: { extras: ['Extra queso'], customization: ['Tamaño grande'] },
         papas: { extras: ['Extra queso'], customization: ['Capsu', 'Salsa Valentina', 'Queso amarillo'] },
+        palomitas: { extras: ['Extra queso'], customization: ['Extra mantequilla'] },
+        maruchan: { extras: ['Extra queso'], customization: ['Camarón con habanero'] },
+        preparados: { extras: ['Tamarindo'], customization: ['Con sal', 'Con limón'] },
     };
 
     const productGroup = productMapping[currentProduct.nombre];
